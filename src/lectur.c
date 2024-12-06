@@ -25,6 +25,7 @@ static void    is_caracter_token(char c, t_token **stack)
     token[0] = c;
     token[1] = '\0';
     get_token(token, stack);
+	free(token);
 }
 
 static void    is_redireccion(char *str, int i, t_token **stack)
@@ -45,6 +46,7 @@ static void    is_redireccion(char *str, int i, t_token **stack)
 	}
     token[2] = '\0';
     get_token(token, stack);
+	free(token);
 }
 
 t_token	*lectur_imput(char *str)

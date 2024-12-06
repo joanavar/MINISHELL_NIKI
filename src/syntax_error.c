@@ -83,9 +83,10 @@ static int syntax_pipe_or_redi(t_token *token)
 int	syntax_error(t_token **stack)
 {
 	t_token *tmp;
-	
+	if (!(*stack))
+		return (-1);
 	tmp = find_last(*stack);
-	if (!string_type(tmp))
+	if (!(string_type(tmp) || tmp->type == 0))
 	{
 		printf("ERROR SYNTAX\n");
 		return (0);

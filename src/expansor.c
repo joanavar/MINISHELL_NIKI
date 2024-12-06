@@ -42,20 +42,51 @@ int correct_expansor(t_token *token, int i)
 	return (0);
 
 }
-void $(t_token *token, int i)
+
+void exchange_expanser(t_token *token, t_env *env, int start, int end)
+{
+	char *str; // hacer malloc;
+	int i;
+	int j;
+
+	i = -1;
+	j = -1;
+	while (++i < start)
+		str[i] = token->content[i];
+	while (env->content[++j])
+		str[i++] = env->content[j];
+	while(token->content[end])
+		str[i++] = env->content[end++];
+	str[i] = '\0';
+	free(token->content);
+	token->content = str;
+
+//Tengo que hacerle malloc, nse si se libera bien asi tengo que comprobar proximo dia !!!!!;
+//Tengo mi contenido modificado despues de expandir ahora tendria que sustituir el contenido de mi token por mi nueva str;
+
+}
+void $(t_token *token, int i, t_env **env)
 {
 	char * str;
 	int j;
 	int len;
+	t_env *tmp;
 
 	i++;
 	j = i;
 	if (correct_expansor(token, i))
 	{
-		while (correct_expansor(token, i))
+		while (close_expansor(token, i))
 			i++;
 		len = i - j;
 		str = ft_substr(token->content, j, len);
+		tmp = *env;
+		while (tmp)
+		{
+			if (ft_strcmp(str, tmp->value))
+				exchange_expanser(token, tmp, j - 1, i);
+			tmp = tmp->next;
+		}
 
 	}
 }

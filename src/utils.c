@@ -13,16 +13,29 @@
 #include "../inc/minishell.h"
 //#include "paquito.h"
 
-int ft_strcmp(const char *src, char *s)
+int ft_strcmp(char *src, char *s)
 {
 	int i;
 
 	i = 0;
-	while (src[i] == s[i])
+	while (src[i] && src[i] == s[i])
 		i++;
 	if (src[i] == '\0' && s[i] == '\0')
-		return (0);
-	return (1);
+		return (1);
+	return (0);
 }
 
+/*int main ()
+{
+	const char *src = "PATH";
+	char *s = "USER";
+	if (ft_strcmp(src, s))
+		printf("Son iguales");
+	else if (!ft_strcmp(src, s))
+		printf("No son iguales");
+	else 
+		printf("Algo va mal");
+	return (0);
+}
+*/
 
