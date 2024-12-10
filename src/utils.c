@@ -25,6 +25,33 @@ int ft_strcmp(char *src, char *s)
 	return (0);
 }
 
+int change_malloc_token(t_token *str, t_env *env, int measure)
+{
+	int i;
+	int j;
+	int total;
+	int res;
+
+	i = ft_strlen(str->content);
+	j = ft_strlen(env->content);
+	if (measure > j)
+	{
+		res = measure - j;
+		total = i - j;
+	}
+	else if (measure < j)
+	{
+		res = j - measure;
+		total = i + j;
+	}
+	else 
+		total = i;
+	return (total);
+
+
+
+}
+
 /*int main ()
 {
 	const char *src = "PATH";

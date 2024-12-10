@@ -43,16 +43,18 @@ int correct_expansor(t_token *token, int i)
 
 }
 
-void exchange_expanser(t_token *token, t_env *env, int start, int end)
+void exchange_expanser(t_token *token, t_env *env, int start, int end, int measure)
 {
-	char *str; // hacer malloc;
+	char *str;
 	int i;
 	int j;
 
 	i = -1;
 	j = -1;
+	len = total;
+	str = malloc(sizeof(char *) * len);
 	while (++i < start)
-		str[i] = token->content[i];
+		 str[i] = token->content[i];
 	while (env->content[++j])
 		str[i++] = env->content[j];
 	while(token->content[end])
@@ -63,9 +65,11 @@ void exchange_expanser(t_token *token, t_env *env, int start, int end)
 
 //Tengo que hacerle malloc, nse si se libera bien asi tengo que comprobar proximo dia !!!!!;
 //Tengo mi contenido modificado despues de expandir ahora tendria que sustituir el contenido de mi token por mi nueva str;
+//getenv;
+//measure es la medida de lo que vamos a cambiar
 
 }
-void $(t_token *token, int i, t_env **env)
+void expander(t_token *token, int i, t_env **env)
 {
 	char * str;
 	int j;
@@ -84,34 +88,31 @@ void $(t_token *token, int i, t_env **env)
 		while (tmp)
 		{
 			if (ft_strcmp(str, tmp->value))
-				exchange_expanser(token, tmp, j - 1, i);
+				exchange_expanser(token, tmp, j - 1, i, len + 1);
 			tmp = tmp->next;
 		}
 
-	}
-}
-static void	expansor(t_token *token)
-{
-	int i;
-
-	i = 0;
-	while(token->content[i])
-	{
-		if (token->content[i] == '$')
-			$(token, i);
-		i++;
 	}
 }
 
 void	expandir(t_token **stack)
 {
 	t_token *tmp;
+	int i;
 	
+	i = 0;
 	tmp = *stack;
 	while (tmp)
 	{
 		if (tmp->type == 1 || tmp->type == 3)
-			expansor(tmp);
+		{
+			while (token->content[i])
+			{
+				if (token->content[i] == '$')
+					expander(token, i);
+				i++;
+			}
+		}	
 		tmp = tmp->next;
 	}
 }
