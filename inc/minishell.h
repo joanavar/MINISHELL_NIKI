@@ -150,9 +150,9 @@ int		change_malloc_token(t_token *str, t_env *env, int measure);
 int		syntax_error(t_token **stack);
 int		redir_type(t_token *token);
 // expasor.c
-int		close_expansor(t_token *token, int i);
-int		correct_expansor(t_token *token, int i);
-void	expander(t_token *token, int i, t_env **env);
-void	expandir(t_token **stack);
+//int		close_expansor(t_token *token, int i);
+//int		correct_expansor(t_token *token, int i);
+//void	expander(t_token *token, int i, t_env **env);
+void	expandir(t_token **stack, t_env **env);
 
 #endif

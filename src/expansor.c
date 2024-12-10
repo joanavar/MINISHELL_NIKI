@@ -13,7 +13,7 @@
 #include "../inc/minishell.h"
 //#include "paquito.h"
 
-int close_expansor(t_token *token, int i)
+static int close_expansor(t_token *token, int i)
 {
 	if (token->content[i] >= 'a' && 
 			token->content[i] <= 'z')
@@ -29,7 +29,7 @@ int close_expansor(t_token *token, int i)
 	return (0);
 
 }
-int correct_expansor(t_token *token, int i)
+static int correct_expansor(t_token *token, int i)
 {
 	if (token->content[i] >= 'a' && 
 			token->content[i] <= 'z')
@@ -43,15 +43,16 @@ int correct_expansor(t_token *token, int i)
 
 }
 
-void exchange_expanser(t_token *token, t_env *env, int start, int end, int measure)
+static void exchange_expanser(t_token *token, t_env *env, int start, int end, int measure)
 {
 	char *str;
 	int i;
 	int j;
+	int len;
 
 	i = -1;
 	j = -1;
-	len = total;
+	len = change_malloc_token(token, env, measure);
 	str = malloc(sizeof(char *) * len);
 	while (++i < start)
 		 str[i] = token->content[i];
@@ -69,7 +70,7 @@ void exchange_expanser(t_token *token, t_env *env, int start, int end, int measu
 //measure es la medida de lo que vamos a cambiar
 
 }
-void expander(t_token *token, int i, t_env **env)
+static void expander(t_token *token, int i, t_env **env)
 {
 	char * str;
 	int j;
@@ -95,7 +96,7 @@ void expander(t_token *token, int i, t_env **env)
 	}
 }
 
-void	expandir(t_token **stack)
+void	expandir(t_token **stack, t_env **env)
 {
 	t_token *tmp;
 	int i;
@@ -106,10 +107,10 @@ void	expandir(t_token **stack)
 	{
 		if (tmp->type == 1 || tmp->type == 3)
 		{
-			while (token->content[i])
+			while (tmp->content[i])
 			{
-				if (token->content[i] == '$')
-					expander(token, i);
+				if (tmp->content[i] == '$')
+					expander(tmp, i, env);
 				i++;
 			}
 		}	
