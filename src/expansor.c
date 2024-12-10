@@ -43,26 +43,29 @@ static int correct_expansor(t_token *token, int i)
 
 }
 
-static void exchange_expanser(t_token *token, t_env *env, int start, int end, int measure)
+static void exchange_expanser(t_token *token, t_env *env, int start, int end)
 {
 	char *str;
 	int i;
 	int j;
 	int len;
+	int res;
 
 	i = -1;
 	j = -1;
-	len = change_malloc_token(token, env, measure);
-	str = malloc(sizeof(char *) * len);
+	len = change_malloc_token(token, env, start - end);
+	str = malloc(sizeof(char *) * len + 1);
 	while (++i < start)
 		 str[i] = token->content[i];
 	while (env->content[++j])
 		str[i++] = env->content[j];
+	res = i - 1;
 	while(token->content[end])
 		str[i++] = env->content[end++];
 	str[i] = '\0';
 	free(token->content);
 	token->content = str;
+	return (res);
 
 //Tengo que hacerle malloc, nse si se libera bien asi tengo que comprobar proximo dia !!!!!;
 //Tengo mi contenido modificado despues de expandir ahora tendria que sustituir el contenido de mi token por mi nueva str;
@@ -70,14 +73,17 @@ static void exchange_expanser(t_token *token, t_env *env, int start, int end, in
 //measure es la medida de lo que vamos a cambiar
 
 }
-static void expander(t_token *token, int i, t_env **env)
+static int expander(t_token *token, int i, t_env **env)
 {
-	char * str;
+	char *str;
 	int j;
 	int len;
 	t_env *tmp;
+	int res;
 
 	i++;
+	if (token->content[i] == '$')
+		return (i--);
 	j = i;
 	if (correct_expansor(token, i))
 	{
@@ -89,11 +95,14 @@ static void expander(t_token *token, int i, t_env **env)
 		while (tmp)
 		{
 			if (ft_strcmp(str, tmp->value))
-				exchange_expanser(token, tmp, j - 1, i, len + 1);
+			{	
+				res = exchange_expanser(token, tmp, j - 1, i);
+				return(res);
+			}
 			tmp = tmp->next;
 		}
-
 	}
+	return (i--);
 }
 
 void	expandir(t_token **stack, t_env **env)
@@ -110,10 +119,12 @@ void	expandir(t_token **stack, t_env **env)
 			while (tmp->content[i])
 			{
 				if (tmp->content[i] == '$')
-					expander(tmp, i, env);
+					i = expander(tmp, i, env);
 				i++;
 			}
+			
 		}	
 		tmp = tmp->next;
 	}
 }
+//tengo que devolver el valor de i justo al cambiar el expansor para poder seguir haciendo el bucle;

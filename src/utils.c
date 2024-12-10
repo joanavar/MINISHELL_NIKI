@@ -37,12 +37,12 @@ int change_malloc_token(t_token *str, t_env *env, int measure)
 	if (measure > j)
 	{
 		res = measure - j;
-		total = i - j;
+		total = i - res;
 	}
 	else if (measure < j)
 	{
 		res = j - measure;
-		total = i + j;
+		total = i + res;
 	}
 	else 
 		total = i;
