@@ -47,9 +47,24 @@ int change_malloc_token(t_token *str, t_env *env, int measure)
 	else 
 		total = i;
 	return (total);
+}
 
+void delete_expanser(t_token token, int start, int end)
+{
+	int i;
+	char *str;
 
-
+	i = ft_strlen(token->content);
+	str = malloc(sizeof(char *) * (i - (end - start)) + 1);
+	i = -1;
+	while (++i < start)
+		str[i] = token->content[i];
+	while (token->content[end])
+		str[i++] = token->content[end++];
+	str[i] = '\0';
+	free(token->content);
+	token->content = str;
+	return (start);
 }
 
 /*int main ()

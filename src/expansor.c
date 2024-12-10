@@ -43,7 +43,7 @@ static int correct_expansor(t_token *token, int i)
 
 }
 
-static void exchange_expanser(t_token *token, t_env *env, int start, int end)
+static int exchange_expanser(t_token *token, t_env *env, int start, int end)
 {
 	char *str;
 	int i;
@@ -73,17 +73,16 @@ static void exchange_expanser(t_token *token, t_env *env, int start, int end)
 //measure es la medida de lo que vamos a cambiar
 
 }
-static int expander(t_token *token, int i, t_env **env)
+static void expander(t_token *token, int i, t_env **env)
 {
 	char *str;
 	int j;
 	int len;
 	t_env *tmp;
-	int res;
 
 	i++;
 	if (token->content[i] == '$')
-		return (i--);
+		return ;
 	j = i;
 	if (correct_expansor(token, i))
 	{
@@ -96,13 +95,13 @@ static int expander(t_token *token, int i, t_env **env)
 		{
 			if (ft_strcmp(str, tmp->value))
 			{	
-				res = exchange_expanser(token, tmp, j - 1, i);
-				return(res);
+				exchange_expanser(token, tmp, j - 1, i);
+				return ;
 			}
 			tmp = tmp->next;
 		}
+		delete_expanser(token, j - 1, i);
 	}
-	return (i--);
 }
 
 void	expandir(t_token **stack, t_env **env)
@@ -119,10 +118,9 @@ void	expandir(t_token **stack, t_env **env)
 			while (tmp->content[i])
 			{
 				if (tmp->content[i] == '$')
-					i = expander(tmp, i, env);
+					expander(tmp, i, env);
 				i++;
 			}
-			
 		}	
 		tmp = tmp->next;
 	}
