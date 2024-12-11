@@ -13,7 +13,7 @@
 #include "../inc/minishell.h"
 //#include "paquito.h"
 
-int close_expansor(t_token *token, int i)
+static int close_expansor(t_token *token, int i)
 {
 	if (token->content[i] >= 'a' && 
 			token->content[i] <= 'z')
@@ -29,7 +29,7 @@ int close_expansor(t_token *token, int i)
 	return (0);
 
 }
-int correct_expansor(t_token *token, int i)
+static int correct_expansor(t_token *token, int i)
 {
 	if (token->content[i] >= 'a' && 
 			token->content[i] <= 'z')
@@ -42,45 +42,87 @@ int correct_expansor(t_token *token, int i)
 	return (0);
 
 }
-void $(t_token *token, int i)
+
+static int exchange_expanser(t_token *token, t_env *env, int start, int end)
 {
-	char * str;
+	char *str;
+	int i;
 	int j;
 	int len;
+	int res;
+
+	i = -1;
+	j = -1;
+	len = change_malloc_token(token, env, start - end);
+	str = malloc(sizeof(char *) * len + 1);
+	while (++i < start)
+		 str[i] = token->content[i];
+	while (env->content[++j])
+		str[i++] = env->content[j];
+	res = i - 1;
+	while(token->content[end])
+		str[i++] = env->content[end++];
+	str[i] = '\0';
+	free(token->content);
+	token->content = str;
+	return (res);
+
+//Tengo que hacerle malloc, nse si se libera bien asi tengo que comprobar proximo dia !!!!!;
+//Tengo mi contenido modificado despues de expandir ahora tendria que sustituir el contenido de mi token por mi nueva str;
+//getenv;
+//measure es la medida de lo que vamos a cambiar
+
+}
+static void expander(t_token *token, int i, t_env **env)
+{
+	char *str;
+	int j;
+	int len;
+	t_env *tmp;
 
 	i++;
+	if (token->content[i] == '$')
+		return ;
 	j = i;
 	if (correct_expansor(token, i))
 	{
-		while (correct_expansor(token, i))
+		while (close_expansor(token, i))
 			i++;
 		len = i - j;
 		str = ft_substr(token->content, j, len);
-
+		tmp = *env;
+		while (tmp)
+		{
+			if (ft_strcmp(str, tmp->value))
+			{	
+				exchange_expanser(token, tmp, j - 1, i);
+				return ;
+			}
+			tmp = tmp->next;
+		}
+		delete_expanser(token, j - 1, i);
 	}
 }
-static void	expansor(t_token *token)
-{
-	int i;
 
-	i = 0;
-	while(token->content[i])
-	{
-		if (token->content[i] == '$')
-			$(token, i);
-		i++;
-	}
-}
-
-void	expandir(t_token **stack)
+void	expandir(t_token **stack, t_env **env)
 {
 	t_token *tmp;
+	int i;
 	
+	i = 0;
 	tmp = *stack;
 	while (tmp)
 	{
 		if (tmp->type == 1 || tmp->type == 3)
-			expansor(tmp);
+		{
+			while (tmp->content[i])
+			{
+				if (tmp->content[i] == '$')
+					expander(tmp, i, env);
+				i++;
+			}
+		}	
 		tmp = tmp->next;
 	}
 }
+//tengo que devolver el valor de i justo al cambiar el expansor para poder seguir haciendo el bucle;

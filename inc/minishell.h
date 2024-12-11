@@ -80,6 +80,14 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
+typedef struct s_env
+{
+	char			*value;
+	char			*content;
+	struct s_env	*next;
+	struct s_env	*prev;
+}	t_env;
+
 typedef struct s_shell
 {
 	int		token;
@@ -135,15 +143,16 @@ int		is_string(char *str, int i, t_token **stack);
 void	remove_quotes(t_token *stack);
 int		string_type(t_token *token);
 //utils.c
-int		ft_strcmp(const char *src, char *s);
+int		ft_strcmp(char *src, char *s);
 void	print_token(t_token *stack);
+int		change_malloc_token(t_token *str, t_env *env, int measure);
 //syntax_error.c
 int		syntax_error(t_token **stack);
 int		redir_type(t_token *token);
 // expasor.c
-int		close_expansor(t_token *token, int i);
-int		correct_expansor(t_token *token, int i);
-void	$(t_token *token, int i);
-void	expandir(t_token **stack);
+//int		close_expansor(t_token *token, int i);
+//int		correct_expansor(t_token *token, int i);
+//void	expander(t_token *token, int i, t_env **env);
+void	expandir(t_token **stack, t_env **env);
 
 #endif
