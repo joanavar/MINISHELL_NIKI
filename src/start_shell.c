@@ -17,7 +17,7 @@ int	start_shell(t_shell *shell)
 
 	if (!shell->prompt || !shell->prompt[0] || shell->prompt[0] == '\0')
 		return (0);
-	shell->eco_token = lectur_imput(shell->prompt);
+	shell->eco_token = lectur_imput(shell->prompt, shell->env);
 	if (!shell->eco_token)
 		return (-1);
 	return (0);

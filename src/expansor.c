@@ -73,7 +73,7 @@ static int exchange_expanser(t_token *token, t_env *env, int start, int end)
 //measure es la medida de lo que vamos a cambiar
 
 }
-static void expander(t_token *token, int i, t_env **env)
+static void expander(t_token *token, int i, t_env *env)
 {
 	char *str;
 	int j;
@@ -90,7 +90,7 @@ static void expander(t_token *token, int i, t_env **env)
 			i++;
 		len = i - j;
 		str = ft_substr(token->content, j, len);
-		tmp = *env;
+		tmp = env;
 		while (tmp)
 		{
 			if (ft_strcmp(str, tmp->value))
@@ -104,13 +104,14 @@ static void expander(t_token *token, int i, t_env **env)
 	}
 }
 
-void	expandir(t_token **stack, t_env **env)
+void	expandir(t_token **stack, t_env *env)
 {
 	t_token *tmp;
 	int i;
 	
 	i = 0;
 	tmp = *stack;
+	//printf("hola\n");
 	while (tmp)
 	{
 		if (tmp->type == 1 || tmp->type == 3)
@@ -121,6 +122,8 @@ void	expandir(t_token **stack, t_env **env)
 					expander(tmp, i, env);
 				i++;
 			}
+			//printf("hola\n");
+			print_token_after_expansor(tmp);
 		}	
 		tmp = tmp->next;
 	}

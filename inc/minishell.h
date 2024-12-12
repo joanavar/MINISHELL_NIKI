@@ -134,7 +134,7 @@ t_env	*get_env(char **env);
 
 /***NAVARRO_FUNCTIONS***/
 //lectur.c
-t_token	*lectur_imput(char *str);
+t_token	*lectur_imput(char *str, t_env *env);
 
 //token.c
 void	get_token(char *str, t_token **stack);
@@ -149,6 +149,7 @@ int		ft_strcmp(char *src, char *s);
 void	print_token(t_token *stack);
 int		change_malloc_token(t_token *str, t_env *env, int measure);
 void 	delete_expanser(t_token *token, int start, int end);
+void	print_token_after_expansor(t_token *stack);
 
 //syntax_error.c
 int		syntax_error(t_token **stack);
@@ -157,6 +158,6 @@ int		redir_type(t_token *token);
 //int		close_expansor(t_token *token, int i);
 //int		correct_expansor(t_token *token, int i);
 //void	expander(t_token *token, int i, t_env **env);
-void	expandir(t_token **stack, t_env **env);
+void	expandir(t_token **stack, t_env *env);
 
 #endif

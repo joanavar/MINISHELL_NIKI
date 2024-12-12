@@ -49,7 +49,7 @@ static void    is_redireccion(char *str, int i, t_token **stack)
 	//free(token);
 }
 
-t_token	*lectur_imput(char *str)
+t_token	*lectur_imput(char *str, t_env *env)
 {
 	int i = 0;
 	t_token *stack;
@@ -83,6 +83,7 @@ t_token	*lectur_imput(char *str)
 	}
 	if (syntax_error(&stack))
 		return NULL;
+	expandir(&stack, env);
 	return (stack);
 
 	/*for (t_token *tmp = *stack; tmp; tmp = tmp->next)
