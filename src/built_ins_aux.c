@@ -12,6 +12,7 @@
 
 #include "../inc/minishell.h"
 
+/*
 void	unset_shell(t_shell *shell, char *arg)
 {
 	char	*aux;
@@ -35,7 +36,7 @@ void	unset_shell(t_shell *shell, char *arg)
 		free(aux);
 		i++;
 	}
-}
+}*/
 
 void	get_echo(t_shell *shell)
 {
@@ -73,29 +74,31 @@ void	get_echo(t_shell *shell)
 
 int	built_ins(t_shell *shell) //corregir errores
 {
-	if (!shell->arg[0] || shell->arg[0] == "\0")
+	if (!shell->eco_token->content || shell->eco_token->content[0] == '\0')
 		return (0);
-	if (!strncmp("exit", shell->arg[0], 5))
+	if (!strncmp("exit", shell->eco_token->content, 5))
 	{
 		printf(YELLOW"exit\n"GBD);
-		if (shell->arg[1])
+		if (shell->eco_token->next)
 		{
 			printf("minishell: exit: %s: ", shell->arg[1]);
 			printf("numeric argument required\n");
 		}
 		return (-1);
 	}
-	if (!strncmp("env", shell->arg[0], 4))
+	if (!strncmp("env", shell->eco_token->content, 4))
 		print_env(shell);
-	if (!strncmp("pwd", shell->arg[0], 4))
+	if (!strncmp("pwd", shell->eco_token->content, 4) && !shell->eco_token->next)
 		get_pwd();
-	if (!strncmp("export", shell->arg[0], 7))
-		get_export(shell);
-	if (!strncmp("unset", shell->arg[0], 7))
-		unset_shell(shell, shell->arg[1]);
-	if (!strncmp("cd", shell->arg[0], 3))
+	else if (!strncmp("pwd", shell->eco_token->content, 4) && shell->eco_token->next)
+		error_message("pwd: too many arguments", NO_CLOSE);
+	if (!strncmp("cd", shell->eco_token->content, 3))
 		get_cd(shell);
+	if (!strncmp("export", shell->eco_token->content, 6))
+		get_export(shell);
+	/*if (!strncmp("unset", shell->arg[0], 7))
+		unset_shell(shell, shell->arg[1]);
 	if (!strncmp("echo", shell->arg[0], 5))
-		get_echo(shell);
+		get_echo(shell);*/
 	return (0);
 }

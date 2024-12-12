@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 18:54:07 by joanavar          #+#    #+#             */
-/*   Updated: 2024/12/03 20:00:18 by joanavar         ###   ########.fr       */
+/*   Updated: 2024/12/12 17:26:17 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void    is_redireccion(char *str, int i, t_token **stack)
 	}
     token[2] = '\0';
     get_token(token, stack);
-	free(token);
+	//free(token);
 }
 
 t_token	*lectur_imput(char *str)
@@ -55,7 +55,7 @@ t_token	*lectur_imput(char *str)
 	t_token *stack;
 
 	stack = NULL;
-	if (!str)
+	if (!*str)
 		return (NULL);
 	while (str[i])
 	{
