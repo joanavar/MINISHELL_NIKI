@@ -21,15 +21,16 @@ READLINE	=		-lreadline
 #									SRC    									  #
 ###############################################################################
 
-SRC_FILES	=	main.c \
-				parssing.c \
-				start_shell.c \
-				get_env.c \
+SRC_FILES	=	main/main.c \
+				main/start_shell.c \
+				main/get_env.c \
+				main/clean.c \
 				signal/signal.c \
 				built_ins/cd_pwd.c \
 				built_ins/built_ins.c \
 				built_ins/echo.c \
 				built_ins/env.c \
+				built_ins/utils.c \
 				lectur.c \
 				token.c \
 				string.c \
