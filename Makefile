@@ -27,7 +27,7 @@ SRC_FILES	=	main.c \
 				get_env.c \
 				signal/signal.c \
 				built_ins/cd_pwd.c \
-				built_ins/built_ins,c \
+				built_ins/built_ins.c \
 				built_ins/echo.c \
 				built_ins/env.c \
 				lectur.c \

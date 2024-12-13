@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 18:54:07 by joanavar          #+#    #+#             */
-/*   Updated: 2024/12/03 20:00:18 by joanavar         ###   ########.fr       */
+/*   Updated: 2024/12/13 18:03:03 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void    is_caracter_token(char c, t_token **stack)
     token[0] = c;
     token[1] = '\0';
     get_token(token, stack);
+	free(token);
 }
 
 static void    is_redireccion(char *str, int i, t_token **stack)
@@ -45,15 +46,16 @@ static void    is_redireccion(char *str, int i, t_token **stack)
 	}
     token[2] = '\0';
     get_token(token, stack);
+	//free(token);
 }
 
-t_token	*lectur_imput(char *str)
+t_token	*lectur_imput(char *str, t_env *env)
 {
 	int i = 0;
 	t_token *stack;
 
 	stack = NULL;
-	if (!str)
+	if (!*str)
 		return (NULL);
 	while (str[i])
 	{
@@ -81,6 +83,7 @@ t_token	*lectur_imput(char *str)
 	}
 	if (syntax_error(&stack))
 		return NULL;
+	expandir(&stack, env);
 	return (stack);
 
 	/*for (t_token *tmp = *stack; tmp; tmp = tmp->next)

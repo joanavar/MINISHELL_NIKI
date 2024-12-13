@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 17:41:18 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/13 17:45:23 by camurill         ###   ########.fr       */
+/*   Updated: 2024/12/13 18:01:12 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 void	print_env(t_shell *shell)
 {
-	size_t	i;
+	t_env	*aux;
 
-	i = 0;
-	if (shell->arg[1])
+	if (shell->eco_token->next != NULL)
 	{
 		printf(RED"env: ’%s’ No such file or directory\n"GBD, shell->arg[1]);
 		return ;
 	}
-	while (shell->env[i])
+	aux = shell->env;
+	while (aux)
 	{
-		printf("%s\n", shell->env[i]);
-		i++;
+		printf("%s=%s\n", aux->value, aux->content);
+		aux = aux->next;
 	}
 }
 
-void	unset_shell(t_shell *shell, char *arg)
+/*void	unset_shell(t_shell *shell, char *arg)
 {
 	char	*aux;
 	size_t	i;
@@ -52,26 +52,30 @@ void	unset_shell(t_shell *shell, char *arg)
 		free(aux);
 		i++;
 	}
-}
+}*/
 
 void	get_export(t_shell *shell)
 {
-	size_t	i;
+	t_env	*aux;
 
-	i = 0;
-	if (shell->arg[1])
+	aux = shell->env;
+	if (!shell->eco_token->next)
 	{
-		while (shell->arg[i])
-			i++;
-		if (check_specials(shell->arg[1], '=') == 1)
-			shell->env[i] = ft_strdup(shell->arg[1]);
-	}
-	else
-	{
-		while (shell->env[i])
+		while (aux)
 		{
-			printf("declare -x %s\n", shell->env[i]);
-			i++;
+			printf("declare -x %s=%s\n", aux->value, aux->content);
+			aux = aux->next;
+		}
+	}
+	else if (shell->eco_token->next->next)
+	{
+		if (check_specials(shell->eco_token->next->next->content, '=') == 1)
+		{
+			while (aux)
+				aux = aux->next;
+			aux = lstnew(shell->eco_token->next->next->content);//no se adiciona al final de la lista
+			if (aux)
+				aux->next = NULL;
 		}
 	}
 }

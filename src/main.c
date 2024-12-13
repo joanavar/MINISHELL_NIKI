@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:49:47 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/13 17:52:12 by camurill         ###   ########.fr       */
+/*   Updated: 2024/12/13 18:02:12 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	clean_data(t_shell **shell)
 		(*shell)->prompt = NULL;
 	}
 	if ((*shell)->env)
-		//free_matrix((*shell)->env);
+		//free_list((*shell)->env);
 	if ((*shell)->arg)
 		free_matrix((*shell)->arg);
 	free((*shell));
@@ -83,10 +83,10 @@ int	main(int ac, char **ag, char **env)
 			printf("exit\n");
 			break ;
 		}
-		if (start_shell(shell) == -1)
-			error_message("Write a double \" o \'", NO_CLOSE);
-		//if (built_ins(shell) == -1)
-		//	break ;
+		if (*shell->prompt && start_shell(shell) == -1)
+			error_message("Syntax Error", NO_CLOSE);
+		/*if (*shell->prompt && built_ins(shell) == -1)
+			break ;*/
 		add_history(shell->prompt);
 		free(shell->prompt);
 	}
