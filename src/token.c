@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 18:16:05 by joanavar          #+#    #+#             */
-/*   Updated: 2024/12/03 20:01:11 by joanavar         ###   ########.fr       */
+/*   Updated: 2024/12/13 19:15:54 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	get_token(char *str, t_token **stack)
 	t_token *token;
 
 	token = malloc(sizeof(t_token));
+	if (!token)
+		return ;
 	token->content = str;
 	get_type_token(token);
 	if (!(*stack))

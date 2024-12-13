@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:49:47 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/13 18:22:26 by camurill         ###   ########.fr       */
+/*   Updated: 2024/12/13 18:40:36 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,36 +34,6 @@ void	init_shell(t_shell **shell, char **env)
 	if (!env)
 		error_message("Problems, not found env", CLOSE);
 	(*shell)->env = get_env(env);
-}
-
-void	clean_data(t_shell **shell)
-{
-	if ((*shell)->prompt)
-	{
-		free((*shell)->prompt);
-		(*shell)->prompt = NULL;
-	}
-	if ((*shell)->env)
-		//free_list((*shell)->env);
-	if ((*shell)->arg)
-		free_matrix((*shell)->arg);
-	free((*shell));
-}
-
-void	free_matrix(char **matrix)
-{
-	size_t	i;
-
-	i = 0;
-	if (!matrix || !(*matrix))
-		return ;
-	while (matrix[i])
-	{
-		free(matrix[i]);
-		i++;
-	}
-	free(matrix);
-	matrix = NULL;
 }
 
 int	main(int ac, char **ag, char **env)

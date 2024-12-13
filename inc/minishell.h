@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/13 18:10:59 by camurill         ###   ########.fr       */
+/*   Updated: 2024/12/13 19:01:43 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ int		start_shell(t_shell	*shell);
 /****ERORR FOUND***/
 void	error_message(char *str, t_opcode OPCODE);
 void	free_matrix(char **matrix);
+void	free_env(t_env **lst);
+void	free_token(t_token **lst);
 
 /***SIGNAL***/
 void	check_signal(int signal_received);

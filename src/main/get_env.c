@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 20:43:52 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/13 18:22:35 by camurill         ###   ########.fr       */
+/*   Updated: 2024/12/13 18:54:32 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,11 @@ t_env	*lstnew(char *content)
 	if (!list)
 		return (NULL);//error_message("Malloc", CLOSE); //ToDO clear lst;
 	list->value = get_value(content);
+	if (!list->value)
+		return (NULL);
 	list->content = get_content(content);
+	if (!list->content)
+		return (NULL);
 	list->next = NULL;
 	return (list);
 }
