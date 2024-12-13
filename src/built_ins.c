@@ -14,18 +14,18 @@
 
 void	print_env(t_shell *shell)
 {
-	size_t	i;
+	t_env	*aux;
 
-	i = 0;
-	if (shell->arg[1])
+	if (shell->eco_token->next != NULL)
 	{
 		printf(RED"env: ’%s’ No such file or directory\n"GBD, shell->arg[1]);
 		return ;
 	}
-	while (shell->env[i])
+	aux = shell->env;
+	while (aux)
 	{
-		printf("%s\n", shell->env[i]);
-		i++;
+		printf("%s=%s\n", aux->value, aux->content);
+		aux = aux->next;
 	}
 }
 
@@ -41,14 +41,14 @@ void	get_pwd(void)
 
 void	get_cd(t_shell *shell)
 {
-	if (shell->arg[1] == NULL)
+	if (shell->eco_token->next == NULL)
 	{
 		error_message("Need a relative or absolute path\n", NO_CLOSE);
 		return ;
 	}
-	else if (shell->arg[1])
+	else if (shell->eco_token->next->next->content)
 	{
-		if (chdir(shell->arg[1]) != 0)
+		if (chdir(shell->eco_token->next->next->content) != 0)
 		{
 			perror("cd");
 			return ;
@@ -63,22 +63,26 @@ void	get_cd(t_shell *shell)
 
 void	get_export(t_shell *shell)
 {
-	size_t	i;
+	t_env	*aux;
 
-	i = 0;
-	if (shell->arg[1])
+	aux = shell->env;
+	if (!shell->eco_token->next)
 	{
-		while (shell->arg[i])
-			i++;
-		if (check_specials(shell->arg[1], '=') == 1)
-			shell->env[i] = ft_strdup(shell->arg[1]);
-	}
-	else
-	{
-		while (shell->env[i])
+		while (aux)
 		{
-			printf("declare -x %s\n", shell->env[i]);
-			i++;
+			printf("declare -x %s=%s\n", aux->value, aux->content);
+			aux = aux->next;
+		}
+	}
+	else if (shell->eco_token->next->next)
+	{
+		if (check_specials(shell->eco_token->next->next->content, '=') == 1)
+		{
+			while (aux)
+				aux = aux->next;
+			aux = lstnew(shell->eco_token->next->next->content);//no se adiciona al final de la lista
+			if (aux)
+				aux->next = NULL;
 		}
 	}
 }

@@ -46,7 +46,7 @@ static int	is_quotes(char *str, int i, t_token **stack, char quote)
 	token[j++] = quote;
 	token[j] = '\0';
 	get_token(token, stack);
-	free(token);
+	//free(token);
 	return (++i);
 }
 
@@ -69,7 +69,7 @@ static int    is_word(char *str, int i, t_token **stack)
         token[j++] = str[i++];
     token[j] = '\0';
     get_token(token, stack);
-	free(token);
+	//free(token);
 	return (i--);
 }
 

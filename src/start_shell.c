@@ -14,9 +14,11 @@
 
 int	start_shell(t_shell *shell)
 {
-	if (parssing(&shell) == -1)
+
+	if (shell->prompt[0] == '\0')
+		return (0);
+	shell->eco_token = lectur_imput(shell->prompt, shell->env);
+	if (!shell->eco_token)
 		return (-1);
-	//shell->arg = ft_split(shell->prompt, ' ');
-	shell->eco_token = lectur_imput(shell->prompt);
 	return (0);
 }

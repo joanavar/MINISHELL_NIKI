@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 16:45:08 by joanavar          #+#    #+#             */
-/*   Updated: 2024/12/03 20:01:26 by joanavar         ###   ########.fr       */
+/*   Updated: 2024/12/12 16:26:49 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int change_malloc_token(t_token *str, t_env *env, int measure)
 	return (total);
 }
 
-void delete_expanser(t_token token, int start, int end)
+void delete_expanser(t_token *token, int start, int end)
 {
 	int i;
 	char *str;
@@ -64,7 +64,6 @@ void delete_expanser(t_token token, int start, int end)
 	str[i] = '\0';
 	free(token->content);
 	token->content = str;
-	return (start);
 }
 
 /*int main ()

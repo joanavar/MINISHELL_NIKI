@@ -43,7 +43,7 @@ static int correct_expansor(t_token *token, int i)
 
 }
 
-static int exchange_expanser(t_token *token, t_env *env, int start, int end)
+static void exchange_expanser(t_token *token, t_env *env, int start, int end)
 {
 	char *str;
 	int i;
@@ -59,13 +59,11 @@ static int exchange_expanser(t_token *token, t_env *env, int start, int end)
 		 str[i] = token->content[i];
 	while (env->content[++j])
 		str[i++] = env->content[j];
-	res = i - 1;
 	while(token->content[end])
-		str[i++] = env->content[end++];
+		str[i++] = token->content[end++];
 	str[i] = '\0';
 	free(token->content);
 	token->content = str;
-	return (res);
 
 //Tengo que hacerle malloc, nse si se libera bien asi tengo que comprobar proximo dia !!!!!;
 //Tengo mi contenido modificado despues de expandir ahora tendria que sustituir el contenido de mi token por mi nueva str;
@@ -73,7 +71,7 @@ static int exchange_expanser(t_token *token, t_env *env, int start, int end)
 //measure es la medida de lo que vamos a cambiar
 
 }
-static void expander(t_token *token, int i, t_env **env)
+static void expander(t_token *token, int i, t_env *env)
 {
 	char *str;
 	int j;
@@ -90,7 +88,7 @@ static void expander(t_token *token, int i, t_env **env)
 			i++;
 		len = i - j;
 		str = ft_substr(token->content, j, len);
-		tmp = *env;
+		tmp = env;
 		while (tmp)
 		{
 			if (ft_strcmp(str, tmp->value))
@@ -104,15 +102,15 @@ static void expander(t_token *token, int i, t_env **env)
 	}
 }
 
-void	expandir(t_token **stack, t_env **env)
+void	expandir(t_token **stack, t_env *env)
 {
 	t_token *tmp;
 	int i;
 	
-	i = 0;
 	tmp = *stack;
 	while (tmp)
 	{
+		i = 0;
 		if (tmp->type == 1 || tmp->type == 3)
 		{
 			while (tmp->content[i])
@@ -121,8 +119,14 @@ void	expandir(t_token **stack, t_env **env)
 					expander(tmp, i, env);
 				i++;
 			}
-		}	
+			//printf("hola\n");
+			print_token_after_expansor(tmp);
+		}
+		/*if (tmp)
+			print_token_after_expansor(tmp);*/
 		tmp = tmp->next;
+		//print_token_after_expansor(tmp);
+
 	}
 }
 //tengo que devolver el valor de i justo al cambiar el expansor para poder seguir haciendo el bucle;

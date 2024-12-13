@@ -90,12 +90,10 @@ typedef struct s_env
 
 typedef struct s_shell
 {
-	int		token;
 	int		status;
 	char	*prompt;
 	char	**arg;
-	char	**env;
-	char	**aux_env; //quitar
+	t_env	*env;
 	t_token	*eco_token;
 }			t_shell;
 
@@ -103,8 +101,8 @@ typedef struct s_shell
 int		check_doubles(char *str, char ltr);
 int		check_specials(char *str, char ltr);
 int		parssing(t_shell **shell);
-void	get_env(t_shell **shell, char **env);
-void	get_less_env(t_shell *shell, char *cmp);
+t_env	*get_env(char **env);
+//void	get_less_env(t_shell *shell, char *cmp);
 //void	prints(void);
 
 /***MAIN***/
@@ -130,9 +128,13 @@ void	get_cd(t_shell *shell);
 void	print_env(t_shell *shell);
 int		built_ins(t_shell *shell);
 
+/***ENV ***/
+t_env	*lstnew(char *content);
+t_env	*get_env(char **env);
+
 /***NAVARRO_FUNCTIONS***/
 //lectur.c
-t_token	*lectur_imput(char *str);
+t_token	*lectur_imput(char *str, t_env *env);
 
 //token.c
 void	get_token(char *str, t_token **stack);
@@ -146,6 +148,9 @@ int		string_type(t_token *token);
 int		ft_strcmp(char *src, char *s);
 void	print_token(t_token *stack);
 int		change_malloc_token(t_token *str, t_env *env, int measure);
+void 	delete_expanser(t_token *token, int start, int end);
+void	print_token_after_expansor(t_token *stack);
+
 //syntax_error.c
 int		syntax_error(t_token **stack);
 int		redir_type(t_token *token);
@@ -153,6 +158,6 @@ int		redir_type(t_token *token);
 //int		close_expansor(t_token *token, int i);
 //int		correct_expansor(t_token *token, int i);
 //void	expander(t_token *token, int i, t_env **env);
-void	expandir(t_token **stack, t_env **env);
+void	expandir(t_token **stack, t_env *env);
 
 #endif

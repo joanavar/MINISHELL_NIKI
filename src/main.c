@@ -28,12 +28,12 @@ void	init_shell(t_shell **shell, char **env)
 	if (!shell || !(*shell))
 		error_message("Problems with mallocs", CLOSE);
 	(*shell)->prompt = NULL;
-	(*shell)->token = 0;
 	(*shell)->status = 0;
 	(*shell)->arg = NULL;
 	(*shell)->env = NULL;
-	(*shell)->aux_env = NULL;
-	get_env(shell, env);//toD
+	if (!env)
+		error_message("Problems, not found env", CLOSE);
+	(*shell)->env = get_env(env);
 }
 
 void	clean_data(t_shell **shell)
@@ -44,11 +44,9 @@ void	clean_data(t_shell **shell)
 		(*shell)->prompt = NULL;
 	}
 	if ((*shell)->env)
-		free_matrix((*shell)->env);
+		//free_list((*shell)->env);
 	if ((*shell)->arg)
 		free_matrix((*shell)->arg);
-	if ((*shell)->aux_env)
-		free_matrix((*shell)->aux_env);
 	free((*shell));
 }
 
@@ -85,10 +83,10 @@ int	main(int ac, char **ag, char **env)
 			printf("exit\n");
 			break ;
 		}
-		if (start_shell(shell) == -1)
-			error_message("Write a double \" o \'", NO_CLOSE);
-		//if (built_ins(shell) == -1)
-		//	break ;
+		if (*shell->prompt && start_shell(shell) == -1)
+			error_message("Syntax Error", NO_CLOSE);
+		/*if (*shell->prompt && built_ins(shell) == -1)
+			break ;*/
 		add_history(shell->prompt);
 		free(shell->prompt);
 	}

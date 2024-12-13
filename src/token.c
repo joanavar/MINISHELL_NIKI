@@ -77,6 +77,10 @@ void	print_token(t_token *stack)
 	printf("content :%s\n", stack->content);
 	printf("type :%d\n", stack->type);
 }
+void	print_token_after_expansor(t_token *stack)
+{
+		printf("content after expansor:%s\n", stack->content);
+}
 
 
 
