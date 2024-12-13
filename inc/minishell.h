@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/03 18:16:20 by joanavar         ###   ########.fr       */
+/*   Updated: 2024/12/13 18:10:59 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ typedef struct s_token
 
 typedef struct s_env
 {
-	char			*value;
-	char			*content;
+	char	*value;
+	char	*content;
 	struct s_env	*next;
 	struct s_env	*prev;
 }	t_env;
@@ -159,5 +159,4 @@ int		redir_type(t_token *token);
 //int		correct_expansor(t_token *token, int i);
 //void	expander(t_token *token, int i, t_env **env);
 void	expandir(t_token **stack, t_env *env);
-
 #endif

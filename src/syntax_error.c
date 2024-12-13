@@ -6,10 +6,10 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:34:15 by joanavar          #+#    #+#             */
-/*   Updated: 2024/12/03 20:00:59 by joanavar         ###   ########.fr       */
-/*   Updated: 2024/11/26 16:12:08 by camurill         ###   ########.fr       */
+/*   Updated: 2024/12/13 18:00:28 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../inc/minishell.h"
 //#include "paquito.h"

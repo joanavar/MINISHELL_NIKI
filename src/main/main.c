@@ -6,11 +6,11 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:49:47 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/03 20:02:38 by joanavar         ###   ########.fr       */
+/*   Updated: 2024/12/13 18:22:26 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 volatile sig_atomic_t	g_signal_received = 0;
 

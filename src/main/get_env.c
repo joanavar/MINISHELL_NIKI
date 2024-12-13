@@ -6,11 +6,11 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 20:43:52 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/03 20:02:22 by joanavar         ###   ########.fr       */
+/*   Updated: 2024/12/13 18:22:35 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 static char	*get_value(char *value)
 {
@@ -101,3 +101,18 @@ t_env	*get_env(char **env)
 		current->next = NULL;
 	return (head);
 }
+
+
+/*int main(int ac, char **ag, char **env)
+{
+	t_env	*env_lst = get_env(env);
+	int		i = 0;
+
+	while (env_lst)
+	{
+		printf("%s=%s\n", env_lst->value, env_lst->content);
+		env_lst = env_lst->next;
+	}
+	//printf("%s=%s\n", get_value("hola=/run/user/101047/vscode-git-8d84d82def.sock"), get_content("hola=/run/user/101047/vscode-git-8d84d82def.sock"));
+	return (0);
+}*/

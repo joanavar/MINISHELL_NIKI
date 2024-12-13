@@ -1,76 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_ins_aux.c                                    :+:      :+:    :+:   */
+/*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:50:29 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/03 20:02:10 by joanavar         ###   ########.fr       */
+/*   Updated: 2024/12/13 18:01:22 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
-
-/*
-void	unset_shell(t_shell *shell, char *arg)
-{
-	char	*aux;
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	j = 0;
-	if (!shell->arg[1])
-		return ;
-	while (shell->env[i])
-	{
-		aux = ft_strjoin(arg, "=");
-		if (!aux)
-			return ;
-		if (!ft_strncmp(shell->env[i], aux, ft_strlen(aux)))
-		{
-			free(aux);
-			break ;
-		}
-		free(aux);
-		i++;
-	}
-}*/
-
-void	get_echo(t_shell *shell)
-{
-	size_t	i;
-
-	i = 1;
-	if (!shell->arg[i])
-		printf("\n");
-	else if (shell->arg[i] && !strncmp("-n", shell->arg[i], 3))
-	{
-		if (!shell->arg[2])
-			return ;
-		i++;
-		while (shell->arg[i])
-		{
-			if (shell->arg[i + 1])
-				printf("%s ", shell->arg[i]);
-			else
-				printf("%s", shell->arg[i]);
-			i++;
-		}
-	}
-	else if (shell->arg[i] && strncmp("-n", shell->arg[i], 3))
-	{
-		while (shell->arg[i])
-		{
-			if (shell->arg[i + 1])
-				printf("%s ", shell->arg[i]);
-			else
-				printf("%s\n", shell->arg[i]);
-			i++;
-		}
-	}
-}
+#include "../../inc/minishell.h"
 
 int	built_ins(t_shell *shell) //corregir errores
 {

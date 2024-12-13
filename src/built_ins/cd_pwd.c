@@ -1,33 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_ins.c                                        :+:      :+:    :+:   */
+/*   cd_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 00:08:20 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/03 20:01:54 by joanavar         ###   ########.fr       */
+/*   Updated: 2024/12/13 18:01:19 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
-
-void	print_env(t_shell *shell)
-{
-	t_env	*aux;
-
-	if (shell->eco_token->next != NULL)
-	{
-		printf(RED"env: ’%s’ No such file or directory\n"GBD, shell->arg[1]);
-		return ;
-	}
-	aux = shell->env;
-	while (aux)
-	{
-		printf("%s=%s\n", aux->value, aux->content);
-		aux = aux->next;
-	}
-}
+#include "../../inc/minishell.h"
 
 void	get_pwd(void)
 {
@@ -38,7 +21,7 @@ void	get_pwd(void)
 	else
 		perror("pwd");
 }
-
+//ToDo
 void	get_cd(t_shell *shell)
 {
 	if (shell->eco_token->next == NULL)
@@ -58,31 +41,5 @@ void	get_cd(t_shell *shell)
 	{
 		error_message("Too many arguments\n", NO_CLOSE);
 		return ;
-	}
-}
-
-void	get_export(t_shell *shell)
-{
-	t_env	*aux;
-
-	aux = shell->env;
-	if (!shell->eco_token->next)
-	{
-		while (aux)
-		{
-			printf("declare -x %s=%s\n", aux->value, aux->content);
-			aux = aux->next;
-		}
-	}
-	else if (shell->eco_token->next->next)
-	{
-		if (check_specials(shell->eco_token->next->next->content, '=') == 1)
-		{
-			while (aux)
-				aux = aux->next;
-			aux = lstnew(shell->eco_token->next->next->content);//no se adiciona al final de la lista
-			if (aux)
-				aux->next = NULL;
-		}
 	}
 }
