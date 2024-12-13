@@ -25,9 +25,11 @@ SRC_FILES	=	main.c \
 				parssing.c \
 				start_shell.c \
 				get_env.c \
-				signal.c \
-				built_ins.c \
-				built_ins_aux.c \
+				signal/signal.c \
+				built_ins/cd_pwd.c \
+				built_ins/built_ins,c \
+				built_ins/echo.c \
+				built_ins/env.c \
 				lectur.c \
 				token.c \
 				string.c \

@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:49:47 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/03 20:02:38 by joanavar         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:52:12 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ void	init_shell(t_shell **shell, char **env)
 	if (!shell || !(*shell))
 		error_message("Problems with mallocs", CLOSE);
 	(*shell)->prompt = NULL;
-	(*shell)->token = 0;
 	(*shell)->status = 0;
 	(*shell)->arg = NULL;
 	(*shell)->env = NULL;
-	(*shell)->aux_env = NULL;
-	get_env(shell, env);//toD
+	if (!env)
+		error_message("Problems, not found env", CLOSE);
+	(*shell)->env = get_env(env);
 }
 
 void	clean_data(t_shell **shell)
@@ -44,11 +44,9 @@ void	clean_data(t_shell **shell)
 		(*shell)->prompt = NULL;
 	}
 	if ((*shell)->env)
-		free_matrix((*shell)->env);
+		//free_matrix((*shell)->env);
 	if ((*shell)->arg)
 		free_matrix((*shell)->arg);
-	if ((*shell)->aux_env)
-		free_matrix((*shell)->aux_env);
 	free((*shell));
 }
 

@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/03 18:16:20 by joanavar         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:51:55 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,14 +80,20 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
+typedef struct s_env
+{
+	char	*value;
+	char	*content;
+	struct s_env	*next;
+	struct s_env	*prev;
+}	t_env;
+
 typedef struct s_shell
 {
-	int		token;
 	int		status;
 	char	*prompt;
 	char	**arg;
-	char	**env;
-	char	**aux_env; //quitar
+	t_env	*env;
 	t_token	*eco_token;
 }			t_shell;
 
@@ -95,8 +101,8 @@ typedef struct s_shell
 int		check_doubles(char *str, char ltr);
 int		check_specials(char *str, char ltr);
 int		parssing(t_shell **shell);
-void	get_env(t_shell **shell, char **env);
-void	get_less_env(t_shell *shell, char *cmp);
+t_env	*get_env(char **env);
+//void	get_less_env(t_shell *shell, char *cmp);
 //void	prints(void);
 
 /***MAIN***/
@@ -121,6 +127,10 @@ void	get_pwd(void);
 void	get_cd(t_shell *shell);
 void	print_env(t_shell *shell);
 int		built_ins(t_shell *shell);
+
+/***ENV ***/
+t_env	*lstnew(char *content);
+t_env	*get_env(char **env);
 
 /***NAVARRO_FUNCTIONS***/
 //lectur.c

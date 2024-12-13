@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_ins.c                                        :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/08 00:08:20 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/03 20:01:54 by joanavar         ###   ########.fr       */
+/*   Created: 2024/12/13 17:41:18 by camurill          #+#    #+#             */
+/*   Updated: 2024/12/13 17:45:23 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 void	print_env(t_shell *shell)
 {
@@ -29,35 +29,28 @@ void	print_env(t_shell *shell)
 	}
 }
 
-void	get_pwd(void)
+void	unset_shell(t_shell *shell, char *arg)
 {
-	char	cwd[1024];
+	char	*aux;
+	size_t	i;
+	size_t	j;
 
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
-		printf("%s\n", cwd);
-	else
-		perror("pwd");
-}
-
-void	get_cd(t_shell *shell)
-{
-	if (shell->arg[1] == NULL)
-	{
-		error_message("Need a relative or absolute path\n", NO_CLOSE);
+	i = 0;
+	j = 0;
+	if (!shell->arg[1])
 		return ;
-	}
-	else if (shell->arg[1])
+	while (shell->env[i])
 	{
-		if (chdir(shell->arg[1]) != 0)
-		{
-			perror("cd");
+		aux = ft_strjoin(arg, "=");
+		if (!aux)
 			return ;
+		if (!ft_strncmp(shell->env[i], aux, ft_strlen(aux)))
+		{
+			free(aux);
+			break ;
 		}
-	}
-	else
-	{
-		error_message("Too many arguments\n", NO_CLOSE);
-		return ;
+		free(aux);
+		i++;
 	}
 }
 
