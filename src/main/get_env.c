@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 20:43:52 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/13 18:54:32 by camurill         ###   ########.fr       */
+/*   Updated: 2024/12/14 19:36:14 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	*get_value(char *value)
 		i++;
 	aux =  malloc(sizeof(char) * (i + 1));
 	if (!aux)
-		return (NULL);//error_message("Malloc", CLOSE); //ToDO clear lst
+		return (NULL);
 	j = i + 1;
 	i = 0;
 	while (--j > 0)
@@ -53,7 +53,7 @@ static char	*get_content(char *content)
 		i++;
 	aux =  malloc(sizeof(char) * (j - i + 2));
 	if (!aux)
-		return (NULL);//error_message("Malloc", CLOSE); //ToDO clear lst
+		return (NULL);
 	i++;
 	while (content[i])
 		aux[k++] = content[i++];
@@ -67,7 +67,7 @@ t_env	*lstnew(char *content)
 
 	list = (t_env *)malloc(sizeof(*list));
 	if (!list)
-		return (NULL);//error_message("Malloc", CLOSE); //ToDO clear lst;
+		return (NULL);
 	list->value = get_value(content);
 	if (!list->value)
 		return (NULL);
@@ -98,7 +98,8 @@ t_env	*get_env(char **env)
 		else
 		{
 			current->next = new_node;
-			current = current->next;
+			new_node->prev = current;
+			current = new_node;
 		}
 	}
 	if (current)
