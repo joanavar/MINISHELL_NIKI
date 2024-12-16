@@ -6,42 +6,60 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 17:42:39 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/13 17:44:57 by camurill         ###   ########.fr       */
+/*   Updated: 2024/12/14 20:43:54 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-//ToDo
+
+static int	check_type(t_token	*token)
+{
+	while(token)
+	{
+		if (token->type == 1 || token->type == 2 || token->type == 3)
+			return (0);
+		token = token->next;
+	}
+	return (1);
+}
 void	get_echo(t_shell *shell)
 {
-	size_t	i;
+	t_token	*aux;
 
-	i = 1;
-	if (!shell->arg[i])
+	aux = shell->eco_token;
+	if (check_type(aux->next) == 1)
+	{
 		printf("\n");
-	else if (shell->arg[i] && !strncmp("-n", shell->arg[i], 3))
+		return ;
+	}
+	if (!check_type(aux) && !strncmp("-n", aux->next->next->content, 3))
 	{
-		if (!shell->arg[2])
+		if (!aux->next->next->next->next)
 			return ;
-		i++;
-		while (shell->arg[i])
+		aux = aux->next->next->next->next;
+		while (aux)
 		{
-			if (shell->arg[i + 1])
-				printf("%s ", shell->arg[i]);
-			else
-				printf("%s", shell->arg[i]);
-			i++;
+			printf("%s", aux->content);
+			aux = aux->next;
 		}
 	}
-	else if (shell->arg[i] && strncmp("-n", shell->arg[i], 3))
-	{
-		while (shell->arg[i])
+	else if (!check_type(aux) && strncmp("-n", aux->next->next->content, 3))
 		{
-			if (shell->arg[i + 1])
-				printf("%s ", shell->arg[i]);
-			else
-				printf("%s\n", shell->arg[i]);
-			i++;
+			if (!aux->next->next)
+				return ;
+			aux = aux->next->next;
+			while (aux)
+			{
+				if (aux->type == 0)
+				{
+					printf(" ");
+					aux = aux->next;
+				}
+				if (aux->next)
+					printf("%s", aux->content);
+				else if (!aux->next)
+					printf("%s\n", aux->content);
+				aux = aux->next;
+			}
 		}
-	}
 }

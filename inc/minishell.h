@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/13 18:10:59 by camurill         ###   ########.fr       */
+/*   Updated: 2024/12/14 19:08:16 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,11 @@ typedef struct s_shell
 	t_token	*eco_token;
 }			t_shell;
 
-/***FUNTIONS***/
-int		check_doubles(char *str, char ltr);
-int		check_specials(char *str, char ltr);
+/***FUNTIONS AUX***/
+/*int		check_doubles(char *str, char ltr);*/
+int		check_specials(char *str, char ltr);/*
 int		parssing(t_shell **shell);
-t_env	*get_env(char **env);
+t_env	*get_env(char **env);*/
 //void	get_less_env(t_shell *shell, char *cmp);
 //void	prints(void);
 
@@ -113,9 +113,11 @@ int		start_shell(t_shell	*shell);
 /****ERORR FOUND***/
 void	error_message(char *str, t_opcode OPCODE);
 void	free_matrix(char **matrix);
+void	free_env(t_env **lst);
+void	free_token(t_token **lst);
 
 /***SIGNAL***/
-void	check_signal(int signal_received);
+void	check_signal(int sisgnal_received);
 void	handle_sigint(int signal);
 //void	handle_sigquit(int signal); quitar
 

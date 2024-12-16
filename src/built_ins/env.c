@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 17:41:18 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/13 18:01:12 by camurill         ###   ########.fr       */
+/*   Updated: 2024/12/14 19:57:37 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	print_env(t_shell *shell)
 
 	if (shell->eco_token->next != NULL)
 	{
-		printf(RED"env: ’%s’ No such file or directory\n"GBD, shell->arg[1]);
+		printf(RED"env: ’%s’ No such file or directory\n"GBD,
+			shell->eco_token->content);
 		return ;
 	}
 	aux = shell->env;
@@ -29,34 +30,37 @@ void	print_env(t_shell *shell)
 	}
 }
 
-/*void	unset_shell(t_shell *shell, char *arg)
+void	unset_shell(t_shell *shell, char *arg)
 {
-	char	*aux;
-	size_t	i;
-	size_t	j;
+	t_env	*aux;
+	t_env	*del;
 
-	i = 0;
-	j = 0;
-	if (!shell->arg[1])
+	aux = shell->env;
+	if (!shell->eco_token->next)
 		return ;
-	while (shell->env[i])
+	while (aux)
 	{
-		aux = ft_strjoin(arg, "=");
-		if (!aux)
-			return ;
-		if (!ft_strncmp(shell->env[i], aux, ft_strlen(aux)))
+		//printf("%s comparate to %s\n", aux->value, arg);
+		if (!ft_strncmp(aux->value, arg, ft_strlen(arg) + 1))
 		{
-			free(aux);
-			break ;
+            del = aux;
+            if (del->next) 
+                del->next->prev = del->prev;
+            if (del->prev)
+                  del->prev->next = del->next;
+            free(del->value);
+            free(del->content);
+            free(del);
+            return ;
 		}
-		free(aux);
-		i++;
+		aux = aux->next;
 	}
-}*/
+}
 
 void	get_export(t_shell *shell)
 {
 	t_env	*aux;
+	t_env	*new_node;
 
 	aux = shell->env;
 	if (!shell->eco_token->next)
@@ -67,15 +71,17 @@ void	get_export(t_shell *shell)
 			aux = aux->next;
 		}
 	}
-	else if (shell->eco_token->next->next)
+	else if (shell->eco_token->next->next &&
+				check_specials(shell->eco_token->next->next->content, '=') == 1)
 	{
-		if (check_specials(shell->eco_token->next->next->content, '=') == 1)
+		new_node = lstnew(shell->eco_token->next->next->content);
+		if (!new_node)
+			error_message("Create a node", CLOSE);
+		else
 		{
-			while (aux)
+			while (aux->next)
 				aux = aux->next;
-			aux = lstnew(shell->eco_token->next->next->content);//no se adiciona al final de la lista
-			if (aux)
-				aux->next = NULL;
+			aux->next = new_node;
 		}
 	}
 }
