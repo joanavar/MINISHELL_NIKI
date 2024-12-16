@@ -99,6 +99,7 @@ static void expander(t_token *token, int i, t_env *env)
 			tmp = tmp->next;
 		}
 		delete_expanser(token, j - 1, i);
+		
 	}
 }
 
@@ -119,13 +120,11 @@ void	expandir(t_token **stack, t_env *env)
 					expander(tmp, i, env);
 				i++;
 			}
-			//printf("hola\n");
 			print_token_after_expansor(tmp);
 		}
 		/*if (tmp)
 			print_token_after_expansor(tmp);*/
 		tmp = tmp->next;
-		//print_token_after_expansor(tmp);
 
 	}
 }
