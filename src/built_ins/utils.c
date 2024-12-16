@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parssing.c                                         :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 19:35:51 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/13 18:17:50 by camurill         ###   ########.fr       */
+/*   Updated: 2024/12/14 17:31:55 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,12 @@ int	check_specials(char *str, char ltr)
 	return (0);
 }
 
-int	parssing(t_shell **shell)
+/*int	parssing(t_shell **shell)
 {
 	if (check_doubles((*shell)->prompt, 34))
 		return (-1);
 	if (check_doubles((*shell)->prompt, 39))
 		return (-1);
 	return (0);
-}
+}*/
+

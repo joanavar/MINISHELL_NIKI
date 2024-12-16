@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:50:29 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/13 18:01:22 by camurill         ###   ########.fr       */
+/*   Updated: 2024/12/14 20:32:16 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ int	built_ins(t_shell *shell) //corregir errores
 		error_message("pwd: too many arguments", NO_CLOSE);
 	if (!strncmp("cd", shell->eco_token->content, 3))
 		get_cd(shell);
-	if (!strncmp("export", shell->eco_token->content, 6))
+	if (!strncmp("export", shell->eco_token->content, 7))
 		get_export(shell);
-	/*if (!strncmp("unset", shell->arg[0], 7))
-		unset_shell(shell, shell->arg[1]);
-	if (!strncmp("echo", shell->arg[0], 5))
-		get_echo(shell);*/
+	if (!strncmp("unset", shell->eco_token->content, 6))
+		unset_shell(shell, shell->eco_token->next->next->content);
+	if (!strncmp("echo", shell->eco_token->content, 5))
+		get_echo(shell);
 	return (0);
 }

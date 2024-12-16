@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 18:42:41 by joanavar          #+#    #+#             */
-/*   Updated: 2024/12/03 20:00:46 by joanavar         ###   ########.fr       */
+/*   Updated: 2024/12/13 19:17:58 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ static int    is_word(char *str, int i, t_token **stack)
     }
     j = 0;
     token = malloc(sizeof(char *) * (count + 1));
+	if (!token)
+		return (0);
     while (str[i] && !is_command(str[i]))
         token[j++] = str[i++];
     token[j] = '\0';
