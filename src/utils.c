@@ -55,7 +55,9 @@ void delete_expanser(t_token *token, int start, int end)
 	char *str;
 
 	i = ft_strlen(token->content);
-	str = malloc(sizeof(char *) * (i - (end - start)) + 1);
+	str = malloc(sizeof(char *) * (i - (end - start)) + 2);
+	if (!str)
+		return ;
 	i = -1;
 	while (++i < start)
 		str[i] = token->content[i];
@@ -64,6 +66,7 @@ void delete_expanser(t_token *token, int start, int end)
 	str[i] = '\0';
 	free(token->content);
 	token->content = str;
+	printf("despues de eliminar expansor : %s\n", token->content);
 }
 
 /*int main ()

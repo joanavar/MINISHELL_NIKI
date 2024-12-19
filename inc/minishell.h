@@ -148,7 +148,7 @@ void	remove_quotes(t_token *stack);
 int		string_type(t_token *token);
 //utils.c
 int		ft_strcmp(char *src, char *s);
-void	print_token(t_token *stack);
+void	print_token(t_token **stack);
 int		change_malloc_token(t_token *str, t_env *env, int measure);
 void 	delete_expanser(t_token *token, int start, int end);
 void	print_token_after_expansor(t_token *stack);

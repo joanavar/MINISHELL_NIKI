@@ -69,20 +69,32 @@ void	get_token(char *str, t_token **stack)
 	}
 	else
 		stack_token(token, stack);
-		
-	print_token(token);
 }
 
-void	print_token(t_token *stack)
+void	print_token(t_token **stack)
 {
+	t_token *tmp;
 
-	printf("content :%s\n", stack->content);
-	printf("type :%d\n", stack->type);
+	tmp = *stack;
+	while (tmp)
+	{
+		if (tmp->type == 0)
+		{
+			printf(" ");
+			tmp = tmp->next;
+		}
+		if (!tmp)
+			break ;
+		printf("content :%s\n", tmp->content);
+		printf("type :%d\n", tmp->type);
+		tmp = tmp->next;
+	}
 }
 void	print_token_after_expansor(t_token *stack)
 {
 		printf("content after expansor:%s\n", stack->content);
 }
+
 
 
 

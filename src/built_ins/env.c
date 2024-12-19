@@ -82,6 +82,7 @@ void	get_export(t_shell *shell)
 			while (aux->next)
 				aux = aux->next;
 			aux->next = new_node;
+			aux = new_node->prev;
 		}
 	}
 }
