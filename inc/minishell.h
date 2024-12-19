@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/14 19:08:16 by camurill         ###   ########.fr       */
+/*   Updated: 2024/12/14 20:53:57 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,9 @@ int		built_ins(t_shell *shell);
 /***ENV ***/
 t_env	*lstnew(char *content);
 t_env	*get_env(char **env);
+
+/*** EXECUTOR ***/
+void	exec_ve(t_shell *shell);
 
 /***NAVARRO_FUNCTIONS***/
 //lectur.c
