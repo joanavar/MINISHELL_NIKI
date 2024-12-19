@@ -115,6 +115,8 @@ void	expandir(t_token **stack, t_env *env)
 		i = 0;
 		if (tmp->type == 0)
 			tmp = tmp->next;
+		if (!tmp)
+			return ;
 		if (tmp->type == 1 || tmp->type == 3)
 		{
 			while (tmp->content[i])
