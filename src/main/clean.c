@@ -27,7 +27,6 @@ void	clean_data(t_shell **shell)
 		free_matrix((*shell)->arg);
 	free((*shell));
 }
-
 void	free_matrix(char **matrix)
 {
 	size_t	i;

@@ -26,13 +26,48 @@ int	string_type(t_token *token)
 		return (0);
 }
 
-/*void	remove_quotes(t_token *stack)
+static void		count_quotes(t_token *token)
+{
+	int i;
+	char tmp;
+	int count;
+	
+	count = 0;
+	i = -1;
+	
+	while (token->content[++i])
+	{
+		while (token->content[i])
+		{
+			if (token->content[i] == '\"' || token->content[i] == '\'')
+			{
+				tmp = token->content[i];
+				i++;
+				break ;
+			}
+			i++;
+			count++;
+		}
+		while (token->content[i])
+		{
+			if (token->content[i] == tmp)
+				break ;
+			i++;
+			count++;
+		}
+	}
+	printf("%d\n", count);
+}
+
+void	remove_quotes(t_token *stack)
 {
 	t_token *tmp;
 	char	*tmp_content;
 
 	while(stack)
 	{
+		if (!stack->next)
+			break ;
 		if (string_type(stack) && string_type(stack->next))
 		{
 			tmp = stack->next; // guardo referencia 2do nodo
@@ -42,8 +77,11 @@ int	string_type(t_token *token)
 			free(tmp_content); // libero 1ra string simple
 			free(tmp->content); // libero 2da string simple
 			free(tmp); // libero segundo nodo
+			count_quotes(stack);
 		}
 		else
 			stack = stack->next;
 	}
-}*/
+	if (stack->type == 0)
+		stack = stack->prev;
+}

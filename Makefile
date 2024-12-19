@@ -1,72 +1,101 @@
 ###############################################################################
-#								STANDARS	 								  #
+#                                STANDARDS                                      #
 ###############################################################################
-NAME 		= 		minishell
-RM 			= 		rm -rf
-INCLUDE		=		inc/minishell.h
-SRC_DIR		=		src/
-OBJ_DIR		=		obj/
-LIBFT		=		Libreries/Libft
-LIBFT_A		=		$(LIBFT)/libft.a
+NAME        =       minishell
+RM          =       rm -rf
+INCLUDE     =       inc/minishell.h
+SRC_DIR     =       src/
+OBJ_DIR     =       obj/
+LIBFT       =       Libreries/Libft
+LIBFT_A     =       $(LIBFT)/libft.a
 
 ###############################################################################
-#								COMPILER	  								  #
+#                                COMPILER                                      #
 ###############################################################################
 
-CC 			= 		cc
-CCFLAGS		= 		-g -fsanitize=address #-Wall -Wextra -Werror -fsanitize=address
-READLINE	=		-lreadline
+CC          =       cc
+CCFLAGS     =       -g -fsanitize=address #-Wall -Wextra -Werror -fsanitize=address
+READLINE    =       -lreadline
 
 ###############################################################################
-#									SRC    									  #
+#                                    SRC                                        #
 ###############################################################################
 
-SRC_FILES	=	main/main.c \
-				main/start_shell.c \
-				main/get_env.c \
-				main/clean.c \
-				signal/signal.c \
-				built_ins/cd_pwd.c \
-				built_ins/built_ins.c \
-				built_ins/echo.c \
-				built_ins/env.c \
-				built_ins/utils.c \
-				lectur.c \
-				token.c \
-				string.c \
-				remove_quotes.c \
-				utils.c \
-				syntax_error.c \
-				expansor.c
+SRC_FILES   =       main/main.c \
+                    main/start_shell.c \
+                    main/get_env.c \
+                    main/clean.c \
+                    signal/signal.c \
+                    built_ins/cd_pwd.c \
+                    built_ins/built_ins.c \
+                    built_ins/echo.c \
+                    built_ins/env.c \
+                    built_ins/utils.c \
+                    lectur.c \
+                    token.c \
+                    string.c \
+                    remove_quotes.c \
+                    utils.c \
+                    syntax_error.c \
+                    expansor.c
 
-OBJS		=	$(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))
+OBJS        =       $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))
 
 ###############################################################################
-#								RULES	      								  #
+#                                RULES                                           #
 ###############################################################################
 
-all: $(NAME)
+all: header $(NAME)
+
+header:
+	@echo "\033[35m";
+	@echo "############################################################";
+	@echo "#                     🚀 COMPILANDO MINISHELL 🚀            #";
+	@echo "#----------------------------------------------------------#";
+	@echo "# Proyecto: Minishell                                      #";
+	@echo "# Autor: [Niki]                                       #";
+	@echo "# Fecha: $(shell date '+%Y-%m-%d %H:%M:%S')                #";
+	@echo "# ¡Disfruta del viaje al mundo de los shells personalizados! #";
+	@echo "############################################################";
+	@echo "\033[0m";
+	@echo "\033[36m";
+	@echo "        \033[1;32m(O_O)\033[0m    ||    \033[1;32m(O_O)\033[0m                   ";
+	@echo "       \033[1;33m/ |  | \ \033[0m || \033[1;33m/ |  | \ \033[0m           ";
+	@echo "       \033[1;34m| |__| |\033[0m  || \033[1;34m| |__| |\033[0m           ";
+	@echo "        \033[1;35m\____/\033[0m   ||  \033[1;35m\____/\033[0m   ";
+	@echo
+	@echo "        \033[1;32m(O_O)\033[0m    ||    \033[1;32m(O_O)\033[0m                   ";
+	@echo "       \033[1;33m/ |  | \ \033[0m || \033[1;33m/ |  | \ \033[0m           ";
+	@echo "       \033[1;34m| |__| |\033[0m  || \033[1;34m| |__| |\033[0m           ";
+	@echo "        \033[1;35m\____/\033[0m   ||  \033[1;35m\____/\033[0m   ";
+	@echo "\033[0m";
+	@echo "       \033[1;32mW E L C O M E\033[0m  \033[1;33mT O\033[0m \033[1;34mM I N I S H E L L\033[0m 🌟🔥         ";
+	@echo "       🚀 ¡Listo para compilar tu Shell! 🚀                      ";
+	@echo "     \033[1;33m💻 Codificando... 📜\033[0m             ";
+	@echo "    \033[1;34m🎩 Ejecutando la magia... 🪄\033[0m         ";
+	@echo "      \033[1;35m🌟 ¡Listo para compilar! 🖥️\033[0m        ";
+	@echo "\033[0m";
 
 $(NAME): $(OBJS) $(LIBFT_A)
-	@echo "Compiling $(NAME)..."
+	@echo "\033[32m💻 Compiling $(NAME)...\033[0m"
 	@$(CC) $(CCFLAGS) $(OBJS) $(LIBFT_A) -o $(NAME) $(READLINE)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(INCLUDE)
-	@echo "Compiling $<..."
+	@echo "\033[33m🔧 Compiling $<...\033[0m"
 	@mkdir -p $(dir $@)
 	@$(CC) $(CCFLAGS) -c $< -o $@
 
 $(LIBFT_A):
-	@echo "Building libft..."
+	@echo "\033[34m📚 Building libft...\033[0m"
 	@make -C $(LIBFT) --no-print-directory
 
 clean:
-	@echo "Cleaning objects..."
+	@echo "\033[31m🧹 Cleaning objects...\033[0m"
 	@make -C $(LIBFT) clean --no-print-directory
 	@$(RM) $(OBJ_DIR)
 
 fclean: clean
-	@echo "Cleaning binary..."
+	@echo "\033[31m🧼 Cleaning binary...\033[0m"
 	@make -C $(LIBFT) fclean --no-print-directory
 	@$(RM) $(NAME)
 

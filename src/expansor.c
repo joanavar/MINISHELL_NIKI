@@ -78,6 +78,8 @@ static void expander(t_token *token, int i, t_env *env)
 	int len;
 	t_env *tmp;
 
+	/*if (i != 0 && token->type == 1 && token->content[i - 1] == '\'')
+		return ;*/
 	i++;
 	if (token->content[i] == '$')
 		return ;
@@ -111,22 +113,24 @@ void	expandir(t_token **stack, t_env *env)
 	while (tmp)
 	{
 		i = 0;
+		if (tmp->type == 0)
+			tmp = tmp->next;
+		if (!tmp)
+			return ;
 		if (tmp->type == 1 || tmp->type == 3)
 		{
 			while (tmp->content[i])
 			{
 				if (tmp->content[i] == '$')
+				{
 					expander(tmp, i, env);
+					continue ;
+				}
 				i++;
 			}
-			//printf("hola\n");
-			print_token_after_expansor(tmp);
 		}
-		/*if (tmp)
-			print_token_after_expansor(tmp);*/
+		print_token_after_expansor(tmp);
 		tmp = tmp->next;
-		//print_token_after_expansor(tmp);
-
 	}
 }
 //tengo que devolver el valor de i justo al cambiar el expansor para poder seguir haciendo el bucle;

@@ -84,6 +84,8 @@ t_token	*lectur_imput(char *str, t_env *env)
 	if (syntax_error(&stack))
 		return NULL;
 	expandir(&stack, env);
+	remove_quotes(stack);
+	print_token(&stack);
 	return (stack);
 
 	/*for (t_token *tmp = *stack; tmp; tmp = tmp->next)
