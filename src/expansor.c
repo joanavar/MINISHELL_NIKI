@@ -129,7 +129,7 @@ void	expandir(t_token **stack, t_env *env)
 				i++;
 			}
 		}
-		print_token_after_expansor(tmp);
+		//print_token_after_expansor(tmp);
 		tmp = tmp->next;
 	}
 }

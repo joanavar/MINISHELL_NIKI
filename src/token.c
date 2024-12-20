@@ -78,9 +78,9 @@ void	print_token(t_token **stack)
 	tmp = *stack;
 	while (tmp)
 	{
-		if (tmp->type == 0)
+		while (tmp && tmp->type == 0)
 		{
-			printf(" ");
+			printf(" \n");
 			tmp = tmp->next;
 		}
 		if (!tmp)

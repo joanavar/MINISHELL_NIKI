@@ -26,16 +26,16 @@ int	string_type(t_token *token)
 		return (0);
 }
 
-static void		count_quotes(t_token *token)
+static int		count_quotes(t_token *token)
 {
 	int i;
 	char tmp;
 	int count;
 	
 	count = 0;
-	i = -1;
+	i = 0;
 	
-	while (token->content[++i])
+	while (token->content[i])
 	{
 		while (token->content[i])
 		{
@@ -51,12 +51,57 @@ static void		count_quotes(t_token *token)
 		while (token->content[i])
 		{
 			if (token->content[i] == tmp)
+			{
+				i++;
 				break ;
+			}
 			i++;
 			count++;
 		}
 	}
-	printf("%d\n", count);
+	printf("la nueva string tendra de memoria :%d\n", count);
+	return (count);
+}
+
+static void quotes_correct(t_token *token)
+{
+	char *str;
+	int i;
+	char tmp;
+	int j;
+
+	i = count_quotes(token);
+	str = malloc(sizeof(char *) * (i + 1));
+	i = 0;
+	j = 0;
+	while (token->content[i])
+	{
+		while (token->content[i] && !(token->content[i] == '\"' || 
+				token->content[i] == '\''))
+				str[j++] = token->content[i++];
+		if (!token->content[i])
+			break;
+		if (i == 0 || (token->content[i - 1] == '\"' || 
+				token->content[i - 1] == '\''))
+			tmp = token->content[i];
+		else 
+			tmp = token->content[i - 1];
+		i++;
+		//printf("valor j :%d\n", j);
+		while(token->content[i] && token->content[i] != tmp)
+		{
+			str[j++] = token->content[i++];
+			//printf("VALOR DE J :%d\n", j);
+		}
+		tmp = 0;
+		i++;
+		if (!token->content[i])
+			break;
+	}
+	str[j] = '\0';
+	//printf ("mi content nuevo es :%s\n", str);
+	free(token->content);
+	token->content = str;
 }
 
 void	remove_quotes(t_token *stack)
@@ -77,7 +122,7 @@ void	remove_quotes(t_token *stack)
 			free(tmp_content); // libero 1ra string simple
 			free(tmp->content); // libero 2da string simple
 			free(tmp); // libero segundo nodo
-			count_quotes(stack);
+			quotes_correct(stack);
 		}
 		else
 			stack = stack->next;
