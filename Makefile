@@ -77,8 +77,13 @@ header:
 	@echo "\033[0m";
 
 $(NAME): $(OBJS) $(LIBFT_A)
+<<<<<<< Updated upstream
 	@echo "\033[32m💻 Compiling $(NAME)...\033[0m"
 	@$(CC) $(CCFLAGS) $(OBJS) $(LIBFT_A) -o $(NAME) $(READLINE)
+=======
+	@echo "Compiling $(NAME)..."
+	@$(CC) $(CCFLAGS) $(OBJS)  $(LIBFT_A) -o $(NAME) $(READLINE)
+>>>>>>> Stashed changes
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(INCLUDE)
 	@echo "\033[33m🔧 Compiling $<...\033[0m"
