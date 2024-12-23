@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 18:42:41 by joanavar          #+#    #+#             */
-/*   Updated: 2024/12/13 19:17:58 by camurill         ###   ########.fr       */
+/*   Updated: 2024/12/23 19:16:20 by joannavarro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ static int	is_quotes(char *str, int i, t_token **stack, char quote)
 	token[j++] = quote;
 	token[j] = '\0';
 	get_token(token, stack);
-	//free(token);
 	return (++i);
 }
 

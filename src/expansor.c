@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joanavar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 16:17:46 by joanavar          #+#    #+#             */
-/*   Updated: 2024/12/03 20:00:01 by joanavar         ###   ########.fr       */
+/*   Updated: 2024/12/23 18:42:10 by joannavarro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,6 @@ static void exchange_expanser(t_token *token, t_env *env, int start, int end)
 	str[i] = '\0';
 	free(token->content);
 	token->content = str;
-
-//Tengo que hacerle malloc, nse si se libera bien asi tengo que comprobar proximo dia !!!!!;
-//Tengo mi contenido modificado despues de expandir ahora tendria que sustituir el contenido de mi token por mi nueva str;
-//getenv;
-//measure es la medida de lo que vamos a cambiar
-
 }
 static void expander(t_token *token, int i, t_env *env)
 {
@@ -78,8 +72,6 @@ static void expander(t_token *token, int i, t_env *env)
 	int len;
 	t_env *tmp;
 
-	/*if (i != 0 && token->type == 1 && token->content[i - 1] == '\'')
-		return ;*/
 	i++;
 	if (token->content[i] == '$')
 		return ;
@@ -129,7 +121,6 @@ void	expandir(t_token **stack, t_env *env)
 				i++;
 			}
 		}
-		//print_token_after_expansor(tmp);
 		tmp = tmp->next;
 	}
 }

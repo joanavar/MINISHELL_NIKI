@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 16:45:08 by joanavar          #+#    #+#             */
-/*   Updated: 2024/12/12 16:26:49 by joanavar         ###   ########.fr       */
+/*   Updated: 2024/12/23 18:55:32 by joannavarro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,17 +69,44 @@ void delete_expanser(t_token *token, int start, int end)
 	printf("despues de eliminar expansor : %s\n", token->content);
 }
 
-/*int main ()
+void	union_string(t_token *stack)
 {
-	const char *src = "PATH";
-	char *s = "USER";
-	if (ft_strcmp(src, s))
-		printf("Son iguales");
-	else if (!ft_strcmp(src, s))
-		printf("No son iguales");
-	else 
-		printf("Algo va mal");
-	return (0);
+	t_token *tmp;
+	char	*tmp_content;
+
+	tmp = stack->next; // guardo referencia 2do nodo
+	tmp_content = stack->content; // guardo referencia 1ra string
+	stack->content = ft_strjoin(stack->content, stack->next->content); // fusiono 1era y 2da string, pierdoo referencia 1ra
+	stack->next = tmp->next; //asigno siguiente nodo al 3r
+	free(tmp_content); // libero 1ra string simple
+	free(tmp->content); // libero 2da string simple
+	free(tmp); // libero segundo nodo
 }
-*/
+
+void	delete_quotes(t_token *token, char *str, int i, int j)
+{
+	char tmp;
+
+	while (token->content[i])
+	{
+		while (token->content[i] && !(token->content[i] == '\"' || 
+				token->content[i] == '\''))
+				str[j++] = token->content[i++];
+		if (!token->content[i])
+			break;
+		if (i == 0 || (token->content[i] == '\"' || 
+				token->content[i] == '\''))
+			tmp = token->content[i];
+		else 
+			tmp = token->content[i - 1];
+		i++;
+		while(token->content[i] && token->content[i] != tmp)
+			str[j++] = token->content[i++];
+		tmp = 0;
+		i++;
+		if (!token->content[i])
+			break;
+	}
+	str[j] = '\0';
+}
 

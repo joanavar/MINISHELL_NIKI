@@ -6,7 +6,7 @@
 /*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/23 17:10:10 by joannavarro      ###   ########.fr       */
+/*   Updated: 2024/12/23 19:14:29 by joannavarro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,11 @@ void	print_token(t_token **stack);
 int		change_malloc_token(t_token *str, t_env *env, int measure);
 void 	delete_expanser(t_token *token, int start, int end);
 void	print_token_after_expansor(t_token *stack);
+void	union_string(t_token *stack);
+void	delete_quotes(t_token *token, char *str, int i, int j);
+int 	count_quotes_utils(t_token *token, int i, int count, char tmp);
+
+
 
 //syntax_error.c
 int		syntax_error(t_token **stack);

@@ -37,6 +37,7 @@ SRC_FILES   =       main/main.c \
                     remove_quotes.c \
                     utils.c \
                     syntax_error.c \
+					utils_tokens.c \
                     expansor.c
 
 OBJS        =       $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))
