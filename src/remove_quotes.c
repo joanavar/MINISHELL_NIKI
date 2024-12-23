@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:34:47 by joanavar          #+#    #+#             */
-/*   Updated: 2024/12/03 20:00:35 by joanavar         ###   ########.fr       */
+/*   Updated: 2024/12/23 17:08:31 by joannavarro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,32 +74,35 @@ static void quotes_correct(t_token *token)
 	str = malloc(sizeof(char *) * (i + 1));
 	i = 0;
 	j = 0;
+	printf("mi content es :%s\n", token->content);
 	while (token->content[i])
 	{
 		while (token->content[i] && !(token->content[i] == '\"' || 
 				token->content[i] == '\''))
 				str[j++] = token->content[i++];
+		printf("i vale :%d\n", i);
 		if (!token->content[i])
 			break;
-		if (i == 0 || (token->content[i - 1] == '\"' || 
-				token->content[i - 1] == '\''))
+		if (i == 0 || (token->content[i] == '\"' || 
+				token->content[i] == '\''))
 			tmp = token->content[i];
 		else 
 			tmp = token->content[i - 1];
+		printf("letra tmp :%c\n", tmp);
 		i++;
-		//printf("valor j :%d\n", j);
+		printf("i vale :%d\n", i);
 		while(token->content[i] && token->content[i] != tmp)
-		{
 			str[j++] = token->content[i++];
-			//printf("VALOR DE J :%d\n", j);
-		}
+		printf("i vale :%d\n", i);
 		tmp = 0;
 		i++;
+		printf("valor i :%d\n", i);
+		printf("valor J :%d\n", j);
 		if (!token->content[i])
 			break;
 	}
 	str[j] = '\0';
-	//printf ("mi content nuevo es :%s\n", str);
+	printf ("mi content nuevo es :%s\n", str);
 	free(token->content);
 	token->content = str;
 }
@@ -124,9 +127,16 @@ void	remove_quotes(t_token *stack)
 			free(tmp); // libero segundo nodo
 			quotes_correct(stack);
 		}
-		else
+		else if (string_type(stack))
+		{
+			quotes_correct(stack);
+			stack = stack->next;
+		}
+		else 
 			stack = stack->next;
 	}
-	if (stack->type == 0)
-		stack = stack->prev;
+	if (!(stack->next) && string_type(stack))
+		quotes_correct(stack);
+	//if (stack->type == 0)
+	//	stack = stack->prev;
 }

@@ -6,14 +6,14 @@
 /*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/20 20:03:30 by joannavarro      ###   ########.fr       */
+/*   Updated: 2024/12/23 17:10:10 by joannavarro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-//# define _POSIX_C_SOURCE 200809L
+# define _POSIX_C_SOURCE 200809L
 
 # include <stdio.h> //printf-perror
 # include <stdlib.h> //malloc-free-getenv

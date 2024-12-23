@@ -14,8 +14,8 @@ LIBFT_A     =       $(LIBFT)/libft.a
 ###############################################################################
 
 CC          =       cc
-CCFLAGS     =       -g -fsanitize=address #-Wall -Wextra -Werror -fsanitize=address
-READLINE    =       -lreadline
+CCFLAGS     =       -g -fsanitize=address -I/usr/local/Cellar/readline/8.2.13/include #-Wall -Wextra -Werror -fsanitize=address
+READLINE    =       -L/usr/local/Cellar/readline/8.2.13/lib -lreadline
 
 ###############################################################################
 #                                    SRC                                        #
@@ -77,13 +77,8 @@ header:
 	@echo "\033[0m";
 
 $(NAME): $(OBJS) $(LIBFT_A)
-<<<<<<< Updated upstream
 	@echo "\033[32m💻 Compiling $(NAME)...\033[0m"
 	@$(CC) $(CCFLAGS) $(OBJS) $(LIBFT_A) -o $(NAME) $(READLINE)
-=======
-	@echo "Compiling $(NAME)..."
-	@$(CC) $(CCFLAGS) $(OBJS)  $(LIBFT_A) -o $(NAME) $(READLINE)
->>>>>>> Stashed changes
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(INCLUDE)
 	@echo "\033[33m🔧 Compiling $<...\033[0m"
