@@ -12,7 +12,7 @@
 
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 //#include "paquito.h"
 
 static void    is_caracter_token(char c, t_token **stack)
@@ -87,6 +87,6 @@ t_token	*lectur_imput(char *str, t_env *env)
 		return NULL;
 	expandir(&stack, env);
 	remove_quotes(stack);
-	print_token(&stack);
+	//print_token(&stack);
 	return (stack);
 }

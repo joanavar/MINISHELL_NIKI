@@ -20,5 +20,6 @@ int	start_shell(t_shell *shell)
 	shell->eco_token = lectur_imput(shell->prompt, shell->env);
 	if (!shell->eco_token)
 		return (-1);
+	executor(shell);
 	return (0);
 }

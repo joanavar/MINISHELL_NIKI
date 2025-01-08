@@ -173,4 +173,5 @@ int	syntax_pipe_or_redi(t_token *token);
 //int		correct_expansor(t_token *token, int i);
 //void	expander(t_token *token, int i, t_env **env);
 void	expandir(t_token **stack, t_env *env);
+void	executor(t_shell *shell);
 #endif

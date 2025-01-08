@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 //#include "paquito.h"
 
 int	ft_strcmp(char *src, char *s)
