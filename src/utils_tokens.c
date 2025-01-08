@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_tokens.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joanavar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/08 17:11:34 by joanavar          #+#    #+#             */
+/*   Updated: 2025/01/08 17:11:37 by joanavar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
-int count_quotes_utils(t_token *token, int i, int count, char tmp)
+int	count_quotes_utils(t_token *token, int i, int count, char tmp)
 {
-    while (token->content[i])
+	while (token->content[i])
 	{
 		while (token->content[i])
 		{
@@ -27,4 +39,28 @@ int count_quotes_utils(t_token *token, int i, int count, char tmp)
 		}
 	}
 	return (count);
+}
+
+int	opcion_syntax(t_token *tmp)
+{
+	if (tmp->type == 4)
+	{
+		printf("error syntax\n");
+		return (0);
+	}
+	while (tmp)
+	{
+		if ((tmp->type == 4 || redir_type(tmp)))
+		{
+			if (syntax_pipe_or_redi(tmp))
+				return (1);
+		}
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
+void	print_token_after_expansor(t_token *stack)
+{
+	printf("content after expansor:%s\n", stack->content);
 }

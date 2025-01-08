@@ -22,28 +22,28 @@ int	string_type(t_token *token)
 		return (1);
 	else if (token->type == 3)
 		return (1);
-	else 
+	else
 		return (0);
 }
 
-static int		count_quotes(t_token *token)
+static int	count_quotes(t_token *token)
 {
-	int i;
-	char tmp;
-	int count;
-	
+	int		i;
+	char	tmp;
+	int		count;
+
 	count = 0;
 	i = 0;
 	count = count_quotes_utils(token, i, count, tmp);
 	return (count);
 }
 
-static void quotes_correct(t_token *token)
+static void	quotes_correct(t_token *token)
 {
-	char *str;
-	int i;
-	char tmp;
-	int j;
+	char	*str;
+	int		i;
+	char	tmp;
+	int		j;
 
 	i = count_quotes(token);
 	str = malloc(sizeof(char *) * (i + 1));
@@ -56,7 +56,7 @@ static void quotes_correct(t_token *token)
 
 void	remove_quotes(t_token *stack)
 {
-	while(stack)
+	while (stack)
 	{
 		if (!stack->next)
 			break ;
@@ -70,11 +70,9 @@ void	remove_quotes(t_token *stack)
 			quotes_correct(stack);
 			stack = stack->next;
 		}
-		else 
+		else
 			stack = stack->next;
 	}
 	if (!(stack->next) && string_type(stack))
 		quotes_correct(stack);
-	//if (stack->type == 0)
-	//	stack = stack->prev;
 }

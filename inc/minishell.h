@@ -165,6 +165,9 @@ int 	count_quotes_utils(t_token *token, int i, int count, char tmp);
 //syntax_error.c
 int		syntax_error(t_token **stack);
 int		redir_type(t_token *token);
+int		opcion_syntax(t_token *tmp);
+int	syntax_pipe_or_redi(t_token *token);
+
 // expasor.c
 //int		close_expansor(t_token *token, int i);
 //int		correct_expansor(t_token *token, int i);

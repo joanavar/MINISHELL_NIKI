@@ -13,9 +13,9 @@
 #include "../inc/minishell.h"
 //#include "paquito.h"
 
-int ft_strcmp(char *src, char *s)
+int	ft_strcmp(char *src, char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (src[i] && src[i] == s[i])
@@ -25,12 +25,12 @@ int ft_strcmp(char *src, char *s)
 	return (0);
 }
 
-int change_malloc_token(t_token *str, t_env *env, int measure)
+int	change_malloc_token(t_token *str, t_env *env, int measure)
 {
-	int i;
-	int j;
-	int total;
-	int res;
+	int	i;
+	int	j;
+	int	total;
+	int	res;
 
 	i = ft_strlen(str->content);
 	j = ft_strlen(env->content);
@@ -44,15 +44,15 @@ int change_malloc_token(t_token *str, t_env *env, int measure)
 		res = j - measure;
 		total = i + res;
 	}
-	else 
+	else
 		total = i;
 	return (total);
 }
 
-void delete_expanser(t_token *token, int start, int end)
+void	delete_expanser(t_token *token, int start, int end)
 {
-	int i;
-	char *str;
+	int		i;
+	char	*str;
 
 	i = ft_strlen(token->content);
 	str = malloc(sizeof(char *) * (i - (end - start)) + 2);
@@ -71,42 +71,41 @@ void delete_expanser(t_token *token, int start, int end)
 
 void	union_string(t_token *stack)
 {
-	t_token *tmp;
+	t_token	*tmp;
 	char	*tmp_content;
 
-	tmp = stack->next; // guardo referencia 2do nodo
-	tmp_content = stack->content; // guardo referencia 1ra string
-	stack->content = ft_strjoin(stack->content, stack->next->content); // fusiono 1era y 2da string, pierdoo referencia 1ra
-	stack->next = tmp->next; //asigno siguiente nodo al 3r
-	free(tmp_content); // libero 1ra string simple
-	free(tmp->content); // libero 2da string simple
-	free(tmp); // libero segundo nodo
+	tmp = stack->next;
+	tmp_content = stack->content;
+	stack->content = ft_strjoin(stack->content, stack->next->content);
+	stack->next = tmp->next;
+	free(tmp_content);
+	free(tmp->content);
+	free(tmp);
 }
 
 void	delete_quotes(t_token *token, char *str, int i, int j)
 {
-	char tmp;
+	char	tmp;
 
 	while (token->content[i])
 	{
-		while (token->content[i] && !(token->content[i] == '\"' || 
-				token->content[i] == '\''))
-				str[j++] = token->content[i++];
+		while (token->content[i] && !(token->content[i] == '\"'
+				|| token->content[i] == '\''))
+			str[j++] = token->content[i++];
 		if (!token->content[i])
-			break;
-		if (i == 0 || (token->content[i] == '\"' || 
-				token->content[i] == '\''))
+			break ;
+		if (i == 0 || (token->content[i] == '\"'
+				|| token->content[i] == '\''))
 			tmp = token->content[i];
-		else 
+		else
 			tmp = token->content[i - 1];
 		i++;
-		while(token->content[i] && token->content[i] != tmp)
+		while (token->content[i] && token->content[i] != tmp)
 			str[j++] = token->content[i++];
 		tmp = 0;
 		i++;
 		if (!token->content[i])
-			break;
+			break ;
 	}
 	str[j] = '\0';
 }
-
