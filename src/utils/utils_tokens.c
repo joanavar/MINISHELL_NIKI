@@ -64,3 +64,19 @@ void	print_token_after_expansor(t_token *stack)
 {
 	printf("content after expansor:%s\n", stack->content);
 }
+
+void	print_line(t_token *tmp)
+{
+	while (tmp != NULL)
+	{
+		if (string_type(tmp))
+			printf("%s" ,tmp->content);
+		else if (tmp->type == 0)
+			printf(" ");
+		else if (tmp->type == 4)
+			printf("|");
+		tmp = tmp->next;
+	}
+	printf("\n");
+	
+}

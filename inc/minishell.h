@@ -159,6 +159,8 @@ void	print_token_after_expansor(t_token *stack);
 void	union_string(t_token *stack);
 void	delete_quotes(t_token *token, char *str, int i, int j);
 int 	count_quotes_utils(t_token *token, int i, int count, char tmp);
+void	print_line(t_token *tmp);
+
 
 
 

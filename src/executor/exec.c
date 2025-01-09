@@ -17,21 +17,8 @@ void	executor(t_shell *shell)
 	(void)shell;
 	int i = 0;
 	t_token *tmp = shell->eco_token;
-
-	while (tmp != NULL)
-	{
-		if (string_type(tmp))
-			printf("%s" ,tmp->content);
-			//printf("%d: %zu\n", i, ft_strlen(tmp->content));
-		else if (tmp->type == 0)
-			printf(" ");
-		else if (tmp->type == 4)
-			printf("|");
-		tmp = tmp->next;
-		//i++;
-	}
-	printf("\n");
 	
+	print_line(tmp);
 	//crear pipes
 }
 
