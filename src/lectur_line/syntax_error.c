@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include "../inc/minishell.h"
-//#include "paquito.h"
+#include "../../inc/minishell.h"
 
 int	redir_type(t_token *token)
 {
@@ -24,9 +22,8 @@ int	redir_type(t_token *token)
 		return (1);
 	else if (token->type == 8)
 		return (1);
-	else 
+	else
 		return (0);
-
 }
 
 static int	syntax_pipe(t_token *token)
@@ -39,18 +36,18 @@ static int	syntax_pipe(t_token *token)
 	else if (token->type == 4 && (token->next->type == 0))
 	{
 		token = token->next;
-		while(token->type == 0)
+		while (token->type == 0)
 			token = token->next;
 		if (token->type == 4)
 		{
 			printf("Error Syntax pipe\n");
 			return (1);
 		}
-	} 
+	}
 	return (0);
 }
 
-static int syntax_redi(t_token *token)
+static int	syntax_redi(t_token *token)
 {
 	if (redir_type(token) && redir_type(token->next))
 	{
@@ -70,19 +67,21 @@ static int syntax_redi(t_token *token)
 	}
 	return (0);
 }
-static int syntax_pipe_or_redi(t_token *token)
+
+int	syntax_pipe_or_redi(t_token *token)
 {
 	if (syntax_pipe(token))
 		return (1);
 	else if (syntax_redi(token))
 		return (1);
-	else 
+	else
 		return (0);
 }
 
 int	syntax_error(t_token **stack)
 {
-	t_token *tmp;
+	t_token	*tmp;
+
 	if (!(*stack))
 		return (-1);
 	tmp = find_last(*stack);
@@ -91,21 +90,9 @@ int	syntax_error(t_token **stack)
 		printf("ERROR SYNTAX\n");
 		return (0);
 	}
-	else 
+	else
 		tmp = *stack;
-		if (tmp->type == 4)
-		{
-		printf("error syntax\n");
-		return (0);
-		}
-		while (tmp)
-		{
-			if ((tmp->type == 4 || redir_type(tmp)))
-			{
-				if(syntax_pipe_or_redi(tmp))
-					return (1);
-			}
-			tmp = tmp->next;
-		}
-		return (0);
+	if (opcion_syntax(tmp))
+		return (1);
+	return (0);
 }

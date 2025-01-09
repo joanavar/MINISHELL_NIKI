@@ -21,7 +21,7 @@ void	get_pwd(void)
 	else
 		perror("pwd");
 }
-//ToDo
+
 void	get_cd(t_shell *shell)
 {
 	if (shell->eco_token->next == NULL)

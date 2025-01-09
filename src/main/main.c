@@ -56,7 +56,7 @@ int	main(int ac, char **ag, char **env)
 		}
 		if (*shell->prompt && start_shell(shell) == -1)
 			error_message("Syntax Error", NO_CLOSE);
-		if (*shell->prompt && built_ins(shell) == -1)
+		if (*shell->prompt && built_ins(shell) == -1) // se hace en el hijo o justo antes si es solo uno
 			break ;
 		add_history(shell->prompt);
 		free(shell->prompt);

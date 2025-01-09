@@ -14,8 +14,8 @@ LIBFT_A     =       $(LIBFT)/libft.a
 ###############################################################################
 
 CC          =       cc
-CCFLAGS     =       -g -fsanitize=address #-Wall -Wextra -Werror -fsanitize=address
-READLINE    =       -lreadline
+CCFLAGS     =       -g -fsanitize=address -I/usr/local/Cellar/readline/8.2.13/include #-Wall -Wextra -Werror -fsanitize=address
+READLINE    =       -L/usr/local/Cellar/readline/8.2.13/lib -lreadline
 
 ###############################################################################
 #                                    SRC                                        #
@@ -31,13 +31,15 @@ SRC_FILES   =       main/main.c \
                     built_ins/echo.c \
                     built_ins/env.c \
                     built_ins/utils.c \
-                    lectur.c \
-                    token.c \
-                    string.c \
-                    remove_quotes.c \
-                    utils.c \
-                    syntax_error.c \
-                    expansor.c
+                    lectur_line/lectur.c \
+                    lectur_line/token.c \
+                    lectur_line/string.c \
+                    operations_line/remove_quotes.c \
+                    utils/utils.c \
+                    lectur_line/syntax_error.c \
+					utils/utils_tokens.c \
+                    operations_line/expansor.c \
+					executor/exec.c
 
 OBJS        =       $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))
 

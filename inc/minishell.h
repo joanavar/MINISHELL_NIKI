@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/14 20:53:57 by camurill         ###   ########.fr       */
+/*   Updated: 2024/12/23 19:14:29 by joannavarro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# define _POSIX_C_SOURCE 200809L
 
 # include <stdio.h> //printf-perror
 # include <stdlib.h> //malloc-free-getenv
@@ -155,13 +156,24 @@ void	print_token(t_token **stack);
 int		change_malloc_token(t_token *str, t_env *env, int measure);
 void 	delete_expanser(t_token *token, int start, int end);
 void	print_token_after_expansor(t_token *stack);
+void	union_string(t_token *stack);
+void	delete_quotes(t_token *token, char *str, int i, int j);
+int 	count_quotes_utils(t_token *token, int i, int count, char tmp);
+void	print_line(t_token *tmp);
+
+
+
 
 //syntax_error.c
 int		syntax_error(t_token **stack);
 int		redir_type(t_token *token);
+int		opcion_syntax(t_token *tmp);
+int	syntax_pipe_or_redi(t_token *token);
+
 // expasor.c
 //int		close_expansor(t_token *token, int i);
 //int		correct_expansor(t_token *token, int i);
 //void	expander(t_token *token, int i, t_env **env);
 void	expandir(t_token **stack, t_env *env);
+void	executor(t_shell *shell);
 #endif
