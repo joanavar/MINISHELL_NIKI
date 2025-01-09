@@ -1,0 +1,78 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   remove_quotes.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/19 17:34:47 by joanavar          #+#    #+#             */
+/*   Updated: 2024/12/23 19:14:08 by joannavarro      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../inc/minishell.h"
+
+//#include "paquito.h"
+
+int	string_type(t_token *token)
+{
+	if (token->type == 1)
+		return (1);
+	else if (token->type == 2)
+		return (1);
+	else if (token->type == 3)
+		return (1);
+	else
+		return (0);
+}
+
+static int	count_quotes(t_token *token)
+{
+	int		i;
+	char	tmp;
+	int		count;
+
+	count = 0;
+	i = 0;
+	count = count_quotes_utils(token, i, count, tmp);
+	return (count);
+}
+
+static void	quotes_correct(t_token *token)
+{
+	char	*str;
+	int		i;
+	char	tmp;
+	int		j;
+
+	i = count_quotes(token);
+	str = malloc(sizeof(char *) * (i + 1));
+	i = 0;
+	j = 0;
+	delete_quotes(token, str, i, j);
+	free(token->content);
+	token->content = str;
+}
+
+void	remove_quotes(t_token *stack)
+{
+	while (stack)
+	{
+		if (!stack->next)
+			break ;
+		if (string_type(stack) && string_type(stack->next))
+		{
+			union_string(stack);
+			quotes_correct(stack);
+		}
+		else if (string_type(stack))
+		{
+			quotes_correct(stack);
+			stack = stack->next;
+		}
+		else
+			stack = stack->next;
+	}
+	if (!(stack->next) && string_type(stack))
+		quotes_correct(stack);
+}

@@ -12,6 +12,16 @@
 
 #include "../../inc/minishell.h"
 
+void	executor(t_shell *shell)
+{
+	(void)shell;
+	int i = 0;
+	t_token *tmp = shell->eco_token;
+	
+	print_line(tmp);
+	//crear pipes
+}
+
 void	exec_ve(t_shell *shell)
 {
 	(void)shell;

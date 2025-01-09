@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lectur.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 18:54:07 by joanavar          #+#    #+#             */
-/*   Updated: 2024/12/13 18:03:03 by camurill         ###   ########.fr       */
+/*   Updated: 2024/12/23 19:21:43 by joannavarro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 //#include "paquito.h"
 
 static void    is_caracter_token(char c, t_token **stack)
@@ -49,6 +49,31 @@ static void    is_redireccion(char *str, int i, t_token **stack)
 	//free(token);
 }
 
+static void lectur_line(char *str, t_token **stack, int i)
+{
+	while (str[i])
+	{
+		if (str[i] == ' ')
+			is_caracter_token(str[i], stack);
+		else if (str[i] == '|')
+			is_caracter_token(str[i], stack);
+		else if (str[i] == '>' || str[i] == '<')
+		{
+			 if ((str[i] == '<' && str[i + 1] == '<') ||
+				str[i] == '>' && str[i + 1] == '>')
+				{
+					is_redireccion(str, i, stack);
+					i++;
+				}
+			 else
+				 is_caracter_token(str[i], stack);
+		}
+		else
+			i = is_string(str, i, stack) - 1;
+		i++;
+	}
+}
+
 t_token	*lectur_imput(char *str, t_env *env)
 {
 	int i = 0;
@@ -57,53 +82,11 @@ t_token	*lectur_imput(char *str, t_env *env)
 	stack = NULL;
 	if (!*str)
 		return (NULL);
-	while (str[i])
-	{
-		if (str[i] == ' ')
-			is_caracter_token(str[i], &stack);
-		else if (str[i] == '|')
-			is_caracter_token(str[i], &stack);
-		else if (str[i] == '>' || str[i] == '<')
-		{
-			 if ((str[i] == '<' && str[i + 1] == '<') ||
-				str[i] == '>' && str[i + 1] == '>')
-				{
-					is_redireccion(str, i, &stack);
-					i++;
-				}
-			 else
-				 is_caracter_token(str[i], &stack);
-		}
-		else
-		{
-			i = is_string(str, i, &stack);
-			i--;
-		}
-		i++;
-	}
+	lectur_line(str, &stack, i);
 	if (syntax_error(&stack))
 		return NULL;
 	expandir(&stack, env);
 	remove_quotes(stack);
-	print_token(&stack);
+	//print_token(&stack);
 	return (stack);
-
-	/*for (t_token *tmp = *stack; tmp; tmp = tmp->next)
-		printf("<%s>\n", tmp->content);*/
-	//remove_quotes(*stack);
 }
-
-
-
-/*int main(int argc, char **argv)
-{
-	char *c;
-	//lectur_imput("'e' |ls>cat -e");
-	//(void)argc;
-	while (1)
-	{
-		c = readline("prueba>");
-		lectur_imput(c);
-	}
-	return (0);
-}*/
