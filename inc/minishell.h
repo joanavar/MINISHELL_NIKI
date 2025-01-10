@@ -81,6 +81,17 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
+typedef struct s_cmd
+{
+	char			**arr_cmd;
+	char			*path;
+	int				pid;
+	int				fd_in;
+	int				fd_out;
+	//t_redir			*redirs;
+	struct s_cmd	*next;
+}	t_cmd;
+
 typedef struct s_env
 {
 	char	*value;
@@ -160,6 +171,11 @@ void	union_string(t_token *stack);
 void	delete_quotes(t_token *token, char *str, int i, int j);
 int 	count_quotes_utils(t_token *token, int i, int count, char tmp);
 void	print_line(t_token *tmp);
+int arr_size(char **array);
+
+//exec
+t_cmd   *token_to_cmd(t_token *tokens);
+
 
 
 

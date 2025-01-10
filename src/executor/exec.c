@@ -14,12 +14,17 @@
 
 void	executor(t_shell *shell)
 {
+	t_cmd *cmds;
+	t_token *tmp;
+	cmds = NULL;
 	(void)shell;
-	int i = 0;
-	t_token *tmp = shell->eco_token;
-	
+	tmp = shell->eco_token;
 	print_line(tmp);
-	//crear pipes
+	cmds = token_to_cmd(tmp);
+	//if (!cmds)
+	//	return (0);
+
+	
 }
 
 void	exec_ve(t_shell *shell)
