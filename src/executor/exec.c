@@ -12,6 +12,16 @@
 
 #include "../../inc/minishell.h"
 
+void	print_cmd(char **array)
+{
+	int i = 0;
+	while(array && array[i])
+	{
+		printf("%s ", array[i]);
+		i++;
+	}
+	printf("\n");
+}
 void	executor(t_shell *shell)
 {
 	t_cmd *cmds;
@@ -21,8 +31,9 @@ void	executor(t_shell *shell)
 	tmp = shell->eco_token;
 	print_line(tmp);
 	cmds = token_to_cmd(tmp);
+	//print_cmd(cmds->arr_cmd);
 	//if (!cmds)
-	//	return (0);
+		//return (0);
 
 	
 }

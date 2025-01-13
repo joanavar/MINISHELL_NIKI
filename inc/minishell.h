@@ -90,7 +90,7 @@ typedef struct s_cmd
 	int				fd_out;
 	//t_redir			*redirs;
 	struct s_cmd	*next;
-}	t_cmd;
+}				t_cmd;
 
 typedef struct s_env
 {
@@ -175,6 +175,8 @@ int arr_size(char **array);
 
 //exec
 t_cmd   *token_to_cmd(t_token *tokens);
+void	print_cmd(char **array);
+
 
 
 

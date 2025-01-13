@@ -1,6 +1,6 @@
 #include "../../inc/minishell.h"
 
-static t_cmd   create_new_cmd(void)
+static t_cmd   *create_new_cmd(void)
 {
     t_cmd	*cmd;
 
@@ -20,7 +20,7 @@ static t_cmd   create_new_cmd(void)
 static char **create_arr_cmd(char *token, char **cmd)
 {
     cmd = malloc(sizeof(char *) * 2);
-    if (cmd)
+    if (!cmd)
         return (NULL);
     cmd[0] = ft_strdup(token);
     if (!cmd[0])
@@ -34,44 +34,60 @@ static char ** add_to_array(char *token, char **cmd)
     int i;
     char **new_cmd;
 
-    i = -1;
+    i = 0;
     new_cmd = NULL;
     if (!cmd)
         return (create_arr_cmd(token, cmd));
     new_cmd = malloc(sizeof(char *) * (arr_size(cmd) + 2));
     if (!new_cmd)
-        //liberar la array y ponerla a null;
-    while (cmd[++i])
+        return (free_matrix(cmd), NULL);
+    while (cmd[i])
+    {
         new_cmd[i] = cmd[i];
+        i++;
+    }
     new_cmd[i] = ft_strdup(token);
     if (!new_cmd[i])
-        //liberamos las dos arrays, la antigua y la nueva;
+        return (free_matrix(cmd), free(new_cmd), NULL);
     new_cmd[++i] = NULL;
     free(cmd);
+    i = 0;
+    while (new_cmd[i])
+    {
+        printf ("new_cmd :%s\n", new_cmd[i]);
+        i++;
+    }
     return (new_cmd);
 }
 
-int clas_token(t_token **token, t_cmd **aux_cmd)
+static int clas_token(t_token **token, t_cmd **aux_cmd)
 {
-    if ((*tokens)->type == 5 || (*tokens)->type == 6
-		|| (*tokens)->type == 7 || (*tokens)->type == 8)
+    printf("3\n");
+    if ((*token)->type == 5 || (*token)->type == 6
+		|| (*token)->type == 7 || (*token)->type == 8)
     {
-        if ()//funcion para rellener la t_redir;
-            return (0);
+        //if ()//funcion para rellener la t_redir;
+          //  return (0);
         (*token) = (*token)->next;
+        printf("4\n");
     }
     else if (string_type(*token))
     {
         (*aux_cmd)->arr_cmd = add_to_array((*token)->content,
             (*aux_cmd)->arr_cmd);
+        //printf("cmd :%s\n", (*aux_cmd)->arr_cmd[0]);
         if (!(*aux_cmd)->arr_cmd)
             return (0);
     }
     else if ((*token)->type == 4)
     {
+        printf("6\n");
         (*aux_cmd)->next = create_new_cmd();
-        if (!(*aux_cmd)->next);
+        if (!(*aux_cmd)->next)
             return (0);
+        printf("ho\n");
+        printf("<%s>\n", (*aux_cmd)->arr_cmd[0]);
+        print_cmd((*aux_cmd)->arr_cmd);
         *aux_cmd = (*aux_cmd)->next;
     }
     return (1);
@@ -88,10 +104,12 @@ t_cmd   *token_to_cmd(t_token *tokens)
     aux_cmd = cmd;
     while (tokens)
     {
+        printf("1\n");
         while (tokens->type == 0)
             tokens = tokens->next;
         if (!clas_token(&tokens, &aux_cmd))
         {
+            printf("2\n");
             //liberar los cmds hechos hasta ahora
             return (NULL);
         }
