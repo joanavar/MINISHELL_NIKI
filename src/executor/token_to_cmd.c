@@ -62,7 +62,6 @@ static char ** add_to_array(char *token, char **cmd)
 
 static int clas_token(t_token **token, t_cmd **aux_cmd)
 {
-    printf("3\n");
     if ((*token)->type == 5 || (*token)->type == 6
 		|| (*token)->type == 7 || (*token)->type == 8)
     {
@@ -81,12 +80,9 @@ static int clas_token(t_token **token, t_cmd **aux_cmd)
     }
     else if ((*token)->type == 4)
     {
-        printf("6\n");
         (*aux_cmd)->next = create_new_cmd();
         if (!(*aux_cmd)->next)
             return (0);
-        printf("ho\n");
-        printf("<%s>\n", (*aux_cmd)->arr_cmd[0]);
         print_cmd((*aux_cmd)->arr_cmd);
         *aux_cmd = (*aux_cmd)->next;
     }
@@ -104,12 +100,10 @@ t_cmd   *token_to_cmd(t_token *tokens)
     aux_cmd = cmd;
     while (tokens)
     {
-        printf("1\n");
         while (tokens->type == 0)
             tokens = tokens->next;
         if (!clas_token(&tokens, &aux_cmd))
         {
-            printf("2\n");
             //liberar los cmds hechos hasta ahora
             return (NULL);
         }
