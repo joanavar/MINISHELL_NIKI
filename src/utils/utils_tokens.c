@@ -75,7 +75,16 @@ void	print_line(t_token *tmp)
 			printf(" ");
 		else if (tmp->type == 4)
 			printf("|");
+		else if (tmp->type == 6)
+			printf(">");
+		else if (tmp->type == 8)
+			printf("<");
+		else if (tmp->type == 7)
+			printf(">>");
+		else if (tmp->type == 5)
+			printf("<<");
 		tmp = tmp->next;
+
 	}
 	printf("\n");
 	
