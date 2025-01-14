@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 17:41:18 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/14 19:57:37 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/14 18:12:39 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,32 +57,3 @@ void	unset_shell(t_shell *shell, char *arg)
 	}
 }
 
-void	get_export(t_shell *shell)
-{
-	t_env	*aux;
-	t_env	*new_node;
-
-	aux = shell->env;
-	if (!shell->eco_token->next)
-	{
-		while (aux)
-		{
-			printf("declare -x %s=%s\n", aux->value, aux->content);
-			aux = aux->next;
-		}
-	}
-	else if (shell->eco_token->next->next &&
-				check_specials(shell->eco_token->next->next->content, '=') == 1)
-	{
-		new_node = lstnew(shell->eco_token->next->next->content);
-		if (!new_node)
-			error_message("Create a node", CLOSE);
-		else
-		{
-			while (aux->next)
-				aux = aux->next;
-			aux->next = new_node;
-			aux = new_node->prev;
-		}
-	}
-}

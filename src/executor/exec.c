@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 20:48:01 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/14 20:48:40 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/14 21:44:23 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	print_cmd(char **array)
 	}
 	printf("\n");
 }
-void	executor(t_shell *shell)
+int	executor(t_shell *shell)
 {
 	t_cmd *cmds;
 	t_token *tmp;
@@ -31,14 +31,27 @@ void	executor(t_shell *shell)
 	tmp = shell->eco_token;
 	print_line(tmp);
 	cmds = token_to_cmd(tmp);
-	//print_cmd(cmds->arr_cmd);
-	//if (!cmds)
+	cmds->shell = shell;
+	if (!cmds)
+		return (-1);
+	if (cmds && built_ins(cmds) == -1)
+		return (-1);
+	printf("%s\n", cmds->path);
+	//if (!cmds->next)
+		//return (exec_ve(cmds));
+	//print_cmd(cmds->arr_cmd);make
 		//return (0);
 
-	
+	return (0);
 }
 
-void	exec_ve(t_shell *shell)
+int	exec_ve(t_cmd *cmd)
 {
-	(void)shell;
+	int	status;
+
+	if (fork() == 0)
+		//execvp(cmd->arr_cmd, cmd->path);
+		printf("%s\n", cmd->path);
+	wait(&status);
+	return (EXIT_SUCCESS);
 }
