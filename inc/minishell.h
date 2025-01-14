@@ -73,6 +73,16 @@ typedef enum e_opcode
 	OPEN,
 }	t_opcode;
 
+typedef struct s_redir
+{
+	int				type;
+	char			*file_name;
+	int				fd;
+	//int				amb_red;
+	struct s_redir	*next;
+}	t_redir;
+
+
 typedef struct s_token
 {
 	char			*content;
@@ -80,6 +90,17 @@ typedef struct s_token
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
+
+typedef struct s_cmd
+{
+	char			**arr_cmd;
+	char			*path;
+	int				pid;
+	int				fd_in;
+	int				fd_out;
+	t_redir			*redirs;
+	struct s_cmd	*next;
+}				t_cmd;
 
 typedef struct s_env
 {
@@ -160,6 +181,21 @@ void	union_string(t_token *stack);
 void	delete_quotes(t_token *token, char *str, int i, int j);
 int 	count_quotes_utils(t_token *token, int i, int count, char tmp);
 void	print_line(t_token *tmp);
+int arr_size(char **array);
+
+//exec
+t_cmd   *token_to_cmd(t_token *tokens);
+void	print_cmd(char **array);
+int add_redir(t_token *token, t_cmd *cmd);
+t_token *space_zero(t_token *token);
+int add_first_redir(t_token *token, t_cmd *cmd);
+int add_rest_redir(t_token *token, t_cmd *cmd);
+
+
+
+
+
+
 
 
 
