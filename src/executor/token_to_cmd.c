@@ -12,7 +12,7 @@ static t_cmd   *create_new_cmd(void)
 	cmd->pid = -1;
 	//cmd->fd_in = -1;
 	//cmd->fd_out = -1;
-	//cmd->redirs = NULL;
+	cmd->redirs = NULL;
 	cmd->next = NULL;
 	return (cmd);
 }
@@ -65,10 +65,10 @@ static int clas_token(t_token **token, t_cmd **aux_cmd)
     if ((*token)->type == 5 || (*token)->type == 6
 		|| (*token)->type == 7 || (*token)->type == 8)
     {
-        //if ()//funcion para rellener la t_redir;
-          //  return (0);
+        if (add_redir(*token, *aux_cmd) == 2)
+            return (0);
+        printf("mi filename es :%s\n", (aux_cmd[0]->redirs->file_name));
         (*token) = (*token)->next;
-        printf("4\n");
     }
     else if (string_type(*token))
     {
@@ -100,15 +100,11 @@ t_cmd   *token_to_cmd(t_token *tokens)
     aux_cmd = cmd;
     while (tokens)
     {
-        while (tokens->type == 0)
-            tokens = tokens->next;
         if (!clas_token(&tokens, &aux_cmd))
         {
             //liberar los cmds hechos hasta ahora
             return (NULL);
         }
-        while (tokens->type == 0)
-            tokens = tokens->next;
         tokens = tokens->next;
     }
     return (cmd);

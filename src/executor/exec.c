@@ -27,7 +27,7 @@ void	executor(t_shell *shell)
 	t_cmd *cmds;
 	t_token *tmp;
 	cmds = NULL;
-	(void)shell;
+	//(void)shell;
 	tmp = shell->eco_token;
 	print_line(tmp);
 	cmds = token_to_cmd(tmp);
