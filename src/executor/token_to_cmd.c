@@ -67,14 +67,20 @@ static int clas_token(t_token **token, t_cmd **aux_cmd)
     {
         if (add_redir(*token, *aux_cmd) == 2)
             return (0);
-        printf("mi filename es :%s\n", (aux_cmd[0]->redirs->file_name));
+        while ((*aux_cmd)->redirs)
+        {
+            printf("mi filename es :%s\n", ((*aux_cmd)->redirs->file_name));
+            (*aux_cmd)->redirs = (*aux_cmd)->redirs->next;
+        }
         (*token) = (*token)->next;
+        while ((*token)->type == 0)
+            (*token) = (*token)->next;
     }
     else if (string_type(*token))
     {
         (*aux_cmd)->arr_cmd = add_to_array((*token)->content,
             (*aux_cmd)->arr_cmd);
-        //printf("cmd :%s\n", (*aux_cmd)->arr_cmd[0]);
+        print_cmd((*aux_cmd)->arr_cmd);
         if (!(*aux_cmd)->arr_cmd)
             return (0);
     }
@@ -83,7 +89,7 @@ static int clas_token(t_token **token, t_cmd **aux_cmd)
         (*aux_cmd)->next = create_new_cmd();
         if (!(*aux_cmd)->next)
             return (0);
-        print_cmd((*aux_cmd)->arr_cmd);
+        //print_cmd((*aux_cmd)->arr_cmd);
         *aux_cmd = (*aux_cmd)->next;
     }
     return (1);
