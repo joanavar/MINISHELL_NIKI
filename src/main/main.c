@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:49:47 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/14 18:13:14 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/15 14:55:50 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int	main(int ac, char **ag, char **env)
 		}
 		if (*shell->prompt && start_shell(shell) == -1)
 			error_message("Syntax Error", NO_CLOSE);
-		if (*shell->prompt && built_ins(shell) == -1) // se hace en el hijo o justo antes si es solo uno
-			break ;
+		//if (*shell->prompt && built_ins(shell) == -1) // se hace en el hijo o justo antes si es solo uno
+		//	break ;
 		add_history(shell->prompt);
 		free(shell->prompt);
 	}

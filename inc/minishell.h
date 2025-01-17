@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/23 19:14:29 by joannavarro      ###   ########.fr       */
+/*   Updated: 2025/01/15 15:43:15 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,10 @@
 
 extern volatile sig_atomic_t	g_signal_received;
 
+typedef struct s_shell	t_shell;
+
+typedef struct s_export t_export;
+
 typedef enum e_opcode
 {
 	CLOSE,
@@ -98,30 +102,36 @@ typedef struct s_cmd
 	int				pid;
 	int				fd_in;
 	int				fd_out;
+	int				fd_next;
 	t_redir			*redirs;
 	struct s_cmd	*next;
+	t_shell			*shell;
 }				t_cmd;
 
 typedef struct s_env
 {
-	char	*value;
-	char	*content;
+	char			*value;
+	char			*content;
 	struct s_env	*next;
 	struct s_env	*prev;
 }	t_env;
 
-typedef struct s_shell
+
+struct s_shell
 {
-	int		status;
-	char	*prompt;
-	char	**arg;
-	t_env	*env;
-	t_token	*eco_token;
-}			t_shell;
+	int			status;
+	int			exit_status;
+	char		*prompt;
+	char		**arg;
+	t_env		*env;
+	t_export	*export;
+	t_token		*eco_token;
+} ;
 
 /***FUNTIONS AUX***/
 /*int		check_doubles(char *str, char ltr);*/
-int		check_specials(char *str, char ltr);/*
+int		check_specials(char *str, char ltr);
+/*
 int		parssing(t_shell **shell);
 t_env	*get_env(char **env);*/
 //void	get_less_env(t_shell *shell, char *cmp);
@@ -145,19 +155,20 @@ void	handle_sigint(int signal);
 
 /***BUILTS_INS***/
 void	unset_shell(t_shell *shell, char *arg);
-void	get_echo(t_shell *shell);
-void	get_export(t_shell *shell);
+void	get_echo(t_cmd *cmd);
+void	get_export(t_cmd *cmd);
 void	get_pwd(void);
-void	get_cd(t_shell *shell);
+void	get_cd(t_cmd *cmd);
 void	print_env(t_shell *shell);
-int		built_ins(t_shell *shell);
+int		built_ins(t_cmd *cmd);
 
 /***ENV ***/
 t_env	*lstnew(char *content);
 t_env	*get_env(char **env);
 
 /*** EXECUTOR ***/
-void	exec_ve(t_shell *shell);
+int	exec_ve(t_cmd *cmd);
+int	exec_duo(t_cmd *cmd);
 
 /***NAVARRO_FUNCTIONS***/
 //lectur.c
@@ -211,5 +222,5 @@ int	syntax_pipe_or_redi(t_token *token);
 //int		correct_expansor(t_token *token, int i);
 //void	expander(t_token *token, int i, t_env **env);
 void	expandir(t_token **stack, t_env *env);
-void	executor(t_shell *shell);
+int		executor(t_shell *shell);
 #endif
