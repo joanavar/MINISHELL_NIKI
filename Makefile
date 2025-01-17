@@ -41,6 +41,7 @@ SRC_FILES   =       main/main.c \
 					utils/utils_tokens.c \
                     operations_line/expansor.c \
 					executor/exec.c \
+					executor/pipe.c \
 					utils/utils_exec.c \
 					executor/token_to_cmd.c
 

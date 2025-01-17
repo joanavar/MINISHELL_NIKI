@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/14 21:44:07 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/15 15:43:15 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ extern volatile sig_atomic_t	g_signal_received;
 
 typedef struct s_shell	t_shell;
 
+typedef struct s_export t_export;
+
 typedef enum e_opcode
 {
 	CLOSE,
@@ -100,6 +102,7 @@ typedef struct s_cmd
 	int				pid;
 	int				fd_in;
 	int				fd_out;
+	int				fd_next;
 	t_redir			*redirs;
 	struct s_cmd	*next;
 	t_shell			*shell;
@@ -107,23 +110,17 @@ typedef struct s_cmd
 
 typedef struct s_env
 {
-	char	*value;
-	char	*content;
+	char			*value;
+	char			*content;
 	struct s_env	*next;
 	struct s_env	*prev;
 }	t_env;
 
-typedef struct s_export
-{
-	char	*value;
-	char	*content;
-	struct s_env	*next;
-	struct s_env	*prev;
-}	t_export;
 
 struct s_shell
 {
 	int			status;
+	int			exit_status;
 	char		*prompt;
 	char		**arg;
 	t_env		*env;
@@ -133,7 +130,8 @@ struct s_shell
 
 /***FUNTIONS AUX***/
 /*int		check_doubles(char *str, char ltr);*/
-int		check_specials(char *str, char ltr);/*
+int		check_specials(char *str, char ltr);
+/*
 int		parssing(t_shell **shell);
 t_env	*get_env(char **env);*/
 //void	get_less_env(t_shell *shell, char *cmp);
@@ -170,6 +168,7 @@ t_env	*get_env(char **env);
 
 /*** EXECUTOR ***/
 int	exec_ve(t_cmd *cmd);
+int	exec_duo(t_cmd *cmd);
 
 /***NAVARRO_FUNCTIONS***/
 //lectur.c

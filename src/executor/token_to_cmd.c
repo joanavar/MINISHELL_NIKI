@@ -12,6 +12,7 @@ static t_cmd   *create_new_cmd(void)
 	cmd->pid = -1;
 	//cmd->fd_in = -1;
 	//cmd->fd_out = -1;
+    //cmd->fd_next = -1;
 	cmd->redirs = NULL;
 	cmd->next = NULL;
 	return (cmd);

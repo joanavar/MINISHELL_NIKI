@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 17:41:18 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/14 18:12:39 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/15 13:42:12 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	unset_shell(t_shell *shell, char *arg)
 		return ;
 	while (aux)
 	{
-		//printf("%s comparate to %s\n", aux->value, arg);
 		if (!ft_strncmp(aux->value, arg, ft_strlen(arg) + 1))
 		{
             del = aux;

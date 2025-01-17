@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:51:10 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/14 18:47:53 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/15 14:55:11 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,15 @@ static void	aux_export(t_cmd *cmd, t_env *aux)
 		aux = new_node->prev;
 	}
 }
-/*static void	aux_export2(t_cmd *cmd, t_env *aux)
-{
-	void ;
-}*/
-
 
 void	get_export(t_cmd *cmd)
 {
 	t_env	*aux;
 	t_env	*new_node;
+	int		i;
 
 	aux = cmd->shell->env;
+	i = -1;
 	if (!cmd->arr_cmd[1])
 	{
 		while (aux)
@@ -49,6 +46,4 @@ void	get_export(t_cmd *cmd)
 	}
 	else if (cmd->arr_cmd[1] && check_specials(cmd->arr_cmd[1], '=') == 1)
 		aux_export(cmd, aux);
-	//else if (cmd->arr_cmd[1] && !check_specials(cmd->arr_cmd[1], '='))
-		//aux_export2(cmd, aux);//ToDo
 }

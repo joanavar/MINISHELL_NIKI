@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:49:47 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/14 21:24:49 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/15 14:55:50 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,9 @@ void	init_shell(t_shell **shell, char **env)
 	(*shell)->status = 0;
 	(*shell)->arg = NULL;
 	(*shell)->env = NULL;
-	(*shell)->export = NULL;
 	if (!env)
 		error_message("Problems, not found env", CLOSE);
 	(*shell)->env = get_env(env);
-	//(*shell)->export = get_env(env);
 	(*shell)->eco_token = NULL;
 }
 
