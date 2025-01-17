@@ -31,6 +31,7 @@ SRC_FILES   =       main/main.c \
                     built_ins/echo.c \
                     built_ins/env.c \
                     built_ins/utils.c \
+					built_ins/export.c \
                     lectur_line/lectur.c \
                     lectur_line/token.c \
                     lectur_line/string.c \
@@ -40,6 +41,7 @@ SRC_FILES   =       main/main.c \
 					utils/utils_tokens.c \
                     operations_line/expansor.c \
 					executor/exec.c \
+					executor/pipe.c \
 					utils/utils_exec.c \
 					executor/token_to_cmd.c
 

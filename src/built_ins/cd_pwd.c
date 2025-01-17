@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 00:08:20 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/13 18:01:19 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/14 17:27:30 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,16 @@ void	get_pwd(void)
 		perror("pwd");
 }
 
-void	get_cd(t_shell *shell)
+void	get_cd(t_cmd *cmd)
 {
-	if (shell->eco_token->next == NULL)
+	if (!cmd->arr_cmd[1])
 	{
-		error_message("Need a relative or absolute path\n", NO_CLOSE);
+		error_message("Need a relative or absolute path", NO_CLOSE);
 		return ;
 	}
-	else if (shell->eco_token->next->next->content)
+	else if (cmd->arr_cmd[1])
 	{
-		if (chdir(shell->eco_token->next->next->content) != 0)
+		if (chdir(cmd->arr_cmd[1]) != 0)
 		{
 			perror("cd");
 			return ;

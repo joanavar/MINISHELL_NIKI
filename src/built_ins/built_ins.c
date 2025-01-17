@@ -6,39 +6,49 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:50:29 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/14 20:32:16 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/14 21:24:16 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	built_ins(t_shell *shell) //corregir errores
+static int	ft_selector(t_cmd *cmd)
 {
-	if (!shell->eco_token->content || shell->eco_token->content[0] == '\0')
-		return (0);
-	if (!strncmp("exit", shell->eco_token->content, 5))
+	if (!strncmp("exit", cmd->arr_cmd[0], 5))
 	{
-		printf(YELLOW"exit\n"GBD);
-		if (shell->eco_token->next)
+		if (!cmd->arr_cmd[1])
 		{
-			printf("minishell: exit: %s: ", shell->arg[1]);
-			printf("numeric argument required\n");
+			printf(YELLOW"exit\n"GBD);
+			clean_data(&cmd->shell);
+			exit(0);
 		}
-		return (-1);
+		else
+		{
+			printf("minishell: exit: %s: ", cmd->arr_cmd[1]);
+			printf("numeric argument required\n");
+			clean_data(&cmd->shell);
+			exit (0);
+		}
 	}
-	if (!strncmp("env", shell->eco_token->content, 4))
-		print_env(shell);
-	if (!strncmp("pwd", shell->eco_token->content, 4) && !shell->eco_token->next)
+	if (!strncmp("env", cmd->arr_cmd[0], 4))
+		print_env(cmd->shell);
+	if (!strncmp("pwd", cmd->arr_cmd[0], 4) && !cmd->arr_cmd[1])
 		get_pwd();
-	else if (!strncmp("pwd", shell->eco_token->content, 4) && shell->eco_token->next)
+	else if (!strncmp("pwd", cmd->arr_cmd[0], 4) && cmd->arr_cmd[1])
 		error_message("pwd: too many arguments", NO_CLOSE);
-	if (!strncmp("cd", shell->eco_token->content, 3))
-		get_cd(shell);
-	if (!strncmp("export", shell->eco_token->content, 7))
-		get_export(shell);
-	if (!strncmp("unset", shell->eco_token->content, 6))
-		unset_shell(shell, shell->eco_token->next->next->content);
-	if (!strncmp("echo", shell->eco_token->content, 5))
-		get_echo(shell);
+	if (!strncmp("cd", cmd->arr_cmd[0], 3))
+		get_cd(cmd);
+	return (0);
+}
+int	built_ins(t_cmd	*cmd) //corregir errores
+{
+	if (ft_selector(cmd) == -1)
+		return (-1);
+	if (!strncmp("export", cmd->arr_cmd[0], 7))
+		get_export(cmd);//ToDo
+	if (!strncmp("unset", cmd->arr_cmd[0], 6))
+		unset_shell(cmd->shell, cmd->arr_cmd[1]);
+	if (!strncmp("echo", cmd->arr_cmd[0], 5))
+		get_echo(cmd);
 	return (0);
 }
