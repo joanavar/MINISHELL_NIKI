@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/15 15:43:15 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/20 14:10:39 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ typedef struct s_cmd
 {
 	char			**arr_cmd;
 	char			*path;
+	int				builtins;
 	int				pid;
 	int				fd_in;
 	int				fd_out;
@@ -131,6 +132,7 @@ struct s_shell
 /***FUNTIONS AUX***/
 /*int		check_doubles(char *str, char ltr);*/
 int		check_specials(char *str, char ltr);
+int		check_numeric(char *str);
 /*
 int		parssing(t_shell **shell);
 t_env	*get_env(char **env);*/
@@ -161,6 +163,8 @@ void	get_pwd(void);
 void	get_cd(t_cmd *cmd);
 void	print_env(t_shell *shell);
 int		built_ins(t_cmd *cmd);
+/***Exit***/
+int		mini_exit(t_cmd *cmd);
 
 /***ENV ***/
 t_env	*lstnew(char *content);

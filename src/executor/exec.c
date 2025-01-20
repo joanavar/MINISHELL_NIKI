@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 20:48:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/15 15:49:00 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/20 14:10:21 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,18 @@ int	executor(t_shell *shell)
 {
 	t_cmd *cmds;
 	t_token *tmp;
+	
 	cmds = NULL;
 	//(void)shell;
 	tmp = shell->eco_token;
-	print_line(tmp);
+	//print_line(tmp);
 	cmds = token_to_cmd(tmp);
 	cmds->shell = shell;
 	if (!cmds)
 		return (-1);
-	if (cmds && built_ins(cmds) == -1)
+	cmds->path = get_path(cmds);
+	if (cmds && built_ins(cmds) < 0)
 		return (-1);
-	if (!cmds->next)
-		return (exec_ve(cmds));
-	else
-		return (exec_duo(cmds));
-	//print_cmd(cmds->arr_cmd);make
-		//return (0);
 	return (0);
 }
 

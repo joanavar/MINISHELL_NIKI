@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:33:13 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/15 16:11:50 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/20 12:53:21 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	count_cmd(t_cmd *cmd)
 	}
 	return (i);
 }
-void	change_proccess(int *p_fd, char **ag, char **env)
+/*void	change_proccess(int *p_fd, char **ag, char **env)
 {
 	int	fd;
 
@@ -37,7 +37,7 @@ void	change_proccess(int *p_fd, char **ag, char **env)
 		ft_error(3, ag[4]);
 	close(p_fd[0]);
 	funtion_exe(ag[2], env);
-}
+}*/
 
 
 int	exec_mult(t_cmd *cmd, int size)
@@ -55,8 +55,8 @@ int	exec_mult(t_cmd *cmd, int size)
 		pid[i] = fork();
 		if (pid[i] < 0)
 			error_message("Fork", NO_CLOSE);
-		if (pid[i] == 0)
-			change_proccess(fd, cmd->arr_cmd, cmd->shell->env);
+		/*if (pid[i] == 0)
+			change_proccess(fd, cmd->arr_cmd, cmd->shell->env);*/
 		i++;
 	}
 	close(fd[0]);

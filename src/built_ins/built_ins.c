@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+1/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:50:29 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/14 21:24:16 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/20 12:51:21 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,7 @@ static int	ft_selector(t_cmd *cmd)
 			exit(0);
 		}
 		else
-		{
-			printf("minishell: exit: %s: ", cmd->arr_cmd[1]);
-			printf("numeric argument required\n");
-			clean_data(&cmd->shell);
-			exit (0);
-		}
+			return (mini_exit(cmd));
 	}
 	if (!strncmp("env", cmd->arr_cmd[0], 4))
 		print_env(cmd->shell);
