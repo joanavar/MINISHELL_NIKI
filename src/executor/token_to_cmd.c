@@ -106,15 +106,12 @@ t_cmd   *token_to_cmd(t_token *tokens)
     aux_cmd = cmd;
     while (tokens)
     {
-        last = cmd;
-        //while (!last->next) //MeMoFt
-        //    last = last->next;
         if (!clas_token(&tokens, &aux_cmd))
         {
             //liberar los cmds hechos hasta ahora
             return (NULL);
         }
-        if (check_pipe(tokens, last) == -1) //Mejor con doble **
+        if (check_pipe(&tokens, &aux_cmd) == -1) //Mejorara M ACS
             return (NULL); //Crear funcion para limpiar
         tokens = tokens->next;
     }

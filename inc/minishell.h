@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/21 20:58:53 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/21 21:05:15 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,7 @@ void	exec_child(t_cmd *cmd, int id);
 void	mini_exec(t_cmd *cmd);
 
 /*** PIPES ***/
-int		check_pipe(t_token *tokens, t_cmd *last);
+int		check_pipe(t_token **tokens, t_cmd **last);
 void	ft_dups(t_cmd *cmd);
 
 
