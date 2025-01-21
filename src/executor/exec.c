@@ -6,11 +6,27 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 20:48:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/20 14:10:21 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/21 18:30:21 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+static t_cmd	*initial_cmd(t_cmd *cmd)
+{
+	t_cmd	*aux;
+	int		i;
+
+	aux = cmd;
+	i = 0;
+	while (cmd)
+	{
+		cmd->id = i;
+		cmd = cmd->next;
+		i++;
+	}
+	return (aux);
+}
 
 void	print_cmd(char **array)
 {
@@ -27,33 +43,20 @@ int	executor(t_shell *shell)
 {
 	t_cmd *cmds;
 	t_token *tmp;
+	int		i;
 	
 	cmds = NULL;
-	//(void)shell;
+	i = 0;
 	tmp = shell->eco_token;
-	//print_line(tmp);
 	cmds = token_to_cmd(tmp);
 	cmds->shell = shell;
 	if (!cmds)
 		return (-1);
 	cmds->path = get_path(cmds);
-	if (cmds && built_ins(cmds) < 0)
-		return (-1);
-	return (0);
-}
-
-int	exec_ve(t_cmd *cmd)
-{
-	int	status;
-
-	if (fork() == 0)
-	{
-		if (execvp(cmd->arr_cmd[0], cmd->arr_cmd) == -1)
-		{
-			perror("cmd: ");
-			return (EXIT_FAILURE);
-		}
-	}
-	wait(&status);
-	return (EXIT_SUCCESS);
+	cmds = initial_cmd(cmds);
+	if (cmds->path && cmds->builtins == 1 && cmds->next == NULL)
+		i = built_ins(cmds);
+	else
+		exec_duo(cmds);
+	return (i);
 }

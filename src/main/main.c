@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:49:47 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/20 13:09:49 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/21 15:13:51 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ void	init_shell(t_shell **shell, char **env)
 	(*shell)->env = NULL;
 	if (!env)
 		error_message("Problems, not found env", CLOSE);
-	(*shell)->env = get_env(env);
+	else
+		(*shell)->env = get_env(env);
 	(*shell)->eco_token = NULL;
 }
 
@@ -56,8 +57,6 @@ int	main(int ac, char **ag, char **env)
 		}
 		if (*shell->prompt && start_shell(shell) == -1)
 			error_message("Syntax Error", NO_CLOSE);
-		//if (*shell->prompt && built_ins(shell) == -1) // se hace en el hijo o justo antes si es solo uno
-		//	break ;
 		add_history(shell->prompt);
 		free(shell->prompt);
 	}

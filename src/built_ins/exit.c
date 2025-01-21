@@ -6,13 +6,13 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 12:09:50 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/20 13:35:27 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/21 19:45:14 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int static	interpretor(char *str)
+int static	interpretor(char *str) //Act
 {
 	long	nbr;
 

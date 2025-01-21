@@ -43,6 +43,10 @@ SRC_FILES   =       main/main.c \
                     operations_line/expansor.c \
 					executor/exec.c \
 					executor/pipe.c \
+					executor/get_path.c \
+					executor/dups.c \
+					executor/mini_exec.c \
+					executor/utils.c \
 					utils/utils_exec.c \
 					executor/token_to_cmd.c
 
