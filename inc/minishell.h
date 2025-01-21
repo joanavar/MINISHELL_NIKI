@@ -28,6 +28,7 @@
 # include <readline/history.h> //add_history
 # include <curses.h> //tgetent-tputs
 # include <term.h> //tgoto-tgetent
+# include <fcntl.h>
 # include "../Libreries/Libft/libft.h"
 
 #define DELIM		" \t\r\n\a"
@@ -223,4 +224,6 @@ int	syntax_pipe_or_redi(t_token *token);
 //void	expander(t_token *token, int i, t_env **env);
 void	expandir(t_token **stack, t_env *env);
 int		executor(t_shell *shell);
+int	open_file(char *file, int type);
+
 #endif

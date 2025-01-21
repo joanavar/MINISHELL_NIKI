@@ -89,3 +89,16 @@ void	print_line(t_token *tmp)
 	printf("\n");
 	
 }
+
+int	is_heredoc(t_token *token)
+{
+	t_token *tmp;
+	tmp = token;
+	while (tmp && tmp->prev->type == 0)
+		tmp = tmp->prev;
+	if (tmp && tmp->prev->type == 5)
+		return (1);
+	else
+		return (0);
+
+}

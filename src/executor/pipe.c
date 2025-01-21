@@ -26,7 +26,24 @@ static int	count_cmd(t_cmd *cmd)
 	}
 	return (i);
 }
-void	change_proccess(int *p_fd, char **ag, char **env)
+
+int	open_file(char *file, int type)
+{
+	int	fd;
+
+	if (type == 0)
+		fd = open(file, O_RDONLY, 0777);
+	else if (type == 1)
+		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd == -1)
+	{
+		perror(file);
+		exit(1);
+	}
+	return (fd);
+}
+
+void	child_proccess(int *p_fd, char **ag, char **env)
 {
 	int	fd;
 
@@ -39,6 +56,18 @@ void	change_proccess(int *p_fd, char **ag, char **env)
 	funtion_exe(ag[2], env);
 }
 
+void	parent_process(int *p_fd, char **ag, char **env)
+{
+	int	fd;
+
+	fd = open_file(ag[4], 1);
+	if (dup2(fd, STDOUT_FILENO) < 0)
+		ft_error(3, ag[1]);
+	if (dup2(p_fd[0], STDIN_FILENO) < 0)
+		ft_error(3, ag[4]);
+	close(p_fd[1]);
+	funtion_exe(ag[3], env);
+}
 
 int	exec_mult(t_cmd *cmd, int size)
 {
@@ -47,7 +76,7 @@ int	exec_mult(t_cmd *cmd, int size)
 	int		i;
 	int		fd[size];
 
-	i = 0;
+	i = 1;
 	if (pipe(fd) < -1)
 		return (-1);
 	while (i < size)
@@ -56,9 +85,11 @@ int	exec_mult(t_cmd *cmd, int size)
 		if (pid[i] < 0)
 			error_message("Fork", NO_CLOSE);
 		if (pid[i] == 0)
-			change_proccess(fd, cmd->arr_cmd, cmd->shell->env);
+			child_proccess(fd, cmd->arr_cmd, cmd->shell->env);
 		i++;
 	}
+	if (pid[i] == 0)
+		parent_process(fd, ag, env);
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(pid[0], NULL, 0);

@@ -52,7 +52,7 @@ int	exec_ve(t_cmd *cmd)
 
 	if (fork() == 0)
 	{
-		if (execvp(cmd->arr_cmd[0], cmd->arr_cmd) == -1)
+		if (execve(cmd->arr_cmd[0], cmd->arr_cmd) == -1)
 		{
 			perror("cmd: ");
 			return (EXIT_FAILURE);

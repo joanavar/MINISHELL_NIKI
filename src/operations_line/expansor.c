@@ -106,7 +106,7 @@ void	expandir(t_token **stack, t_env *env)
 			tmp = tmp->next;
 		if (!tmp)
 			return ;
-		if (tmp->type == 1 || tmp->type == 3)
+		if ((tmp->type == 1 || tmp->type == 3) && !is_heredoc(tmp))
 		{
 			while (tmp->content[i])
 			{
