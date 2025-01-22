@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 14:08:16 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/22 13:53:21 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/22 15:39:04 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char *get_p_env(t_cmd *cmd, char *str)
 	env = cmd->shell->env;
 	while (env)
 	{
-		if (ft_strncmp(env->value, str, 4))
+		if (!ft_strncmp(env->value, str, ft_strlen(str)))
 			return (env->content);
 		env = env->next;		
 	}
@@ -60,12 +60,12 @@ static char *search_path(t_cmd *cmd)
 	{
 		path_aux = ft_strjoin(path[i], "/");
 		if (!path_aux)
-			error_message("Error with malloc: 3", CLOSE);
+			return (free_matrix(path), NULL);
 		exec = ft_strjoin(path_aux, cmd->arr_cmd[0]);
 		if (!exec)
-			error_message("Error with malloc: 4", CLOSE);
+			return (free_matrix(path), free(path_aux), NULL);
 		if (access(exec, F_OK) == 0 && access(exec, X_OK) == 0)
-			return (free_matrix(path), exec);
+			return (free_matrix(path), free(path_aux), exec);
 		free(exec);
 		free(path_aux);		
 	}

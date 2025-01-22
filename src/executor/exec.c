@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 20:48:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/22 13:53:27 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/22 15:35:30 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int	executor(t_shell *shell)
 	i = 0;
 	tmp = shell->eco_token;
 	cmds = token_to_cmd(tmp);
+	if (!cmds)
+		return (-1);
 	cmds->shell = shell;
 	if (!cmds)
 		return (-1);
