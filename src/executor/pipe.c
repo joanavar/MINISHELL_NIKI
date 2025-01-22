@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:33:13 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/22 15:00:24 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/22 16:42:33 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ static void exec_parent(t_cmd *cmd, int id)
 				close(aux->std_in);
 			if (aux->std_out != 1)
 				close(aux->std_out);
-			if (aux->fd_in != 0)
-				close (aux->fd_in);
 			if (aux->fd_out != 0)
 				close (aux->fd_out);
+			if (aux->fd_in != 0)
+				close (aux->fd_in);
 		}
 		aux = aux->next;
 	}

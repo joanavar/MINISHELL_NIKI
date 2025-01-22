@@ -6,13 +6,13 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 12:09:50 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/21 19:45:14 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/22 16:47:40 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int static	interpretor(char *str) //Act
+int static	interpretor(char *str)
 {
 	long	nbr;
 
@@ -20,7 +20,7 @@ int static	interpretor(char *str) //Act
 	if (nbr < 0)
 		nbr *= -1;
 	if (nbr > 255)
-		return (nbr % 255);
+		return((nbr % 255) * 255);
 	return (nbr);
 
 }
