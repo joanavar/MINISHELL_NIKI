@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/15 15:43:15 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/22 17:57:28 by joannavarro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,5 +225,7 @@ int	syntax_pipe_or_redi(t_token *token);
 void	expandir(t_token **stack, t_env *env);
 int		executor(t_shell *shell);
 int	open_file(char *file, int type);
+t_token	*is_heredoc(t_token *token);
+
 
 #endif

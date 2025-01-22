@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:33:13 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/15 16:11:50 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/22 17:19:24 by joannavarro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,31 +43,8 @@ int	open_file(char *file, int type)
 	return (fd);
 }
 
-void	child_proccess(int *p_fd, char **ag, char **env)
-{
-	int	fd;
 
-	fd = open_file(ag[1], 0);
-	if (dup2(fd, STDIN_FILENO) < 0)
-		ft_error(3, ag[1]);
-	if (dup2(p_fd[1], STDOUT_FILENO) < 0)
-		ft_error(3, ag[4]);
-	close(p_fd[0]);
-	funtion_exe(ag[2], env);
-}
 
-void	parent_process(int *p_fd, char **ag, char **env)
-{
-	int	fd;
-
-	fd = open_file(ag[4], 1);
-	if (dup2(fd, STDOUT_FILENO) < 0)
-		ft_error(3, ag[1]);
-	if (dup2(p_fd[0], STDIN_FILENO) < 0)
-		ft_error(3, ag[4]);
-	close(p_fd[1]);
-	funtion_exe(ag[3], env);
-}
 
 int	exec_mult(t_cmd *cmd, int size)
 {
@@ -84,12 +61,12 @@ int	exec_mult(t_cmd *cmd, int size)
 		pid[i] = fork();
 		if (pid[i] < 0)
 			error_message("Fork", NO_CLOSE);
-		if (pid[i] == 0)
-			child_proccess(fd, cmd->arr_cmd, cmd->shell->env);
+		//if (pid[i] == 0)
+		//	child_proccess(fd, cmd->arr_cmd, cmd->shell->env);
 		i++;
 	}
-	if (pid[i] == 0)
-		parent_process(fd, ag, env);
+	//if (pid[i] == 0)
+	//	parent_process(fd, ag, env);
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(pid[0], NULL, 0);
