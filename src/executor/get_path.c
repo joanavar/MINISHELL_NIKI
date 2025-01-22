@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 14:08:16 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/21 14:53:10 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/22 13:53:21 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,19 @@ static int is_builtins(char *str)
 {
 	if (str)
 	{
-		if (ft_strncmp("env", str, ft_strlen(str)))
+		if (!ft_strncmp("env", str, ft_strlen(str)))
 			return (1);
-		if (ft_strncmp("export", str, ft_strlen(str)))
+		if (!ft_strncmp("export", str, ft_strlen(str)))
 			return (1);
-		if (ft_strncmp("unset", str, ft_strlen(str)))
+		if (!ft_strncmp("unset", str, ft_strlen(str)))
 			return (1);
-		if (ft_strncmp("pwd", str, ft_strlen(str)))
+		if (!ft_strncmp("pwd", str, ft_strlen(str)))
 			return (1);
-		if (ft_strncmp("exit", str, ft_strlen(str)))
+		if (!ft_strncmp("exit", str, ft_strlen(str)))
 			return (1);
-		if (ft_strncmp("echo", str, ft_strlen(str)))
+		if (!ft_strncmp("echo", str, ft_strlen(str)))
 			return (1);
-		if (ft_strncmp("cd", str, ft_strlen(str)))
+		if (!ft_strncmp("cd", str, ft_strlen(str)))
 			return (1);
 	}
 	return (0);

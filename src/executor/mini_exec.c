@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 20:25:58 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/21 21:00:58 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/22 13:59:24 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char **lst_to_chr(t_env *env)
 	i = count_env(env);
 	a_env = env;
 	aux = malloc(sizeof(char **) * (i + 1));
-	if (aux)
+	if (!aux)
 		return (NULL);
 	i = 0;
 	while (a_env)
@@ -50,6 +50,7 @@ static char **lst_to_chr(t_env *env)
 		aux[i] = ft_strjoin(prom, a_env->content);
 		i++;
 		a_env = a_env->next;
+		free(prom);
 	}
 	aux[i] = NULL;
 	return (aux);

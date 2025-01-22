@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:33:13 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/21 20:56:25 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/22 14:00:59 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static void exec_parent(t_cmd *cmd, int id)
 		}
 		aux = aux->next;
 	}
-	//waiting();
+	waiting(cmd->shell);
 }
 
 
@@ -102,22 +102,25 @@ void	exec_duo(t_cmd *cmd)
 	t_cmd	*aux;
 	t_cmd	*aux_2;
 	int		pid;
+	int		id;
 
 	pid = 1;
+	id = 0;
 	aux = cmd;
 	aux_2 = aux;
 	while (aux && pid != 0)
 	{
-		if (aux->id == 0 || count_cmd(aux_2) > 0)
+		if (aux->id == 0 || aux_2->id > 0)
 			pid = fork();
 		if (pid == 0)
 			exec_child(cmd, aux->id);
 		else if (aux)
 		{
 			aux_2 = aux;
+			id = aux->id;
 			aux = aux->next;
 		}
 	}
 	if (pid != 0)
-		exec_parent(cmd, aux->id);
+		exec_parent(cmd, id);
 }

@@ -6,11 +6,16 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:06:40 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/21 21:07:49 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/22 13:44:48 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+/*
+void	change_status(t_shell *shell)
+{
+	
+}*/
 
 int	check_pipe(t_token **tokens, t_cmd **last)
 {
@@ -22,11 +27,35 @@ int	check_pipe(t_token **tokens, t_cmd **last)
 	if (pipe(fd) == -1)
 		return (-1);
 	(*last)->fd_out = fd[1];
-	(*last)->next->fd_in = fd[0];
+	if (!(*last)->next)
+		return (0);
+	else
+		(*last)->next->fd_in = fd[0];
 	return (0);
 }
 
 void	waiting(t_shell *shell)
 {
-	//Por terminar
+	int	exit_status;
+	int	status;
+
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	while (wait(&exit_status) != -1)
+	{
+		if (WIFSIGNALED(exit_status) != 0)
+		{
+			ft_putstr_fd("\n", 1);
+			status = WTERMSIG(exit_status) + 128;
+			shell->exit_status = status;
+			//change_status(shell);
+		}
+		if (WIFEXITED(exit_status))
+		{
+			status = WEXITSTATUS(exit_status);
+			shell->exit_status = status;
+			//change_status(shell);		
+		}
+	}
+	check_signal(g_signal_received);
 }

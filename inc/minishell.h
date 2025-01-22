@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/21 21:05:15 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/22 13:31:06 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ struct s_shell
 int		check_specials(char *str, char ltr);
 int		check_numeric(char *str);
 int		count_cmd(t_cmd *cmd);
+void	waiting(t_shell *shell);
 /*
 int		parssing(t_shell **shell);
 t_env	*get_env(char **env);*/
