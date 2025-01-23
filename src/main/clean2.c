@@ -27,3 +27,18 @@ void    free_redirs(t_redir *redir)
     }
     redir = NULL;
 }
+
+void    free_shell(t_shell *shell)
+{
+    int i;
+
+    i = 0;
+    free(shell->prompt);
+    while (shell->arg[i])
+    {
+        free(shell->arg[i]);
+        i++;
+    }
+    free(shell->arg);
+    shell = NULL;
+}

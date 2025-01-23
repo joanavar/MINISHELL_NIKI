@@ -152,16 +152,18 @@ t_env	*get_env(char **env);*/
 
 /***MAIN***/
 void	init_shell(t_shell **shell, char **env);
-void	clean_data(t_shell **shell);
+void	clean_data(t_shell *shell);
 int		start_shell(t_shell	*shell);
 
 /****ERORR FOUND***/
 void	error_message(char *str, t_opcode OPCODE);
 void	free_matrix(char **matrix);
-void	free_env(t_env **lst);
-void	free_token(t_token **lst);
-void	free_cmds(t_cmd **cmds);
+void	free_env(t_env *lst);
+void	free_token(t_token *lst);
+void	free_cmds(t_cmd *cmds);
 void    free_redirs(t_redir *redir);
+void    free_shell(t_shell *shell);
+
 
 
 
@@ -186,10 +188,10 @@ t_env	*lstnew(char *content);
 t_env	*get_env(char **env);
 
 /*** EXECUTOR ***/
-void	exec_duo(t_cmd *cmd);
+void	exec_duo(t_cmd *cmd, t_shell *shell);
 char	*get_path(t_cmd *cmd);
-void	exec_child(t_cmd *cmd, int id);
-void	mini_exec(t_cmd *cmd);
+void	exec_child(t_cmd *cmd, int id, t_shell *shell);
+void	mini_exec(t_cmd *cmd, t_shell *shell);
 
 /*** PIPES ***/
 int		check_pipe(t_token **tokens, t_cmd **last);

@@ -6,10 +6,7 @@ int arr_size(char **array)
 
     i = 0;
     while (array && array[i])
-    {
-        printf("contenido array :%s\n", array[i]);
         i++;
-    }
     return (i);
 }
 t_token *space_zero(t_token *token)

@@ -60,6 +60,6 @@ int	executor(t_shell *shell)
 	if (cmds->path && cmds->builtins == 1 && cmds->next == NULL)
 		i = built_ins(cmds);
 	else
-		exec_duo(cmds);
+		exec_duo(cmds, shell);
 	return (i);
 }

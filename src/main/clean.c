@@ -12,22 +12,23 @@
 
 #include "../../inc/minishell.h"
 
-void	clean_data(t_shell **shell)
+void	clean_data(t_shell *shell)
 {
-	if ((*shell)->prompt)
+	if (shell->prompt)
 	{
-		free((*shell)->prompt);
-		(*shell)->prompt = NULL;
+		free(shell->prompt);
+		shell->prompt = NULL;
 	}
-	if ((*shell)->env)
-		free_env(&((*shell)->env));
-	if ((*shell)->eco_token)
-		free_token(&((*shell)->eco_token));
-	if ((*shell)->arg)
-		free_matrix((*shell)->arg);
-	if ((*shell)->cmds)
-		free_cmds(&(*shell)->cmds);
-	free((*shell));
+	if (shell->env)
+		free_env(shell->env);
+	if (shell->eco_token)
+		free_token(shell->eco_token);
+	if (shell->arg)
+		free_matrix(shell->arg);
+	if (shell->cmds)
+		free_cmds(shell->cmds);
+	//free_shell(shell);
+	free(shell);
 }
 void	free_matrix(char **matrix)
 {
@@ -45,13 +46,13 @@ void	free_matrix(char **matrix)
 	matrix = NULL;
 }
 
-void	free_env(t_env **lst)
+void	free_env(t_env *lst)
 {
 	t_env	*buffer;
 	t_env	*aux;
 
-	buffer = (*lst);
-	if (!lst || !*lst)
+	buffer = lst;
+	if (!lst)
         return ;
 	while (buffer)
 	{
@@ -63,37 +64,35 @@ void	free_env(t_env **lst)
 		free(buffer);
 		buffer = aux;
 	}
-	*lst = NULL;
 }
 
-void free_token(t_token **lst) //Corregir, peta con valores nulos
+void free_token(t_token *lst) //Corregir, peta con valores nulos
 {
     t_token *buffer;
     t_token *aux;
 
-    if (!lst || !(*lst))
+    if (!lst)
         return ;
-    buffer = *lst;
+    buffer = lst;
     while (buffer) 
 	{
         aux = buffer->next;                
         free(buffer->content);   
         free(buffer);                
         buffer = aux;                
-    }
-    *lst = NULL;                     
+    }                    
 }
 
-void	free_cmds(t_cmd **cmds)
+void	free_cmds(t_cmd *cmds)
 {
 	t_cmd	*buffer;
 	t_cmd	*aux;
 	t_redir *redir;
 	int 	i;
 
-	//if (!cmds || !(*cmds))
-	//	return ;
-	buffer = *cmds;
+	if (!cmds)
+		return ;
+	buffer = cmds;
 	while (buffer)
 	{
 		i = -1;
@@ -101,12 +100,11 @@ void	free_cmds(t_cmd **cmds)
 		while (buffer->arr_cmd[++i])
 			free(buffer->arr_cmd[i]);
 		free(buffer->arr_cmd);
-		//buffer->arr_cmd = NULL;
+		buffer->arr_cmd = NULL;
 		free(buffer->path);
 		if (buffer->redirs)
 			free_redirs(buffer->redirs);
 		free(buffer);
 		buffer = aux;
 	}
-	*cmds = NULL;
 }

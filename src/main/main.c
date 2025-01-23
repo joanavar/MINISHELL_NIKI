@@ -59,7 +59,9 @@ int	main(int ac, char **ag, char **env)
 			error_message("Syntax Error", NO_CLOSE);
 		add_history(shell->prompt);
 		free(shell->prompt);
+		free_token((shell->eco_token));
+		free_cmds((shell->cmds));
 	}
-	clean_data(&shell);
+	clean_data(shell);
 	return (0);
 }

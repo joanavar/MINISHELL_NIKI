@@ -76,13 +76,23 @@ char *get_path(t_cmd *cmd)
 {
 	char *path;
 
-	if (!cmd->arr_cmd[0] || cmd->arr_cmd[0][0] == '\0')
+	printf("hola");
+	if (!cmd || !cmd->arr_cmd[0] || cmd->arr_cmd[0][0] == '\0')
 		return (NULL);
+	printf("7\n");
 	cmd->builtins = is_builtins(cmd->arr_cmd[0]);
 	if (cmd->builtins == 1 && !cmd->next)
+	{
+		printf("1\n");
 		path = ft_strdup(cmd->arr_cmd[0]);
+		printf("2\n");
+	}
 	else
+	{
+		printf("3\n");
 		path = search_path(cmd);
+		printf("4\n");
+	}
 	if (!path)
 		error_message("Command not found", NO_CLOSE);
 	return (path);
