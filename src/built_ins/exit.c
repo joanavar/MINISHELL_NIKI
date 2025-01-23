@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 12:09:50 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/22 16:47:40 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/23 12:02:22 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ int static	interpretor(char *str)
 {
 	long	nbr;
 
-	nbr = ft_atoi((const char *)str); //ToDo long
+	nbr = ft_atoi((const char *)str);
 	if (nbr < 0)
 		nbr *= -1;
 	if (nbr > 255)
-		return((nbr % 255) * 255);
+		return(nbr % 255);
 	return (nbr);
 
 }

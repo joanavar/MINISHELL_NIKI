@@ -6,11 +6,25 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 00:08:20 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/14 17:27:30 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/23 11:56:11 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+static char	*find_home(t_cmd *cmd)
+{
+	t_env	*home;
+
+	home = cmd->shell->env;
+	while (home)
+	{
+		if (!strncmp(home->value, "HOME", 5))
+			return (home->content);
+		home = home->next;
+	}
+	return ("HOME not set");
+}
 
 void	get_pwd(void)
 {
@@ -24,22 +38,27 @@ void	get_pwd(void)
 
 void	get_cd(t_cmd *cmd)
 {
+	char	*home;
+
 	if (!cmd->arr_cmd[1])
 	{
-		error_message("Need a relative or absolute path", NO_CLOSE);
-		return ;
+		home = strdup(find_home(cmd));
+		if (chdir(home) != 0)
+		{
+			ft_putstr_fd("bash: cd: ", 2);
+			ft_putendl_fd(home, 2);
+		}
 	}
-	else if (cmd->arr_cmd[1])
+	else if ((cmd->arr_cmd[1]) && !(cmd->arr_cmd[2]))
 	{
 		if (chdir(cmd->arr_cmd[1]) != 0)
 		{
-			perror("cd");
-			return ;
+			ft_putstr_fd("bash: cd: ", 2);
+			ft_putstr_fd(cmd->arr_cmd[1], 2);
+			ft_putendl_fd(": No such file or directory", 2);
 		}
 	}
 	else
-	{
-		error_message("Too many arguments\n", NO_CLOSE);
-		return ;
-	}
+		ft_putendl_fd("bash: cd: too many arguments", 2);
+	return ;
 }
