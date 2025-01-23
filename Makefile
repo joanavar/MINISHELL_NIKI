@@ -48,7 +48,8 @@ SRC_FILES   =       main/main.c \
 					executor/mini_exec.c \
 					executor/utils.c \
 					utils/utils_exec.c \
-					executor/token_to_cmd.c
+					executor/token_to_cmd.c \
+					main/clean2.c 
 
 OBJS        =       $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))
 

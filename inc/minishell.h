@@ -135,6 +135,7 @@ struct s_shell
 	t_env		*env;
 	t_export	*export;
 	t_token		*eco_token;
+	t_cmd		*cmds;
 } ;
 
 /***FUNTIONS AUX***/
@@ -159,6 +160,10 @@ void	error_message(char *str, t_opcode OPCODE);
 void	free_matrix(char **matrix);
 void	free_env(t_env **lst);
 void	free_token(t_token **lst);
+void	free_cmds(t_cmd **cmds);
+void    free_redirs(t_redir *redir);
+
+
 
 /***SIGNAL***/
 void	check_signal(int sisgnal_received);

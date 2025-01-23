@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   start_shell.c                                      :+:      :+:    :+:   */
+/*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/06 22:48:04 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/14 16:36:49 by camurill         ###   ########.fr       */
+/*   Created: 2024/12/13 18:40:02 by camurill          #+#    #+#             */
+/*   Updated: 2024/12/13 19:26:31 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	start_shell(t_shell *shell)
+void    free_redirs(t_redir *redir)
 {
+    t_redir *aux;
+    t_redir *buffer;
 
-	if (shell->prompt[0] == '\0')
-		return (0);
-	shell->eco_token = lectur_imput(shell->prompt, shell->env);
-	if (!shell->eco_token)
-		return (-1);
-	shell->cmds = token_to_cmd(shell->eco_token);
-	if (executor(shell) == -1)
-		return (-1);
-	return (0);
+    buffer = redir;
+    while (buffer)
+    {
+        aux = buffer->next;
+        free(buffer->file_name);
+        free(buffer);
+        buffer = aux;
+    }
+    redir = NULL;
 }

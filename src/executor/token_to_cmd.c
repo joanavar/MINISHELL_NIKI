@@ -58,11 +58,11 @@ static char ** add_to_array(char *token, char **cmd)
     new_cmd[++i] = NULL;
     free(cmd);
     i = 0;
-    while (new_cmd[i])
+    /*while (new_cmd[i])
     {
         printf ("new_cmd :%s\n", new_cmd[i]);
         i++;
-    }
+    }*/
     return (new_cmd);
 }
 
@@ -114,12 +114,14 @@ t_cmd   *token_to_cmd(t_token *tokens)
     {
         if (!clas_token(&tokens, &aux_cmd))
         {
-            //liberar los cmds hechos hasta ahora
+            free_cmds(&cmd);
+            free_token(&tokens);
             return (NULL);
         }
         if (check_pipe(&tokens, &aux_cmd) == -1) //Mejorara M ACS
             return (NULL); //Crear funcion para limpiar
         tokens = tokens->next;
     }
+
     return (cmd);
 }

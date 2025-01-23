@@ -22,9 +22,11 @@ void	clean_data(t_shell **shell)
 	if ((*shell)->env)
 		free_env(&((*shell)->env));
 	if ((*shell)->eco_token)
-		//free_token(&((*shell)->eco_token));
+		free_token(&((*shell)->eco_token));
 	if ((*shell)->arg)
 		free_matrix((*shell)->arg);
+	if ((*shell)->cmds)
+		free_cmds(&(*shell)->cmds);
 	free((*shell));
 }
 void	free_matrix(char **matrix)
@@ -80,4 +82,31 @@ void free_token(t_token **lst) //Corregir, peta con valores nulos
         buffer = aux;                
     }
     *lst = NULL;                     
+}
+
+void	free_cmds(t_cmd **cmds)
+{
+	t_cmd	*buffer;
+	t_cmd	*aux;
+	t_redir *redir;
+	int 	i;
+
+	//if (!cmds || !(*cmds))
+	//	return ;
+	buffer = *cmds;
+	while (buffer)
+	{
+		i = -1;
+		aux = buffer->next;
+		while (buffer->arr_cmd[++i])
+			free(buffer->arr_cmd[i]);
+		free(buffer->arr_cmd);
+		//buffer->arr_cmd = NULL;
+		free(buffer->path);
+		if (buffer->redirs)
+			free_redirs(buffer->redirs);
+		free(buffer);
+		buffer = aux;
+	}
+	*cmds = NULL;
 }
