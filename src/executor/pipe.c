@@ -6,18 +6,18 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:33:13 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/15 16:11:50 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/22 16:42:33 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static int	count_cmd(t_cmd *cmd)
+int	count_cmd(t_cmd *cmd)
 {
 	int	i;
 
 	i = 0;
-	if (!cmd->arr_cmd)
+	if (!cmd->next)
 		return (0);
 	while (cmd)
 	{
@@ -26,52 +26,101 @@ static int	count_cmd(t_cmd *cmd)
 	}
 	return (i);
 }
-void	change_proccess(int *p_fd, char **ag, char **env)
+static t_cmd	*close_pipes(t_cmd *cmd, int id)
 {
-	int	fd;
+	t_cmd	*aux;
 
-	fd = open_file(ag[1], 0);
-	if (dup2(fd, STDIN_FILENO) < 0)
-		ft_error(3, ag[1]);
-	if (dup2(p_fd[1], STDOUT_FILENO) < 0)
-		ft_error(3, ag[4]);
-	close(p_fd[0]);
-	funtion_exe(ag[2], env);
-}
-
-
-int	exec_mult(t_cmd *cmd, int size)
-{
-	pid_t	pid[size];
-	int		status;
-	int		i;
-	int		fd[size];
-
-	i = 0;
-	if (pipe(fd) < -1)
-		return (-1);
-	while (i < size)
+	aux = cmd;
+	while (aux)
 	{
-		pid[i] = fork();
-		if (pid[i] < 0)
-			error_message("Fork", NO_CLOSE);
-		if (pid[i] == 0)
-			change_proccess(fd, cmd->arr_cmd, cmd->shell->env);
-		i++;
+		if (aux->id != id)
+		{
+			if (aux->std_in != 0)
+				close(aux->std_in);
+			if (aux->std_out != 1)
+				close(aux->std_out);
+			if (aux->fd_in != 0)
+				close (aux->fd_in);
+			if (aux->fd_out != 0)
+				close (aux->fd_out);
+		}
+		aux = aux->next;
 	}
-	close(fd[0]);
-	close(fd[1]);
-	waitpid(pid[0], NULL, 0);
-	waitpid(pid[0], &status, 0);
-	status = WEXITSTATUS(status);
-	return (status);
+	aux = cmd;
+	while (aux->id != id)
+		aux = aux->next;
+	ft_dups(aux);
+	return (aux);
 }
 
-int	exec_duo(t_cmd *cmd)
+static void exec_parent(t_cmd *cmd, int id)
 {
-	int	size;
+	t_cmd	*aux;
 
-	size = count_cmd(cmd);
-	exec_mult(cmd , size);
-	return (EXIT_SUCCESS);
+	aux = cmd;
+	while (aux)
+	{
+		if (aux->id != id)
+		{
+			if (aux->std_in != 0)
+				close(aux->std_in);
+			if (aux->std_out != 1)
+				close(aux->std_out);
+			if (aux->fd_out != 0)
+				close (aux->fd_out);
+			if (aux->fd_in != 0)
+				close (aux->fd_in);
+		}
+		aux = aux->next;
+	}
+	waiting(cmd->shell);
+}
+
+
+void exec_child(t_cmd *cmd, int id)
+{
+	t_cmd	*aux;
+
+	aux = close_pipes(cmd, id);
+	aux->path = get_path(aux);
+	if (!aux->path)
+	{
+		if (aux->shell->exit_status == 0)
+			exit (0);
+		ft_putstr_fd("Minishell: Command not found: ", 2);
+		ft_putendl_fd(aux->arr_cmd[0], 2);
+		exit(127);
+	}
+	if (cmd->builtins != 1)
+		mini_exec(cmd);
+	else
+		built_ins(cmd);
+}
+
+void	exec_duo(t_cmd *cmd)
+{
+	t_cmd	*aux;
+	t_cmd	*aux_2;
+	int		pid;
+	int		id;
+
+	pid = 1;
+	id = 0;
+	aux = cmd;
+	aux_2 = aux;
+	while (aux && pid != 0)
+	{
+		if (aux->id == 0 || aux_2->id > 0)
+			pid = fork();
+		if (pid == 0)
+			exec_child(cmd, aux->id);
+		else if (aux)
+		{
+			aux_2 = aux;
+			id = aux->id;
+			aux = aux->next;
+		}
+	}
+	if (pid != 0)
+		exec_parent(cmd, id);
 }

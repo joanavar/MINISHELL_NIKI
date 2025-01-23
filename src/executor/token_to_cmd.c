@@ -1,6 +1,6 @@
 #include "../../inc/minishell.h"
 
-static t_cmd   *create_new_cmd(void)
+t_cmd   *create_new_cmd(void)
 {
     t_cmd	*cmd;
 
@@ -9,10 +9,15 @@ static t_cmd   *create_new_cmd(void)
 		return (NULL);
 	cmd->arr_cmd = NULL;
 	cmd->path = NULL;
+    cmd->builtins = 0;
+    cmd->id = 0;
 	cmd->pid = -1;
-	//cmd->fd_in = -1;
-	//cmd->fd_out = -1;
-    //cmd->fd_next = -1;
+    cmd->std_in = 0;
+    cmd->std_out = 1;
+    cmd->std_error = 2;
+	cmd->fd_in = 0;
+	cmd->fd_out = 0;
+    cmd->pipe = 0;
 	cmd->redirs = NULL;
 	cmd->next = NULL;
 	return (cmd);
@@ -75,7 +80,6 @@ static int clas_token(t_token **token, t_cmd **aux_cmd)
     {
         (*aux_cmd)->arr_cmd = add_to_array((*token)->content,
             (*aux_cmd)->arr_cmd);
-        //printf("cmd :%s\n", (*aux_cmd)->arr_cmd[0]);
         if (!(*aux_cmd)->arr_cmd)
             return (0);
     }
@@ -92,8 +96,9 @@ static int clas_token(t_token **token, t_cmd **aux_cmd)
 
 t_cmd   *token_to_cmd(t_token *tokens)
 {
-    t_cmd *cmd;
-    t_cmd *aux_cmd;
+    t_cmd   *cmd;
+    t_cmd   *aux_cmd;
+    t_cmd   *last;
 
     cmd = create_new_cmd();
     if (!cmd)
@@ -106,6 +111,8 @@ t_cmd   *token_to_cmd(t_token *tokens)
             //liberar los cmds hechos hasta ahora
             return (NULL);
         }
+        if (check_pipe(&tokens, &aux_cmd) == -1) //Mejorara M ACS
+            return (NULL); //Crear funcion para limpiar
         tokens = tokens->next;
     }
     return (cmd);

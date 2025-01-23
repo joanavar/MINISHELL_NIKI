@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 19:35:51 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/15 14:55:18 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/20 13:13:48 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,22 @@ int	check_doubles(char *str, char ltr)
 	if (counter % 2 == 0)
 		return (0);
 	return (counter % 2);
+}
+
+int	check_numeric(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	while (str[i])
+	{
+		if (str[i] < 48 || str[i] > 57)
+			return (2);
+		i++;
+	}
+	return (0);
 }
 
 int	check_specials(char *str, char ltr)
