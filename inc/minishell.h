@@ -6,6 +6,7 @@
 /*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
+/*   Updated: 2025/01/22 13:31:06 by camurill         ###   ########.fr       */
 /*   Updated: 2025/01/22 17:57:28 by joannavarro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -100,10 +101,17 @@ typedef struct s_cmd
 {
 	char			**arr_cmd;
 	char			*path;
+	int				builtins;
 	int				pid;
+	int				id;
+	int				std_dup;
+	int				stdout_dup;
+	int				std_in;
+	int				std_out;
+	int				std_error;
 	int				fd_in;
 	int				fd_out;
-	int				fd_next;
+	int				pipe;
 	t_redir			*redirs;
 	struct s_cmd	*next;
 	t_shell			*shell;
@@ -132,6 +140,9 @@ struct s_shell
 /***FUNTIONS AUX***/
 /*int		check_doubles(char *str, char ltr);*/
 int		check_specials(char *str, char ltr);
+int		check_numeric(char *str);
+int		count_cmd(t_cmd *cmd);
+void	waiting(t_shell *shell);
 /*
 int		parssing(t_shell **shell);
 t_env	*get_env(char **env);*/
@@ -162,14 +173,23 @@ void	get_pwd(void);
 void	get_cd(t_cmd *cmd);
 void	print_env(t_shell *shell);
 int		built_ins(t_cmd *cmd);
+/***Exit***/
+int		mini_exit(t_cmd *cmd);
 
 /***ENV ***/
 t_env	*lstnew(char *content);
 t_env	*get_env(char **env);
 
 /*** EXECUTOR ***/
-int	exec_ve(t_cmd *cmd);
-int	exec_duo(t_cmd *cmd);
+void	exec_duo(t_cmd *cmd);
+char	*get_path(t_cmd *cmd);
+void	exec_child(t_cmd *cmd, int id);
+void	mini_exec(t_cmd *cmd);
+
+/*** PIPES ***/
+int		check_pipe(t_token **tokens, t_cmd **last);
+void	ft_dups(t_cmd *cmd);
+
 
 /***NAVARRO_FUNCTIONS***/
 //lectur.c
@@ -178,6 +198,7 @@ t_token	*lectur_imput(char *str, t_env *env);
 //token.c
 void	get_token(char *str, t_token **stack);
 t_token	*find_last(t_token *stack);
+t_cmd   *create_new_cmd(void);
 //string.c
 int		is_string(char *str, int i, t_token **stack);
 //remove_quotes.c
