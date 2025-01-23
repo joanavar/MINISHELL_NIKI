@@ -6,7 +6,7 @@
 /*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 16:17:46 by joanavar          #+#    #+#             */
-/*   Updated: 2024/12/23 18:42:10 by joannavarro      ###   ########.fr       */
+/*   Updated: 2025/01/22 18:28:25 by joannavarro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,8 @@ void	expandir(t_token **stack, t_env *env)
 			tmp = tmp->next;
 		if (!tmp)
 			return ;
-		if (tmp->type == 1 || tmp->type == 3)
+		//tmp = is_heredoc(tmp);
+		if ((tmp->type == 1 || tmp->type == 3))
 		{
 			while (tmp->content[i])
 			{
@@ -118,6 +119,7 @@ void	expandir(t_token **stack, t_env *env)
 				i++;
 			}
 		}
-		tmp = tmp->next;
+		if (tmp->next)
+			tmp = tmp->next;
 	}
 }

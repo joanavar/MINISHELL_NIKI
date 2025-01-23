@@ -3,10 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:33:13 by camurill          #+#    #+#             */
 /*   Updated: 2025/01/22 16:42:33 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/22 17:19:24 by joannavarro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +27,7 @@ int	count_cmd(t_cmd *cmd)
 	}
 	return (i);
 }
+
 static t_cmd	*close_pipes(t_cmd *cmd, int id)
 {
 	t_cmd	*aux;

@@ -51,7 +51,7 @@ int add_rest_redir(t_token *token, t_cmd *cmd)
     tmp_token = space_zero(token);
     filename_size = ft_strlen(tmp_token->content);
     tmp_redir = cmd->redirs;
-    while (tmp_redir)
+    while (tmp_redir->next)
         tmp_redir = tmp_redir->next;
     tmp_redir->next = malloc(sizeof(t_redir) * 1);
     if (!tmp_redir->next)
@@ -63,6 +63,7 @@ int add_rest_redir(t_token *token, t_cmd *cmd)
     tmp_redir->next->fd = -1;
     //tmp_redir->next->amb_red = 0;
     tmp_redir->next->next = NULL;
+    printf ("%s\n", tmp_redir->next->file_name);
     return (1);
 }
 
