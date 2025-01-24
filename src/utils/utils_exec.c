@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_tokens.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/08 17:11:34 by joanavar          #+#    #+#             */
+/*   Updated: 2025/01/22 18:22:55 by joannavarro      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "../../inc/minishell.h"
 
 int arr_size(char **array)
@@ -6,10 +17,7 @@ int arr_size(char **array)
 
     i = 0;
     while (array && array[i])
-    {
-        printf("contenido array :%s\n", array[i]);
         i++;
-    }
     return (i);
 }
 t_token *space_zero(t_token *token)

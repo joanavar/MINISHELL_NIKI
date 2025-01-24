@@ -19,7 +19,7 @@ static int	ft_selector(t_cmd *cmd)
 		if (!cmd->arr_cmd[1])
 		{
 			printf(YELLOW"exit\n"GBD);
-			clean_data(&cmd->shell);
+			clean_data(cmd->shell);
 			exit(0);
 		}
 		else

@@ -20,6 +20,7 @@ int	start_shell(t_shell *shell)
 	shell->eco_token = lectur_imput(shell->prompt, shell->env);
 	if (!shell->eco_token)
 		return (-1);
+	shell->cmds = token_to_cmd(shell->eco_token);
 	if (executor(shell) == -1)
 		return (-1);
 	return (0);

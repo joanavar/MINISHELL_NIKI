@@ -79,7 +79,7 @@ static void exec_parent(t_cmd *cmd, int id)
 }
 
 
-void exec_child(t_cmd *cmd, int id)
+void exec_child(t_cmd *cmd, int id, t_shell *shell)
 {
 	t_cmd	*aux;
 
@@ -91,15 +91,16 @@ void exec_child(t_cmd *cmd, int id)
 			exit (0);
 		ft_putstr_fd("Minishell: Command not found: ", 2);
 		ft_putendl_fd(aux->arr_cmd[0], 2);
+		clean_data(shell);
 		exit(127);
 	}
 	if (cmd->builtins != 1)
-		mini_exec(cmd);
+		mini_exec(cmd, shell);
 	else
 		built_ins(cmd);
 }
 
-void	exec_duo(t_cmd *cmd)
+void	exec_duo(t_cmd *cmd, t_shell *shell)
 {
 	t_cmd	*aux;
 	t_cmd	*aux_2;
@@ -115,7 +116,7 @@ void	exec_duo(t_cmd *cmd)
 		if (aux->id == 0 || aux_2->id > 0)
 			pid = fork();
 		if (pid == 0)
-			exec_child(cmd, aux->id);
+			exec_child(cmd, aux->id, shell);
 		else if (aux)
 		{
 			aux_2 = aux;

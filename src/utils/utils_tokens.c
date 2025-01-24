@@ -95,7 +95,7 @@ t_token	*is_heredoc(t_token *token)
 	t_token *tmp;
 
 	tmp = token;
-	if (!(tmp->type == 5))
+	if (!(tmp->type == 5) || !(tmp->next))
 		return (tmp);
 	tmp = tmp->next;
 	while (tmp->type == 0)
