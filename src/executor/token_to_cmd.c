@@ -49,20 +49,14 @@ static char ** add_to_array(char *token, char **cmd)
         return (free_matrix(cmd), NULL);
     while (cmd[i])
     {
-        new_cmd[i] = cmd[i];
+        new_cmd[i] = ft_strdup(cmd[i]);
         i++;
     }
     new_cmd[i] = ft_strdup(token);
     if (!new_cmd[i])
-        return (free_matrix(cmd), free(new_cmd), NULL);
+        return (free_matrix(cmd), free_matrix(new_cmd), NULL);
     new_cmd[++i] = NULL;
-    free(cmd);
-    i = 0;
-    while (new_cmd[i])
-    {
-        printf ("new_cmd :%s\n", new_cmd[i]);
-        i++;
-    }
+    free_matrix(cmd);
     return (new_cmd);
 }
 
@@ -73,8 +67,14 @@ static int clas_token(t_token **token, t_cmd **aux_cmd)
     {
         if (add_redir(*token, *aux_cmd) == 2)
             return (0);
-        printf("mi filename es :%s\n", (aux_cmd[0]->redirs->file_name));
+        while ((*aux_cmd)->redirs)
+        {
+            printf("mi filename es :%s\n", ((*aux_cmd)->redirs->file_name));
+            (*aux_cmd)->redirs = (*aux_cmd)->redirs->next;
+        }
         (*token) = (*token)->next;
+        while ((*token)->type == 0)
+            (*token) = (*token)->next;
     }
     else if (string_type(*token))
     {
@@ -88,7 +88,7 @@ static int clas_token(t_token **token, t_cmd **aux_cmd)
         (*aux_cmd)->next = create_new_cmd();
         if (!(*aux_cmd)->next)
             return (0);
-        print_cmd((*aux_cmd)->arr_cmd);
+        //print_cmd((*aux_cmd)->arr_cmd);
         *aux_cmd = (*aux_cmd)->next;
     }
     return (1);
@@ -99,7 +99,9 @@ t_cmd   *token_to_cmd(t_token *tokens)
     t_cmd   *cmd;
     t_cmd   *aux_cmd;
     t_cmd   *last;
+    t_token *tmp;
 
+    tmp = tokens;
     cmd = create_new_cmd();
     if (!cmd)
         return (NULL);
@@ -108,12 +110,15 @@ t_cmd   *token_to_cmd(t_token *tokens)
     {
         if (!clas_token(&tokens, &aux_cmd))
         {
-            //liberar los cmds hechos hasta ahora
+            free_cmds(cmd);
+            free_token(tmp);
             return (NULL);
         }
-        if (check_pipe(&tokens, &aux_cmd) == -1) //Mejorara M ACS
-            return (NULL); //Crear funcion para limpiar
+        	printf("cmd\n");
+       // if (check_pipe(&tokens, &aux_cmd) == -1) //Mejorara M ACS
+         //   return (NULL); //Crear funcion para limpiar
         tokens = tokens->next;
     }
+    //printf("cmd <%s>\n", cmd->arr_cmd[0]);
     return (cmd);
 }

@@ -56,7 +56,7 @@ static char **lst_to_chr(t_env *env)
 	return (aux);
 }
 
-void	mini_exec(t_cmd *cmd)
+void	mini_exec(t_cmd *cmd, t_shell *shell)
 {
 	char	**env_arr;
 
@@ -69,5 +69,6 @@ void	mini_exec(t_cmd *cmd)
 		ft_putstr_fd("Minishell: Command not found: ", 2);
 		ft_putendl_fd(cmd->arr_cmd[0], 2);
 	}
+	clean_data(shell);
 	exit(2);
 }

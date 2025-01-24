@@ -3,10 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 20:48:01 by camurill          #+#    #+#             */
 /*   Updated: 2025/01/22 15:35:30 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/22 17:17:38 by joannavarro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +60,6 @@ int	executor(t_shell *shell)
 	if (cmds->path && cmds->builtins == 1 && cmds->next == NULL)
 		i = built_ins(cmds);
 	else
-		exec_duo(cmds);
+		exec_duo(cmds, shell);
 	return (i);
 }

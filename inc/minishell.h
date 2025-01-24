@@ -3,10 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
 /*   Updated: 2025/01/22 13:31:06 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/22 17:57:28 by joannavarro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +29,7 @@
 # include <readline/history.h> //add_history
 # include <curses.h> //tgetent-tputs
 # include <term.h> //tgoto-tgetent
+# include <fcntl.h>
 # include "../Libreries/Libft/libft.h"
 
 #define DELIM		" \t\r\n\a"
@@ -133,6 +135,7 @@ struct s_shell
 	t_env		*env;
 	t_export	*export;
 	t_token		*eco_token;
+	t_cmd		*cmds;
 } ;
 
 /***FUNTIONS AUX***/
@@ -149,14 +152,20 @@ t_env	*get_env(char **env);*/
 
 /***MAIN***/
 void	init_shell(t_shell **shell, char **env);
-void	clean_data(t_shell **shell);
+void	clean_data(t_shell *shell);
 int		start_shell(t_shell	*shell);
 
 /****ERORR FOUND***/
 void	error_message(char *str, t_opcode OPCODE);
 void	free_matrix(char **matrix);
-void	free_env(t_env **lst);
-void	free_token(t_token **lst);
+void	free_env(t_env *lst);
+void	free_token(t_token *lst);
+void	free_cmds(t_cmd *cmds);
+void    free_redirs(t_redir *redir);
+void    free_shell(t_shell *shell);
+
+
+
 
 /***SIGNAL***/
 void	check_signal(int sisgnal_received);
@@ -179,10 +188,10 @@ t_env	*lstnew(char *content);
 t_env	*get_env(char **env);
 
 /*** EXECUTOR ***/
-void	exec_duo(t_cmd *cmd);
+void	exec_duo(t_cmd *cmd, t_shell *shell);
 char	*get_path(t_cmd *cmd);
-void	exec_child(t_cmd *cmd, int id);
-void	mini_exec(t_cmd *cmd);
+void	exec_child(t_cmd *cmd, int id, t_shell *shell);
+void	mini_exec(t_cmd *cmd, t_shell *shell);
 
 /*** PIPES ***/
 int		check_pipe(t_token **tokens, t_cmd **last);
@@ -221,6 +230,8 @@ int add_redir(t_token *token, t_cmd *cmd);
 t_token *space_zero(t_token *token);
 int add_first_redir(t_token *token, t_cmd *cmd);
 int add_rest_redir(t_token *token, t_cmd *cmd);
+t_env   *choose_env(t_shell *shell);
+
 
 
 
@@ -243,4 +254,8 @@ int	syntax_pipe_or_redi(t_token *token);
 //void	expander(t_token *token, int i, t_env **env);
 void	expandir(t_token **stack, t_env *env);
 int		executor(t_shell *shell);
+int	open_file(char *file, int type);
+t_token	*is_heredoc(t_token *token);
+
+
 #endif

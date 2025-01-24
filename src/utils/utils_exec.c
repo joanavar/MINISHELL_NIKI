@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_tokens.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/08 17:11:34 by joanavar          #+#    #+#             */
+/*   Updated: 2025/01/22 18:22:55 by joannavarro      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "../../inc/minishell.h"
 
 int arr_size(char **array)
@@ -6,10 +17,7 @@ int arr_size(char **array)
 
     i = 0;
     while (array && array[i])
-    {
-        printf("contenido array :%s\n", array[i]);
         i++;
-    }
     return (i);
 }
 t_token *space_zero(t_token *token)
@@ -51,7 +59,7 @@ int add_rest_redir(t_token *token, t_cmd *cmd)
     tmp_token = space_zero(token);
     filename_size = ft_strlen(tmp_token->content);
     tmp_redir = cmd->redirs;
-    while (tmp_redir)
+    while (tmp_redir->next)
         tmp_redir = tmp_redir->next;
     tmp_redir->next = malloc(sizeof(t_redir) * 1);
     if (!tmp_redir->next)
@@ -63,6 +71,7 @@ int add_rest_redir(t_token *token, t_cmd *cmd)
     tmp_redir->next->fd = -1;
     //tmp_redir->next->amb_red = 0;
     tmp_redir->next->next = NULL;
+    printf ("%s\n", tmp_redir->next->file_name);
     return (1);
 }
 
