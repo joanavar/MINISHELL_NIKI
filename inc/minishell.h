@@ -230,6 +230,8 @@ int add_redir(t_token *token, t_cmd *cmd);
 t_token *space_zero(t_token *token);
 int add_first_redir(t_token *token, t_cmd *cmd);
 int add_rest_redir(t_token *token, t_cmd *cmd);
+t_env   *choose_env(t_shell *shell);
+
 
 
 

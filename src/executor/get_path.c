@@ -55,6 +55,8 @@ static char *search_path(t_cmd *cmd)
 	int		i;
 
 	path = ft_split(get_p_env(cmd, "PATH"), ':');
+	if (!path)
+		return NULL;
 	i = -1;
 	while(path[++i])
 	{
@@ -69,6 +71,7 @@ static char *search_path(t_cmd *cmd)
 		free(exec);
 		free(path_aux);		
 	}
+
 	return (free_matrix(path), cmd->arr_cmd[0]);
 }
 
@@ -76,7 +79,6 @@ char *get_path(t_cmd *cmd)
 {
 	char *path;
 
-	printf("hola");
 	if (!cmd || !cmd->arr_cmd[0] || cmd->arr_cmd[0][0] == '\0')
 		return (NULL);
 	printf("7\n");
@@ -85,6 +87,7 @@ char *get_path(t_cmd *cmd)
 	{
 		printf("1\n");
 		path = ft_strdup(cmd->arr_cmd[0]);
+		printf("path es: %s\n", path);
 		printf("2\n");
 	}
 	else

@@ -31,12 +31,18 @@ void	init_shell(t_shell **shell, char **env)
 	(*shell)->status = 0;
 	(*shell)->arg = NULL;
 	(*shell)->env = NULL;
-	if (!env)
-		error_message("Problems, not found env", CLOSE);
+
+	if (!env || !(*env))
+	{
+		(*shell)->env = choose_env(*shell);
+		if (!(*shell)->env)
+			error_message("Problems, not found env", CLOSE);
+	}
 	else
 		(*shell)->env = get_env(env);
 	(*shell)->eco_token = NULL;
 }
+
 
 int	main(int ac, char **ag, char **env)
 {
@@ -45,6 +51,8 @@ int	main(int ac, char **ag, char **env)
 	if (ac > 1)
 		error_message("Enter only one argument", CLOSE);
 	shell = NULL;
+	if (!env || !(*env))
+		printf("carol\n");
 	init_shell(&shell, env);
 	check_signal(g_signal_received);
 	while (1)
