@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 18:16:05 by joanavar          #+#    #+#             */
-/*   Updated: 2024/12/13 19:15:54 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/24 20:25:34 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ void	print_token(t_token **stack)
 		}
 		if (!tmp)
 			break ;
-		printf("content :%s\n", tmp->content);
-		printf("type :%d\n", tmp->type);
+		//printf("content :%s\n", tmp->content);
+		//printf("type :%d\n", tmp->type);
 		tmp = tmp->next;
 	}
 }

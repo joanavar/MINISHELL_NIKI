@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:49:47 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/21 15:13:51 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/24 20:24:56 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	init_shell(t_shell **shell, char **env)
 	else
 		(*shell)->env = get_env(env);
 	(*shell)->eco_token = NULL;
+	(*shell)->cmds = NULL;
 }
 
 
@@ -51,8 +52,6 @@ int	main(int ac, char **ag, char **env)
 	if (ac > 1)
 		error_message("Enter only one argument", CLOSE);
 	shell = NULL;
-	if (!env || !(*env))
-		printf("carol\n");
 	init_shell(&shell, env);
 	check_signal(g_signal_received);
 	while (1)
@@ -61,14 +60,13 @@ int	main(int ac, char **ag, char **env)
 		if (!shell->prompt)
 		{
 			printf("exit\n");
-			break ;
+			return (EXIT_SUCCESS);
 		}
 		if (*shell->prompt && start_shell(shell) == -1)
-			error_message("Syntax Error", NO_CLOSE);
-		add_history(shell->prompt);
+			break ;
+		if (ft_strncmp(shell->prompt, "", ft_strlen(shell->prompt)))
+			add_history(shell->prompt);
 		free(shell->prompt);
-		free_token((shell->eco_token));
-		free_cmds((shell->cmds));
 	}
 	clean_data(shell);
 	return (0);
