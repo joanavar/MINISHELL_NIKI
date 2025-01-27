@@ -38,3 +38,11 @@ void	check_signal(int signal_received)
 	if (sigaction(SIGQUIT, &sigout, NULL) == -1)
 		error_message("signation", CLOSE);
 }
+
+
+void	handle_sigint_heredoc(int sig)
+{
+	(void)sig;
+	write(1, "\n", 1);
+	exit(1);
+}

@@ -12,7 +12,25 @@
 
 #include "../../inc/minishell.h"
 
-static int  go_heredoc(t_cmd *cmd, t_env **env, int fd_doc)
+/*static char *line_expansion(char *line, t_env *env)
+{
+    t_token *tmp;
+    char    *str;
+
+    tmp = (t_token *)malloc(sizeof(t_token));
+    if (!tmp)
+        return (NULL);
+    tmp->content = ft_strdup(line);
+    tmp->type = 1;
+    if (!tmp->content)
+        return (NULL);
+    tmp->next = NULL;
+    str = tmp->content;
+    //falta acabar en caso de expandir;
+}
+*/
+
+static void  go_heredoc(t_cmd *cmd, int fd_doc)
 {
     char *line;
 
@@ -21,10 +39,9 @@ static int  go_heredoc(t_cmd *cmd, t_env **env, int fd_doc)
         line = readline("> ");
         if (!line)
             break ;
-        if (ft_strcmp(line, cmd->file_name))
+        if (ft_strcmp(line, cmd->redirs->file_name))
             break ;
-        if (cmd->algo == 'h')// buscar como es la condicion
-            line = line_expansion(line, env);
+        //line = line_expansion(line, env);
         ft_putstr_fd(line, fd_doc);
         ft_putstr_fd("\n", fd_doc);
     }
@@ -32,15 +49,35 @@ static int  go_heredoc(t_cmd *cmd, t_env **env, int fd_doc)
         free(line);
 }
 
-static child_heredoc(t_cmd cmd, t_env **env, int *heredoc)
+static void child_heredoc(t_cmd *cmd, int *heredoc)
 {
-    //hacer algo de senyales;
+    signal(SIGINT, handle_sigint_heredoc);
     close(heredoc[0]);
-    go_heredoc(cmd, env, heredoc[1]);
+    go_heredoc(cmd, heredoc[1]);
     close(heredoc[1]);
     exit(0);
 }
-int heredoc(t_cmd *cmd, t_env **env)
+
+static int	parent_heredoc(t_cmd *cmd, int *heredoc)
+{
+	int	exit_status;
+
+	signal(SIGINT, SIG_IGN);
+	wait(&exit_status);
+	close(heredoc[1]);
+	if (WIFEXITED(exit_status))
+	{
+		exit_status = WEXITSTATUS(exit_status);
+		if (exit_status == 1)
+			return (-3);
+		else
+			cmd->std_in = dup(heredoc[0]);
+		close(heredoc[0]);
+	}
+	//signals_init();
+	return (0);
+}
+int heredoc(t_cmd *cmd)
 {
     int pid;
     int heredoc[2];
@@ -51,7 +88,7 @@ int heredoc(t_cmd *cmd, t_env **env)
         exit(1);
     pid = fork();
     if (pid == 0)
-        child_heredoc(cmd, env, heredoc);
+        child_heredoc(cmd, heredoc);
     else
         return (parent_heredoc(cmd, heredoc));
     return (0);

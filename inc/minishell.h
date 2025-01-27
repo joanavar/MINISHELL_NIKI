@@ -170,6 +170,8 @@ void    free_shell(t_shell *shell);
 /***SIGNAL***/
 void	check_signal(int sisgnal_received);
 void	handle_sigint(int signal);
+void	handle_sigint_heredoc(int sig);
+
 //void	handle_sigquit(int signal); quitar
 
 /***BUILTS_INS***/
@@ -233,6 +235,11 @@ t_token *space_zero(t_token *token);
 int add_first_redir(t_token *token, t_cmd *cmd);
 int add_rest_redir(t_token *token, t_cmd *cmd);
 t_env   *choose_env(t_shell *shell);
+
+//heredoc
+
+int heredoc(t_cmd *cmd);
+
 
 
 

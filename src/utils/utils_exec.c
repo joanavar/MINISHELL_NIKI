@@ -47,6 +47,8 @@ int add_first_redir(t_token *token, t_cmd *cmd)
     cmd->redirs->fd = -1;
 	//cmd->redirs->amb_red = 0;
 	cmd->redirs->next = NULL;
+    if (cmd->redirs->type == 5)
+        heredoc(cmd);
     return (1);
 }
 
@@ -71,7 +73,8 @@ int add_rest_redir(t_token *token, t_cmd *cmd)
     tmp_redir->next->fd = -1;
     //tmp_redir->next->amb_red = 0;
     tmp_redir->next->next = NULL;
-    printf ("%s\n", tmp_redir->next->file_name);
+    if (tmp_redir->next->type == 5)
+        heredoc(cmd);
     return (1);
 }
 

@@ -24,3 +24,4 @@ t_env   *choose_env(t_shell *shell)
     shell->env->prev = NULL;
     return (shell->env);
 }
+
