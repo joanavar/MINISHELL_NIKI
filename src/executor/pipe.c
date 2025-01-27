@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:33:13 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/27 14:03:20 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/27 20:13:35 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ static t_cmd	*close_pipes(t_cmd *cmd, int id)
 	{
 		if (aux->id != id)
 		{
-			if (aux->std_in != 0)
+			if (aux->std_in != 0 && aux->std_in != -1)
 				close(aux->std_in);
-			if (aux->std_out != 1)
+			if (aux->std_out != 1 && aux->std_out != -1)
 				close(aux->std_out);
-			if (aux->fd_in != 0)
+			if (aux->fd_in != 0 && aux->fd_in != -1)
 				close (aux->fd_in);
-			if (aux->fd_out != 0)
+			if (aux->fd_out != 0 && aux->fd_out != -1)
 				close (aux->fd_out);
 		}
 		aux = aux->next;
@@ -51,29 +51,28 @@ static t_cmd	*close_pipes(t_cmd *cmd, int id)
 	aux = cmd;
 	while (aux->id != id)
 		aux = aux->next;
-	printf_dups(cmd);
+	if (!aux)
+		return (NULL);
 	ft_dups(aux);
 	return (aux);
 }
 
-static void exec_parent(t_cmd *cmd, int id)
+static void exec_parent(t_cmd *cmd, int id, int pid)
 {
 	t_cmd	*aux;
+	int		status;
 
 	aux = cmd;
 	while (aux)
 	{
-		if (aux->id != id)
-		{
-			if (aux->std_in != 0)
-				close(aux->std_in);
-			if (aux->std_out != 1)
-				close(aux->std_out);
-			if (aux->fd_out != 0)
-				close (aux->fd_out);
-			if (aux->fd_in != 0)
-				close (aux->fd_in);
-		}
+		if (aux->std_in != 0)
+			close(aux->std_in);
+		if (aux->std_out != 1)
+			close(aux->std_out);
+		if (aux->fd_out != 0)
+			close (aux->fd_out);
+		if (aux->fd_in != 0)
+			close (aux->fd_in);
 		aux = aux->next;
 	}
 	waiting(cmd->shell);
@@ -85,7 +84,7 @@ void exec_child(t_cmd *cmd, int id, t_shell *shell)
 	t_cmd	*aux;
 
 	aux = close_pipes(cmd, id);
-	aux->path = get_path(aux);
+	aux->path = get_path(aux, shell->env);
 	if (!aux->path)
 	{
 		if (aux->shell->exit_status == 0)
@@ -96,9 +95,9 @@ void exec_child(t_cmd *cmd, int id, t_shell *shell)
 		exit(127);
 	}
 	if (cmd->builtins != 1)
-		mini_exec(cmd, shell);
+		mini_exec(aux, shell);
 	else
-		built_ins(cmd);
+		built_ins(aux);
 }
 
 void	exec_duo(t_cmd *cmd, t_shell *shell)
@@ -114,11 +113,14 @@ void	exec_duo(t_cmd *cmd, t_shell *shell)
 	aux_2 = aux;
 	while (aux && pid != 0)
 	{
-		if (aux->id == 0 || aux_2->id > 0)
+		if (aux->id == 0 || aux_2->pipe == 1)
 			pid = fork();
 		if (pid == 0)
+		{
 			exec_child(cmd, aux->id, shell);
-		else if (aux)
+			exit(EXIT_SUCCESS);
+		}
+		else if (aux != 0)
 		{
 			aux_2 = aux;
 			id = aux->id;
@@ -126,5 +128,5 @@ void	exec_duo(t_cmd *cmd, t_shell *shell)
 		}
 	}
 	if (pid != 0)
-		exec_parent(cmd, id);
+		exec_parent(cmd, id, pid);
 }

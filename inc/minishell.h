@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/27 13:59:21 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/27 17:15:53 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ t_env	*get_env(char **env);
 
 /*** EXECUTOR ***/
 void	exec_duo(t_cmd *cmd, t_shell *shell);
-char	*get_path(t_cmd *cmd);
+char	*get_path(t_cmd *cmd, t_env *env);
 void	exec_child(t_cmd *cmd, int id, t_shell *shell);
 void	mini_exec(t_cmd *cmd, t_shell *shell);
 

@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:06:40 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/27 13:41:50 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/27 18:19:48 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	check_pipe(t_cmd **cmd)
 	aux = *cmd;
 	while (aux->next)
 	{
+		aux->pipe = 1;
 		if (pipe(fd) == -1)
 			return (-1);
 		aux->fd_out = fd[1];
@@ -50,13 +51,11 @@ void	waiting(t_shell *shell)
 			ft_putstr_fd("\n", 1);
 			status = WTERMSIG(exit_status) + 128;
 			shell->exit_status = status;
-			//change_status(shell);
 		}
 		if (WIFEXITED(exit_status))
 		{
 			status = WEXITSTATUS(exit_status);
 			shell->exit_status = status;
-			//change_status(shell);		
 		}
 	}
 	check_signal(g_signal_received);
