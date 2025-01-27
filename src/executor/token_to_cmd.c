@@ -122,7 +122,6 @@ t_cmd   *token_to_cmd(t_token *tokens)
             free_token(&tmp);
             return (NULL);
         }
-        	//printf("cmd\n");
        // if (check_pipe(&tokens, &aux_cmd) == -1) //Mejorara M ACS
          //   return (NULL); //Crear funcion para limpiar
         tokens = tokens->next;

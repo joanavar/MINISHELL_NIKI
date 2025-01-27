@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 20:48:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/22 15:35:30 by camurill         ###   ########.fr       */
-/*   Updated: 2025/01/22 17:17:38 by joannavarro      ###   ########.fr       */
+/*   Updated: 2025/01/27 12:42:51 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../inc/minishell.h"
 
@@ -53,7 +53,7 @@ int	executor(t_shell *shell)
 	if (!cmds)
 		return (-1);
 	cmds->shell = shell;
-	if (!cmds)
+	if (!cmds->shell)
 		return (-1);
 	cmds->path = get_path(cmds);
 	cmds = initial_cmd(cmds);
