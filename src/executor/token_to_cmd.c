@@ -25,12 +25,18 @@ t_cmd   *create_new_cmd(void)
 
 static char **create_arr_cmd(char *token, char **cmd)
 {
+    if (!token)
+        return (NULL);
     cmd = malloc(sizeof(char *) * 2);
     if (!cmd)
         return (NULL);
     cmd[0] = ft_strdup(token);
     if (!cmd[0])
+    {
+        free(cmd[0]);
+        free(cmd);
         return (NULL);
+    }
     cmd[1] = NULL;
     return (cmd);
 }
@@ -50,6 +56,8 @@ static char ** add_to_array(char *token, char **cmd)
     while (cmd[i])
     {
         new_cmd[i] = ft_strdup(cmd[i]);
+        if (!new_cmd[i])
+            return (free_matrix(new_cmd), NULL);
         i++;
     }
     new_cmd[i] = ft_strdup(token);
@@ -68,10 +76,7 @@ static int clas_token(t_token **token, t_cmd **aux_cmd)
         if (add_redir(*token, *aux_cmd) == 2)
             return (0);
         while ((*aux_cmd)->redirs)
-        {
-            printf("mi filename es :%s\n", ((*aux_cmd)->redirs->file_name));
             (*aux_cmd)->redirs = (*aux_cmd)->redirs->next;
-        }
         (*token) = (*token)->next;
         while ((*token)->type == 0)
             (*token) = (*token)->next;
@@ -88,7 +93,6 @@ static int clas_token(t_token **token, t_cmd **aux_cmd)
         (*aux_cmd)->next = create_new_cmd();
         if (!(*aux_cmd)->next)
             return (0);
-        //print_cmd((*aux_cmd)->arr_cmd);
         *aux_cmd = (*aux_cmd)->next;
     }
     return (1);
@@ -110,15 +114,13 @@ t_cmd   *token_to_cmd(t_token *tokens)
     {
         if (!clas_token(&tokens, &aux_cmd))
         {
-            free_cmds(cmd);
-            free_token(tmp);
+            free_cmds(&cmd);
+            free_token(&tmp);
             return (NULL);
         }
-        	printf("cmd\n");
        // if (check_pipe(&tokens, &aux_cmd) == -1) //Mejorara M ACS
          //   return (NULL); //Crear funcion para limpiar
         tokens = tokens->next;
     }
-    //printf("cmd <%s>\n", cmd->arr_cmd[0]);
     return (cmd);
 }

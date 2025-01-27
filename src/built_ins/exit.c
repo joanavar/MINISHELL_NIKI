@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 12:09:50 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/23 12:02:22 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/24 20:21:35 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int static	interpretor(char *str)
 	if (nbr > 255)
 		return(nbr % 255);
 	return (nbr);
-
 }
 
 int	mini_exit(t_cmd *cmd)

@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 14:08:16 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/22 15:39:04 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/27 13:18:13 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,21 +81,11 @@ char *get_path(t_cmd *cmd)
 
 	if (!cmd || !cmd->arr_cmd[0] || cmd->arr_cmd[0][0] == '\0')
 		return (NULL);
-	printf("7\n");
 	cmd->builtins = is_builtins(cmd->arr_cmd[0]);
 	if (cmd->builtins == 1 && !cmd->next)
-	{
-		printf("1\n");
 		path = ft_strdup(cmd->arr_cmd[0]);
-		printf("path es: %s\n", path);
-		printf("2\n");
-	}
 	else
-	{
-		printf("3\n");
 		path = search_path(cmd);
-		printf("4\n");
-	}
 	if (!path)
 		error_message("Command not found", NO_CLOSE);
 	return (path);
