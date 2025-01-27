@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:06:40 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/27 12:51:02 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/27 12:59:33 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ void	waiting(t_shell *shell)
 			ft_putstr_fd("\n", 1);
 			status = WTERMSIG(exit_status) + 128;
 			shell->exit_status = status;
-			change_status(shell);
+			//change_status(shell);
 		}
 		if (WIFEXITED(exit_status))
 		{
 			status = WEXITSTATUS(exit_status);
 			shell->exit_status = status;
-			change_status(shell);		
+			//change_status(shell);		
 		}
 	}
 	check_signal(g_signal_received);
