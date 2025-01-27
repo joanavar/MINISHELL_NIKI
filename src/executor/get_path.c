@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 14:08:16 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/27 13:18:13 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/27 14:01:29 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char *get_path(t_cmd *cmd)
 {
 	char *path;
 
-	if (!cmd || !cmd->arr_cmd[0] || cmd->arr_cmd[0][0] == '\0')
+	if (!cmd || !cmd->arr_cmd || cmd->arr_cmd[0][0] == '\0')
 		return (NULL);
 	cmd->builtins = is_builtins(cmd->arr_cmd[0]);
 	if (cmd->builtins == 1 && !cmd->next)

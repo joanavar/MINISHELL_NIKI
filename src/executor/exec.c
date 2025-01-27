@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 20:48:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/27 13:02:23 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/27 13:43:20 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ int	executor(t_shell *shell)
 		return (-1);
 	cmds->shell = shell;
 	if (!cmds->shell)
+		return (-1);
+	if (check_pipe(&cmds) == -1)
 		return (-1);
 	cmds->path = get_path(cmds);
 	if (!cmds->path)

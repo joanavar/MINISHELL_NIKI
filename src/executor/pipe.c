@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:33:13 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/24 20:20:40 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/27 14:03:20 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static t_cmd	*close_pipes(t_cmd *cmd, int id)
 	aux = cmd;
 	while (aux->id != id)
 		aux = aux->next;
+	printf_dups(cmd);
 	ft_dups(aux);
 	return (aux);
 }
