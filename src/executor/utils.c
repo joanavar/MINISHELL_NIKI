@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:06:40 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/22 16:44:21 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/27 12:59:33 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,21 @@ void	change_status(t_shell *shell)
 
 int	check_pipe(t_token **tokens, t_cmd **last)
 {
+	t_cmd	*aux;
+	t_cmd	*new;
 	int		fd[2];
 
 	if (!(*tokens) || !(*last))
 		return (-1);
-	(*last)->pipe = 1;
+	aux = *last;
+	aux->pipe = 1;
 	if (pipe(fd) == -1)
 		return (-1);
-	(*last)->fd_out = fd[1];
-	if (!(*last)->next)
+	aux->fd_out = fd[1];
+	if (!aux->next)
 		return (0);
 	else
-		(*last)->next->fd_in = fd[0];//Aqui falla
+		aux->next->fd_in = fd[0];//Aqui falla
 	return (0);
 }
 

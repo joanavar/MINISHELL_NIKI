@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 20:25:58 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/22 15:14:58 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/24 20:41:49 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,13 @@ void	mini_exec(t_cmd *cmd, t_shell *shell)
 	char	**env_arr;
 
 	env_arr = lst_to_chr(cmd->shell->env);
-	printf("test 1: %i %s\n", cmd->builtins, cmd->path);
 	if (!env_arr)
 		error_message("Error with env", NO_CLOSE);
 	if (execve(cmd->path, cmd->arr_cmd, env_arr) == -1)
 	{
 		ft_putstr_fd("Minishell: Command not found: ", 2);
 		ft_putendl_fd(cmd->arr_cmd[0], 2);
+		return ;
 	}
-	clean_data(shell);
 	exit(2);
 }

@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/22 13:31:06 by camurill         ###   ########.fr       */
-/*   Updated: 2025/01/22 17:57:28 by joannavarro      ###   ########.fr       */
+/*   Updated: 2025/01/24 20:08:45 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 
 #ifndef MINISHELL_H
@@ -159,8 +159,8 @@ int		start_shell(t_shell	*shell);
 void	error_message(char *str, t_opcode OPCODE);
 void	free_matrix(char **matrix);
 void	free_env(t_env *lst);
-void	free_token(t_token *lst);
-void	free_cmds(t_cmd *cmds);
+void	free_token(t_token **lst);
+void	free_cmds(t_cmd **cmds);
 void    free_redirs(t_redir *redir);
 void    free_shell(t_shell *shell);
 
