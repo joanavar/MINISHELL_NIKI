@@ -79,7 +79,7 @@ char *get_path(t_cmd *cmd)
 {
 	char *path;
 
-	if (!cmd || !cmd->arr_cmd[0] || cmd->arr_cmd[0][0] == '\0')
+	if (!cmd || !cmd->arr_cmd || cmd->arr_cmd[0][0] == '\0')
 		return (NULL);
 	cmd->builtins = is_builtins(cmd->arr_cmd[0]);
 	if (cmd->builtins == 1 && !cmd->next)

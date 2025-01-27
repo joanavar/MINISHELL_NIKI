@@ -122,5 +122,7 @@ t_cmd   *token_to_cmd(t_token *tokens)
          //   return (NULL); //Crear funcion para limpiar
         tokens = tokens->next;
     }
+    if (!cmd)
+        return (NULL);
     return (cmd);
 }

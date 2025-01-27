@@ -222,6 +222,8 @@ void	delete_quotes(t_token *token, char *str, int i, int j);
 int 	count_quotes_utils(t_token *token, int i, int count, char tmp);
 void	print_line(t_token *tmp);
 int arr_size(char **array);
+int is_spaces(t_cmd *cmd);
+
 
 //exec
 t_cmd   *token_to_cmd(t_token *tokens);
