@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/27 17:15:53 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/28 20:13:45 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,11 +145,9 @@ int		check_numeric(char *str);
 int		count_cmd(t_cmd *cmd);
 void	waiting(t_shell *shell);
 void 	printf_dups(t_cmd *cmd);
-/*
-int		parssing(t_shell **shell);
-t_env	*get_env(char **env);*/
-//void	get_less_env(t_shell *shell, char *cmp);
-//void	prints(void);
+
+/*** REDDIR ***/
+void	check_reddir(t_cmd *cmd);
 
 /***MAIN***/
 void	init_shell(t_shell **shell, char **env);
@@ -182,7 +180,7 @@ void	get_export(t_cmd *cmd);
 void	get_pwd(void);
 void	get_cd(t_cmd *cmd);
 void	print_env(t_shell *shell);
-int		built_ins(t_cmd *cmd);
+int		built_ins(t_cmd *cmd, int type);
 /***Exit***/
 int		mini_exit(t_cmd *cmd);
 

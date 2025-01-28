@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joanavar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 14:53:31 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/28 15:20:45 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:49:13 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	parent_heredoc(t_cmd *cmd, int *heredoc)
 			cmd->std_in = dup(heredoc[0]);
 		close(heredoc[0]);
 	}
-	signals_init();
+	check_signal(g_signal_received);
 	return (0);
 }
 

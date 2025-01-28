@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lectur.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 18:54:07 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/28 15:19:24 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:43:11 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ static void	is_redireccion(char *str, int i, t_token **stack)
 	}
 	else if (str[i] == '>' && str[i + 1] == '>')
 	{
-		token[0] = '<';
-		token[1] = '<';
+		token[0] = '>';
+		token[1] = '>';
 	}
 	token[2] = '\0';
 	get_token(token, stack);

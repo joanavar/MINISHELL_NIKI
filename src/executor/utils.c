@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:06:40 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/28 15:36:25 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:46:43 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ void	change_status(t_shell *shell)
 }*/
 int	check_pipe(t_cmd **cmd)
 {
+	t_cmd	*aux;
+	int		fd[2];
+
 	if (!cmd)
 		return (-1);
 	aux = *cmd;

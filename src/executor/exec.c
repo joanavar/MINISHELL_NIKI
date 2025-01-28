@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 20:48:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/28 15:35:39 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/28 20:14:12 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	executor(t_shell *shell)
 		return (-1);
 	cmds = initial_cmd(cmds);
 	if (cmds->path && cmds->builtins == 1 && cmds->next == NULL)
-		i = built_ins(cmds);
+		i = built_ins(cmds, 0);
 	else
 		exec_duo(cmds, shell);
 	return (i);
