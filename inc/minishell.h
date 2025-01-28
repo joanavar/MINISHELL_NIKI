@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/24 20:08:45 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/27 17:15:53 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ int		check_specials(char *str, char ltr);
 int		check_numeric(char *str);
 int		count_cmd(t_cmd *cmd);
 void	waiting(t_shell *shell);
+void 	printf_dups(t_cmd *cmd);
 /*
 int		parssing(t_shell **shell);
 t_env	*get_env(char **env);*/
@@ -189,12 +190,12 @@ t_env	*get_env(char **env);
 
 /*** EXECUTOR ***/
 void	exec_duo(t_cmd *cmd, t_shell *shell);
-char	*get_path(t_cmd *cmd);
+char	*get_path(t_cmd *cmd, t_env *env);
 void	exec_child(t_cmd *cmd, int id, t_shell *shell);
 void	mini_exec(t_cmd *cmd, t_shell *shell);
 
 /*** PIPES ***/
-int		check_pipe(t_token **tokens, t_cmd **last);
+int		check_pipe(t_cmd **last);
 void	ft_dups(t_cmd *cmd);
 
 
