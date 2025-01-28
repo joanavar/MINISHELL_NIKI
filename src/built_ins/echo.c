@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 17:42:39 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/14 21:31:04 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:34:38 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	get_echo(t_cmd *cmd)
 			return ;
 		i = 1;
 		while (cmd->arr_cmd[++i])
-			printf("%s", cmd->arr_cmd[i]);;
+			printf("%s", cmd->arr_cmd[i]);
 	}
 	else if (cmd->arr_cmd[1] && strncmp("-n", cmd->arr_cmd[1], 3))
 	{

@@ -50,7 +50,8 @@ SRC_FILES   =       main/main.c \
 					utils/utils_exec.c \
 					executor/token_to_cmd.c \
 					main/clean2.c \
-					utils/utils_exec2.c 
+					utils/utils_exec2.c \
+					operations_line/heredoc.c 
 
 OBJS        =       $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))
 
