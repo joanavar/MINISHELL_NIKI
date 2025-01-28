@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 19:35:51 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/20 13:13:48 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:33:57 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,3 @@ int	check_specials(char *str, char ltr)
 		return (-1);
 	return (0);
 }*/
-

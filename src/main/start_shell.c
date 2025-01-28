@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 22:48:04 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/24 20:35:42 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:31:18 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	start_shell(t_shell *shell)
 {
-
 	if (shell->prompt[0] == '\0')
 		return (0);
 	shell->eco_token = lectur_imput(shell->prompt, shell->env);
@@ -27,10 +26,10 @@ int	start_shell(t_shell *shell)
 		return (1);
 	}
 	if (executor(shell) == -1)
-		{
-			free_token(&(shell->eco_token));
-			return (1);
-		}
+	{
+		free_token(&(shell->eco_token));
+		return (1);
+	}
 	if (shell->eco_token)
 		free_token(&(shell->eco_token));
 	if (shell->cmds)

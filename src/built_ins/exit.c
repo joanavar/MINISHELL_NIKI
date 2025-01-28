@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 12:09:50 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/24 20:21:35 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:33:38 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int static	interpretor(char *str)
 	if (nbr < 0)
 		nbr *= -1;
 	if (nbr > 255)
-		return(nbr % 255);
+		return (nbr % 255);
 	return (nbr);
 }
 
@@ -33,7 +33,7 @@ int	mini_exit(t_cmd *cmd)
 		if (!cmd->arr_cmd[2])
 		{
 			cmd->shell->exit_status = interpretor(cmd->arr_cmd[1]);
-			exit (cmd->shell->exit_status);
+			exit(cmd->shell->exit_status);
 		}
 		else
 		{
@@ -43,8 +43,9 @@ int	mini_exit(t_cmd *cmd)
 	}
 	else if (cmd->shell->exit_status == 2)
 	{
-		printf("exit\nbash: exit: %s: numeric argument requeried", cmd->arr_cmd[1]);
-		exit (2);
+		printf("exit\nbash: exit: %s: numeric argument requeried",
+			cmd->arr_cmd[1]);
+		exit(2);
 	}
 	return (cmd->shell->exit_status);
 }

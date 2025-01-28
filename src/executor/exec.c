@@ -6,10 +6,9 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 20:48:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/27 17:16:26 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:35:39 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../inc/minishell.h"
 
@@ -31,8 +30,10 @@ static t_cmd	*initial_cmd(t_cmd *cmd)
 
 void	print_cmd(char **array)
 {
-	int i = 0;
-	while(array && array[i])
+	int	i;
+
+	i = 0;
+	while (array && array[i])
 	{
 		printf("%s ", array[i]);
 		i++;
@@ -42,10 +43,10 @@ void	print_cmd(char **array)
 
 int	executor(t_shell *shell)
 {
-	t_cmd *cmds;
-	t_token *tmp;
+	t_cmd	*cmds;
+	t_token	*tmp;
 	int		i;
-	
+
 	cmds = NULL;
 	i = 0;
 	tmp = shell->eco_token;

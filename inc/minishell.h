@@ -171,6 +171,8 @@ void    free_shell(t_shell *shell);
 /***SIGNAL***/
 void	check_signal(int sisgnal_received);
 void	handle_sigint(int signal);
+void	handle_sigint_heredoc(int sig);
+
 //void	handle_sigquit(int signal); quitar
 
 /***BUILTS_INS***/
@@ -223,6 +225,8 @@ void	delete_quotes(t_token *token, char *str, int i, int j);
 int 	count_quotes_utils(t_token *token, int i, int count, char tmp);
 void	print_line(t_token *tmp);
 int arr_size(char **array);
+int is_spaces(t_cmd *cmd);
+
 
 //exec
 t_cmd   *token_to_cmd(t_token *tokens);
@@ -232,6 +236,11 @@ t_token *space_zero(t_token *token);
 int add_first_redir(t_token *token, t_cmd *cmd);
 int add_rest_redir(t_token *token, t_cmd *cmd);
 t_env   *choose_env(t_shell *shell);
+
+//heredoc
+
+int heredoc(t_cmd *cmd);
+
 
 
 

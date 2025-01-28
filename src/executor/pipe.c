@@ -6,10 +6,9 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:33:13 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/27 20:13:35 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:36:06 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../inc/minishell.h"
 
@@ -42,9 +41,9 @@ static t_cmd	*close_pipes(t_cmd *cmd, int id)
 			if (aux->std_out != 1 && aux->std_out != -1)
 				close(aux->std_out);
 			if (aux->fd_in != 0 && aux->fd_in != -1)
-				close (aux->fd_in);
+				close(aux->fd_in);
 			if (aux->fd_out != 0 && aux->fd_out != -1)
-				close (aux->fd_out);
+				close(aux->fd_out);
 		}
 		aux = aux->next;
 	}
@@ -57,7 +56,7 @@ static t_cmd	*close_pipes(t_cmd *cmd, int id)
 	return (aux);
 }
 
-static void exec_parent(t_cmd *cmd, int id, int pid)
+static void	exec_parent(t_cmd *cmd, int id, int pid)
 {
 	t_cmd	*aux;
 	int		status;
@@ -70,16 +69,15 @@ static void exec_parent(t_cmd *cmd, int id, int pid)
 		if (aux->std_out != 1)
 			close(aux->std_out);
 		if (aux->fd_out != 0)
-			close (aux->fd_out);
+			close(aux->fd_out);
 		if (aux->fd_in != 0)
-			close (aux->fd_in);
+			close(aux->fd_in);
 		aux = aux->next;
 	}
 	waiting(cmd->shell);
 }
 
-
-void exec_child(t_cmd *cmd, int id, t_shell *shell)
+void	exec_child(t_cmd *cmd, int id, t_shell *shell)
 {
 	t_cmd	*aux;
 
@@ -88,7 +86,7 @@ void exec_child(t_cmd *cmd, int id, t_shell *shell)
 	if (!aux->path)
 	{
 		if (aux->shell->exit_status == 0)
-			exit (0);
+			exit(0);
 		ft_putstr_fd("Minishell: Command not found: ", 2);
 		ft_putendl_fd(aux->arr_cmd[0], 2);
 		clean_data(shell);

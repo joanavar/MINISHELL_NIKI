@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:49:47 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/24 20:24:56 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:31:12 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ volatile sig_atomic_t	g_signal_received = 0;
 void	error_message(char *str, t_opcode OPCODE)
 {
 	if (OPCODE == NO_CLOSE || OPCODE == CLOSE)
-		printf(RED"Error found: %s\n"GBD, str);
+		printf(RED "Error found: %s\n" GBD, str);
 	if (OPCODE == CLOSE)
 		exit(1);
 }
@@ -31,7 +31,6 @@ void	init_shell(t_shell **shell, char **env)
 	(*shell)->status = 0;
 	(*shell)->arg = NULL;
 	(*shell)->env = NULL;
-
 	if (!env || !(*env))
 	{
 		(*shell)->env = choose_env(*shell);
@@ -44,7 +43,6 @@ void	init_shell(t_shell **shell, char **env)
 	(*shell)->cmds = NULL;
 }
 
-
 int	main(int ac, char **ag, char **env)
 {
 	t_shell	*shell;
@@ -56,7 +54,7 @@ int	main(int ac, char **ag, char **env)
 	check_signal(g_signal_received);
 	while (1)
 	{
-		shell->prompt = readline(BLUE"/home/minishell$ "GBD);
+		shell->prompt = readline(BLUE "/home/minishell$ " GBD);
 		if (!shell->prompt)
 		{
 			printf("exit\n");

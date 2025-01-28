@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 20:43:52 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/14 19:36:14 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:31:06 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ static char	*get_value(char *value)
 	i = 0;
 	if (!value)
 		return (NULL);
-	while(value[i] != '=')
+	while (value[i] != '=')
 		i++;
-	aux =  malloc(sizeof(char) * (i + 1));
+	aux = malloc(sizeof(char) * (i + 1));
 	if (!aux)
 		return (NULL);
 	j = i + 1;
@@ -31,7 +31,7 @@ static char	*get_value(char *value)
 	while (--j > 0)
 	{
 		aux[i] = value[i];
-		i++;	
+		i++;
 	}
 	aux[i] = '\0';
 	return (aux);
@@ -51,7 +51,7 @@ static char	*get_content(char *content)
 	j = ft_strlen(content);
 	while (content[i] != '=')
 		i++;
-	aux =  malloc(sizeof(char) * (j - i + 2));
+	aux = malloc(sizeof(char) * (j - i + 2));
 	if (!aux)
 		return (NULL);
 	i++;
@@ -107,7 +107,6 @@ t_env	*get_env(char **env)
 	return (head);
 }
 
-
 /*int main(int ac, char **ag, char **env)
 {
 	t_env	*env_lst = get_env(env);
@@ -118,6 +117,8 @@ t_env	*get_env(char **env)
 		printf("%s=%s\n", env_lst->value, env_lst->content);
 		env_lst = env_lst->next;
 	}
-	//printf("%s=%s\n", get_value("hola=/run/user/101047/vscode-git-8d84d82def.sock"), get_content("hola=/run/user/101047/vscode-git-8d84d82def.sock"));
+	//printf("%s=%s\n",
+		get_value("hola=/run/user/101047/vscode-git-8d84d82def.sock"),
+		get_content("hola=/run/user/101047/vscode-git-8d84d82def.sock"));
 	return (0);
 }*/
