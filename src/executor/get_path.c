@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 14:08:16 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/27 13:18:13 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/27 19:29:06 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ static int is_builtins(char *str)
 	}
 	return (0);
 }
-static char *get_p_env(t_cmd *cmd, char *str)
+static char *get_p_env(t_env *old_env, char *str)
 {
 	t_env	*env;
 
-	env = cmd->shell->env;
+	env = old_env;
 	while (env)
 	{
 		if (!ft_strncmp(env->value, str, ft_strlen(str)))
@@ -47,14 +47,14 @@ static char *get_p_env(t_cmd *cmd, char *str)
 	return (NULL);
 }
 
-static char *search_path(t_cmd *cmd)
+static char *search_path(t_cmd *cmd, t_env *env)
 {
 	char	**path;
 	char	*path_aux;
 	char	*exec;
 	int		i;
 
-	path = ft_split(get_p_env(cmd, "PATH"), ':');
+	path = ft_split(get_p_env(env, "PATH"), ':');
 	if (!path)
 		return NULL;
 	i = -1;
@@ -71,11 +71,10 @@ static char *search_path(t_cmd *cmd)
 		free(exec);
 		free(path_aux);		
 	}
-
 	return (free_matrix(path), cmd->arr_cmd[0]);
 }
 
-char *get_path(t_cmd *cmd)
+char *get_path(t_cmd *cmd, t_env *env)
 {
 	char *path;
 
@@ -85,7 +84,7 @@ char *get_path(t_cmd *cmd)
 	if (cmd->builtins == 1 && !cmd->next)
 		path = ft_strdup(cmd->arr_cmd[0]);
 	else
-		path = search_path(cmd);
+		path = search_path(cmd, env);
 	if (!path)
 		error_message("Command not found", NO_CLOSE);
 	return (path);

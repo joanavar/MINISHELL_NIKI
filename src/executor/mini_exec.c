@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 20:25:58 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/24 20:41:49 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/27 20:09:00 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,15 @@ static int	count_env(t_env *env)
 	return (i);
 }
 
-static char **lst_to_chr(t_env *env)
+static char **lst_to_chr(t_env **env)
 {
 	char	**aux;
 	char	*prom;
 	t_env	*a_env;
 	int		i;
 
-	i = count_env(env);
-	a_env = env;
+	a_env = *env;
+	i = count_env(a_env);
 	aux = malloc(sizeof(char **) * (i + 1));
 	if (!aux)
 		return (NULL);
@@ -60,7 +60,7 @@ void	mini_exec(t_cmd *cmd, t_shell *shell)
 {
 	char	**env_arr;
 
-	env_arr = lst_to_chr(cmd->shell->env);
+	env_arr = lst_to_chr(&(shell->env));
 	if (!env_arr)
 		error_message("Error with env", NO_CLOSE);
 	if (execve(cmd->path, cmd->arr_cmd, env_arr) == -1)

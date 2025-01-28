@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:06:40 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/27 12:59:33 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/27 18:19:48 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,23 @@ void	change_status(t_shell *shell)
 	
 }*/
 
-int	check_pipe(t_token **tokens, t_cmd **last)
+int	check_pipe(t_cmd **cmd)
 {
 	t_cmd	*aux;
-	t_cmd	*new;
 	int		fd[2];
 
-	if (!(*tokens) || !(*last))
+	if (!cmd)
 		return (-1);
-	aux = *last;
-	aux->pipe = 1;
-	if (pipe(fd) == -1)
-		return (-1);
-	aux->fd_out = fd[1];
-	if (!aux->next)
-		return (0);
-	else
-		aux->next->fd_in = fd[0];//Aqui falla
+	aux = *cmd;
+	while (aux->next)
+	{
+		aux->pipe = 1;
+		if (pipe(fd) == -1)
+			return (-1);
+		aux->fd_out = fd[1];
+		aux->next->fd_in = fd[0];
+		aux = aux->next;
+	}
 	return (0);
 }
 
@@ -51,13 +51,11 @@ void	waiting(t_shell *shell)
 			ft_putstr_fd("\n", 1);
 			status = WTERMSIG(exit_status) + 128;
 			shell->exit_status = status;
-			//change_status(shell);
 		}
 		if (WIFEXITED(exit_status))
 		{
 			status = WEXITSTATUS(exit_status);
 			shell->exit_status = status;
-			//change_status(shell);		
 		}
 	}
 	check_signal(g_signal_received);
