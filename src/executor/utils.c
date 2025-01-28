@@ -21,6 +21,9 @@ void	change_status(t_shell *shell)
 }*/
 int	check_pipe(t_cmd **cmd)
 {
+	t_cmd	*aux;
+	int		fd[2];
+	
 	if (!cmd)
 		return (-1);
 	aux = *cmd;

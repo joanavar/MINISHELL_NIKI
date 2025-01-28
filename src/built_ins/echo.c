@@ -12,6 +12,23 @@
 
 #include "../../inc/minishell.h"
 
+static int echo_n(char *content)
+{
+	int i;
+
+	if (content[0] != '-')
+		return (0);
+	if (content[1] != 'n')
+		return (0);
+	i = 2;
+	while(content[i])
+	{
+		if (content[i] != 'n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
 void	get_echo(t_cmd *cmd)
 {
 	size_t	i;
@@ -19,7 +36,7 @@ void	get_echo(t_cmd *cmd)
 	i = 0;
 	if (!cmd->arr_cmd[1])
 		printf("\n");
-	else if (cmd->arr_cmd[1] && !strncmp("-n", cmd->arr_cmd[1], 3))
+	else if (cmd->arr_cmd[1] && echo_n(cmd->arr_cmd[1]))
 	{
 		if (!cmd->arr_cmd[2])
 			return ;

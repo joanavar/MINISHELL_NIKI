@@ -40,8 +40,8 @@ static void	is_redireccion(char *str, int i, t_token **stack)
 	}
 	else if (str[i] == '>' && str[i + 1] == '>')
 	{
-		token[0] = '<';
-		token[1] = '<';
+		token[0] = '>';
+		token[1] = '>';
 	}
 	token[2] = '\0';
 	get_token(token, stack);
@@ -86,5 +86,6 @@ t_token	*lectur_imput(char *str, t_env *env)
 		return (NULL);
 	expandir(&stack, env);
 	remove_quotes(stack);
+
 	return (stack);
 }

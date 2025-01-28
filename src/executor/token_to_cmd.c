@@ -87,8 +87,6 @@ static int	clas_token(t_token **token, t_cmd **aux_cmd)
 	{
 		if (add_redir(*token, *aux_cmd) == 2)
 			return (0);
-		while ((*aux_cmd)->redirs)
-			(*aux_cmd)->redirs = (*aux_cmd)->redirs->next;
 		(*token) = (*token)->next;
 		while ((*token)->type == 0)
 			(*token) = (*token)->next;
