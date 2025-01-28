@@ -6,36 +6,32 @@
 /*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 16:17:46 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/22 18:28:25 by joannavarro      ###   ########.fr       */
+/*   Updated: 2025/01/28 15:21:14 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
 //#include "paquito.h"
 
 static int	close_expansor(t_token *token, int i)
 {
-	if (token->content[i] >= 'a'
-		&& token->content[i] <= 'z')
+	if (token->content[i] >= 'a' && token->content[i] <= 'z')
 		return (1);
-	else if (token->content[i] >= 'A'
-		&& token->content[i] <= 'Z')
+	else if (token->content[i] >= 'A' && token->content[i] <= 'Z')
 		return (1);
 	else if (token->content[i] == '_')
 		return (1);
-	else if (token->content[i] >= '0'
-		&& token->content[i] <= '9')
+	else if (token->content[i] >= '0' && token->content[i] <= '9')
 		return (1);
 	return (0);
 }
 
 static int	correct_expansor(t_token *token, int i)
 {
-	if (token->content[i] >= 'a'
-		&& token->content[i] <= 'z')
+	if (token->content[i] >= 'a' && token->content[i] <= 'z')
 		return (1);
-	else if (token->content[i] >= 'A'
-		&& token->content[i] <= 'Z')
+	else if (token->content[i] >= 'A' && token->content[i] <= 'Z')
 		return (1);
 	else if (token->content[i] == '_')
 		return (1);
@@ -111,7 +107,7 @@ void	expandir(t_token **stack, t_env *env)
 			tmp = is_heredoc(tmp);
 			if (!(tmp->next))
 				return ;
-		}	
+		}
 		if ((tmp->type == 1 || tmp->type == 3))
 		{
 			while (tmp->content[i])
@@ -124,6 +120,6 @@ void	expandir(t_token **stack, t_env *env)
 				i++;
 			}
 		}
-			tmp = tmp->next;
+		tmp = tmp->next;
 	}
 }

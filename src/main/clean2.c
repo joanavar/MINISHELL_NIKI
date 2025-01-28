@@ -1,44 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clean.c                                            :+:      :+:    :+:   */
+/*   clean2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:40:02 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/13 19:26:31 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:30:58 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void    free_redirs(t_redir *redir)
+void	free_redirs(t_redir *redir)
 {
-    t_redir *aux;
-    t_redir *buffer;
+	t_redir	*aux;
+	t_redir	*buffer;
 
-    buffer = redir;
-    while (buffer)
-    {
-        aux = buffer->next;
-        free(buffer->file_name);
-        free(buffer);
-        buffer = aux;
-    }
-    redir = NULL;
+	buffer = redir;
+	while (buffer)
+	{
+		aux = buffer->next;
+		free(buffer->file_name);
+		free(buffer);
+		buffer = aux;
+	}
+	redir = NULL;
 }
 
-void    free_shell(t_shell *shell)
+void	free_shell(t_shell *shell)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    free(shell->prompt);
-    while (shell->arg[i])
-    {
-        free(shell->arg[i]);
-        i++;
-    }
-    free(shell->arg);
-    shell = NULL;
+	i = 0;
+	free(shell->prompt);
+	while (shell->arg[i])
+	{
+		free(shell->arg[i]);
+		i++;
+	}
+	free(shell->arg);
+	shell = NULL;
 }

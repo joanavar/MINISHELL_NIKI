@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:50:29 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/21 14:55:15 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:35:18 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	ft_selector(t_cmd *cmd)
 	{
 		if (!cmd->arr_cmd[1])
 		{
-			printf(YELLOW"exit\n"GBD);
+			printf(YELLOW "exit\n" GBD);
 			clean_data(cmd->shell);
 			exit(0);
 		}
@@ -35,12 +35,13 @@ static int	ft_selector(t_cmd *cmd)
 		get_cd(cmd);
 	return (0);
 }
-int	built_ins(t_cmd	*cmd) //corregir errores
+
+int	built_ins(t_cmd *cmd) // corregir errores
 {
 	if (ft_selector(cmd) == -1)
 		return (-1);
 	if (!strncmp("export", cmd->arr_cmd[0], 7))
-		get_export(cmd);//ToDo
+		get_export(cmd);
 	if (!strncmp("unset", cmd->arr_cmd[0], 6))
 		unset_shell(cmd->shell, cmd->arr_cmd[1]);
 	if (!strncmp("echo", cmd->arr_cmd[0], 5))

@@ -6,7 +6,7 @@
 /*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 17:11:34 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/22 18:22:55 by joannavarro      ###   ########.fr       */
+/*   Updated: 2025/01/28 15:23:17 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	print_line(t_token *tmp)
 	while (tmp != NULL)
 	{
 		if (string_type(tmp))
-			printf("%s" ,tmp->content);
+			printf("%s", tmp->content);
 		else if (tmp->type == 0)
 			printf(" ");
 		else if (tmp->type == 4)
@@ -84,15 +84,13 @@ void	print_line(t_token *tmp)
 		else if (tmp->type == 5)
 			printf("<<");
 		tmp = tmp->next;
-
 	}
 	printf("\n");
-	
 }
 
 t_token	*is_heredoc(t_token *token)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
 	tmp = token;
 	if (!(tmp->type == 5) || !(tmp->next))

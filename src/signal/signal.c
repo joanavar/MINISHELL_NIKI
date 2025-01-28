@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:19 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/21 16:42:04 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:21:44 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	check_signal(int signal_received)
 	if (sigaction(SIGQUIT, &sigout, NULL) == -1)
 		error_message("signation", CLOSE);
 }
-
 
 void	handle_sigint_heredoc(int sig)
 {

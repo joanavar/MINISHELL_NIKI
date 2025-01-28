@@ -6,13 +6,13 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 14:08:16 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/27 19:29:06 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:36:42 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static int is_builtins(char *str)
+static int	is_builtins(char *str)
 {
 	if (str)
 	{
@@ -33,7 +33,8 @@ static int is_builtins(char *str)
 	}
 	return (0);
 }
-static char *get_p_env(t_env *old_env, char *str)
+
+static char	*get_p_env(t_env *old_env, char *str)
 {
 	t_env	*env;
 
@@ -42,12 +43,12 @@ static char *get_p_env(t_env *old_env, char *str)
 	{
 		if (!ft_strncmp(env->value, str, ft_strlen(str)))
 			return (env->content);
-		env = env->next;		
+		env = env->next;
 	}
 	return (NULL);
 }
 
-static char *search_path(t_cmd *cmd, t_env *env)
+static char	*search_path(t_cmd *cmd, t_env *env)
 {
 	char	**path;
 	char	*path_aux;
@@ -56,9 +57,9 @@ static char *search_path(t_cmd *cmd, t_env *env)
 
 	path = ft_split(get_p_env(env, "PATH"), ':');
 	if (!path)
-		return NULL;
+		return (NULL);
 	i = -1;
-	while(path[++i])
+	while (path[++i])
 	{
 		path_aux = ft_strjoin(path[i], "/");
 		if (!path_aux)
@@ -69,14 +70,14 @@ static char *search_path(t_cmd *cmd, t_env *env)
 		if (access(exec, F_OK) == 0 && access(exec, X_OK) == 0)
 			return (free_matrix(path), free(path_aux), exec);
 		free(exec);
-		free(path_aux);		
+		free(path_aux);
 	}
 	return (free_matrix(path), cmd->arr_cmd[0]);
 }
 
-char *get_path(t_cmd *cmd, t_env *env)
+char	*get_path(t_cmd *cmd, t_env *env)
 {
-	char *path;
+	char	*path;
 
 	if (!cmd || !cmd->arr_cmd || cmd->arr_cmd[0][0] == '\0')
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 20:25:58 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/27 20:09:00 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:36:01 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	count_env(t_env *env)
 	return (i);
 }
 
-static char **lst_to_chr(t_env **env)
+static char	**lst_to_chr(t_env **env)
 {
 	char	**aux;
 	char	*prom;

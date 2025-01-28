@@ -6,13 +6,13 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 18:42:27 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/27 20:04:50 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:35:32 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void printf_dups(t_cmd *cmd)
+void	printf_dups(t_cmd *cmd)
 {
 	t_cmd	*aux;
 
@@ -29,7 +29,7 @@ void printf_dups(t_cmd *cmd)
 	}
 }
 
-static void closes_dups(t_cmd *cmd)
+static void	closes_dups(t_cmd *cmd)
 {
 	if (cmd->std_out != 1)
 	{
