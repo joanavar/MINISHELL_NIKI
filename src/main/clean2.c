@@ -1,28 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   clean2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/20 16:45:08 by joanavar          #+#    #+#             */
-/*   Updated: 2024/12/03 20:01:26 by joanavar         ###   ########.fr       */
+/*   Created: 2024/12/13 18:40:02 by camurill          #+#    #+#             */
+/*   Updated: 2025/01/28 15:30:58 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
-//#include "paquito.h"
+#include "../../inc/minishell.h"
 
-int ft_strcmp(const char *src, char *s)
+void	free_redirs(t_redir *redir)
 {
-	int i;
+	t_redir	*aux;
+	t_redir	*buffer;
 
-	i = 0;
-	while (src[i] == s[i])
-		i++;
-	if (src[i] == '\0' && s[i] == '\0')
-		return (0);
-	return (1);
+	buffer = redir;
+	while (buffer)
+	{
+		aux = buffer->next;
+		free(buffer->file_name);
+		free(buffer);
+		buffer = aux;
+	}
+	redir = NULL;
 }
 
+void	free_shell(t_shell *shell)
+{
+	int	i;
 
+	i = 0;
+	free(shell->prompt);
+	while (shell->arg[i])
+	{
+		free(shell->arg[i]);
+		i++;
+	}
+	free(shell->arg);
+	shell = NULL;
+}

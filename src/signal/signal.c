@@ -6,11 +6,11 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:19 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/03 20:03:16 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:21:44 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 void	handle_sigint(int signal)
 {
@@ -37,4 +37,11 @@ void	check_signal(int signal_received)
 	sigint.sa_flags = SA_RESTART;
 	if (sigaction(SIGQUIT, &sigout, NULL) == -1)
 		error_message("signation", CLOSE);
+}
+
+void	handle_sigint_heredoc(int sig)
+{
+	(void)sig;
+	write(1, "\n", 1);
+	exit(1);
 }
