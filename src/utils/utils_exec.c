@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 17:11:34 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/30 17:32:04 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/30 19:46:45 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ t_token	*space_zero(t_token *token)
 {
 	t_token	*tmp;
 
+	if (!token->next)
+		return (NULL);
 	tmp = token->next;
 	while (tmp->type == 0)
 		tmp = tmp->next;
@@ -38,6 +40,8 @@ int	add_first_redir(t_token *token, t_cmd *cmd)
 	t_token	*tmp;
 
 	tmp = space_zero(token);
+	if (!tmp)
+		return (0);
 	filename_size = ft_strlen(tmp->content);
 	cmd->redirs = malloc(sizeof(t_redir) * 1);
 	if (!cmd->redirs)
@@ -60,6 +64,8 @@ int	add_rest_redir(t_token *token, t_cmd *cmd)
 	t_token	*tmp_token;
 
 	tmp_token = space_zero(token);
+	if (!tmp_token)
+		return (0);
 	tmp_redir = cmd->redirs;
 	while (tmp_redir->next)
 		tmp_redir = tmp_redir->next;

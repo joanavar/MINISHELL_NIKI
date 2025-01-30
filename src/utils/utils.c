@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 16:45:08 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/30 18:08:20 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/30 18:37:12 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	delete_expanser(t_token *token, int start, int end)
 	str[i] = '\0';
 	free(token->content);
 	token->content = str;
-	printf("despues de eliminar expansor : %s\n", token->content);
 }
 
 void	union_string(t_token *stack)

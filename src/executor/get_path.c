@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 14:08:16 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/30 18:02:53 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/30 20:25:08 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static char	*search_path(t_cmd *cmd, t_env *env)
 	if (!path)
 		return (NULL);
 	i = -1;
+	exec = NULL;
 	while (path[++i])
 	{
 		path_aux = ft_strjoin(path[i], "/");
@@ -93,6 +94,6 @@ char	*get_path(t_cmd *cmd, t_env *env)
 	else
 		path = search_path(cmd, env);
 	if (!path)
-		error_message("Command not found", NO_CLOSE);
+		return (NULL);
 	return (path);
 }

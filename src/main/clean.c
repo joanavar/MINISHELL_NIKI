@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:40:02 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/30 16:45:52 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/30 20:17:39 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,14 @@ void	free_token(t_token **lst)
 	if (!lst || !*lst)
 		return ;
 	buffer = *lst;
+	if (!buffer->next)
+	{
+		if (buffer->content)
+			free(buffer->content);
+		free(buffer);
+		*lst = NULL;
+		return ;
+	}
 	while (buffer)
 	{
 		aux = buffer->next;
@@ -119,7 +127,10 @@ void	free_cmds(t_cmd **cmds)
 			free(buffer->arr_cmd);
 		}
 		if (buffer->path)
-			free(buffer->path);
+		{
+			//free(buffer->path);
+			buffer->path = NULL;
+		}
 		if (buffer->redirs)
 			free_redirs(buffer->redirs);
 		free(buffer);

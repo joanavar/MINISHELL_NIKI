@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 19:35:51 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/30 18:01:41 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/30 19:28:09 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,16 @@ int	check_numeric(char *str)
 		return (2);
 	if (str[i] == '-' || str[i] == '+')
 		i++;
+	if (!strncmp("9223372036854775808", str, 19))
+		return (2);
 	while (str[i])
 	{
 		if (str[i] < 48 || str[i] > 57)
 			return (2);
 		i++;
 	}
+	if (i > 19)
+		return (2);
 	return (0);
 }
 

@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   remove_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:34:47 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/30 17:37:54 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/30 19:07:39 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-//#include "paquito.h"
 
 int	string_type(t_token *token)
 {

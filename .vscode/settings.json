@@ -1,6 +1,13 @@
 {
 	"files.associations": {
 		"type_traits": "c",
-		"minishell.h": "c"
+		"minishell.h": "c",
+		"cmath": "c",
+		"compare": "c",
+		"concepts": "c",
+		"exception": "c",
+		"limits": "c",
+		"new": "c",
+		"typeinfo": "c"
 	}
 }

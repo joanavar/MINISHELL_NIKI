@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_to_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:37:16 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/30 17:57:05 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/30 20:42:01 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

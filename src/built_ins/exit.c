@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 12:09:50 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/30 17:29:00 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/30 20:37:41 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,19 @@
 int static	interpretor(char *str)
 {
 	long	nbr;
-	int		sign;
 
 	if (!str)
 		return (0);
-	sign = 1;
-	if (str[0] == '-')
-		sign = -1;
 	nbr = ft_atoi((const char *)str);
 	if (nbr > 255 || nbr < -255)
-		return ((nbr * sign) % 256);
+		nbr = nbr % 256;
 	return (nbr);
 }
 
 int	mini_exit(t_cmd *cmd)
 {
+	int	i;
+	
 	if (!cmd || !cmd->shell || !cmd->arr_cmd)
 	{
 		printf("Error: Invalid command structure\n");
@@ -46,10 +44,10 @@ int	mini_exit(t_cmd *cmd)
 	{
 		if (!cmd->arr_cmd[2])
 		{
-			cmd->shell->exit_status = interpretor(cmd->arr_cmd[1]);
+			i = interpretor(cmd->arr_cmd[1]);
 			printf(YELLOW "exit\n" GBD);
 			clean_data(cmd->shell);
-			exit(cmd->shell->exit_status);
+			exit(i);
 		}
 		else
 		{

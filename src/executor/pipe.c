@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:33:13 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/30 18:14:48 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/30 20:45:07 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void	exec_child(t_cmd *cmd, int id, t_shell *shell)
 	else
 	{
 		built_ins(aux, 1);
-		cleanup_pipes_and_exit(aux, shell, aux->shell->exit_status);
+		//cleanup_pipes_and_exit(aux, shell, aux->shell->exit_status);
 	}
 }
 
