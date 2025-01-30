@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 16:45:08 by joanavar          #+#    #+#             */
-/*   Updated: 2024/12/23 18:55:32 by joannavarro      ###   ########.fr       */
+/*   Updated: 2025/01/30 18:08:20 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

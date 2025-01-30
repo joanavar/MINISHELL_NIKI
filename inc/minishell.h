@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/30 17:55:23 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/30 18:12:47 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,9 @@ void	get_cd(t_cmd *cmd);
 void	print_env(t_shell *shell);
 int		mini_exit(t_cmd *cmd);
 
+/* Heredoc */
+t_token	*is_heredoc(t_token *token);
+
 /* Environment */
 t_env	*lstnew(char *content);
 t_env	*get_env(char **env);
@@ -173,6 +176,7 @@ void	exec_child(t_cmd *cmd, int id, t_shell *shell);
 void	mini_exec(t_cmd *cmd, t_shell *shell);
 char	*get_path(t_cmd *cmd, t_env *env);
 void	waiting(t_shell *shell);
+t_cmd	*cmds_shell_exec(t_cmd *cmds, t_shell *shell);
 
 /* Pipes */
 int		check_pipe(t_cmd **last);
@@ -185,13 +189,16 @@ t_token	*find_last(t_token *stack);
 int		is_string(char *str, int i, t_token **stack);
 void	remove_quotes(t_token *stack);
 int		string_type(t_token *token);
+t_cmd	*token_to_cmd(t_token *tokens);
+t_token	*space_zero(t_token *token);
 
 /* Redirections */
 int		add_redir(t_token *token, t_cmd *cmd);
 int		add_first_redir(t_token *token, t_cmd *cmd);
 int		add_rest_redir(t_token *token, t_cmd *cmd);
 int		heredoc(t_cmd *cmd);
-int		open_file(char *file, int type);
+//int		open_file(char *file, int type);
+void	check_reddir(t_cmd *cmd);
 
 /* Error Handling */
 void	error_message(char *str, t_opcode OPCODE);
@@ -210,6 +217,13 @@ int		arr_size(char **array);
 void	print_token(t_token **stack);
 void	print_line(t_token *tmp);
 void	print_cmd(char **array);
+void	union_string(t_token *stack);
+void	delete_quotes(t_token *token, char *str, int i, int j);
+void	delete_expanser(t_token *token, int start, int end);
+int		check_specials(char *str, char ltr);
+int		count_quotes_utils(t_token *token, int i, int count, char tmp);
+int		opcion_syntax(t_token *tmp);
+int		change_malloc_token(t_token *str, t_env *env, int measure);
 
 /* Expansor */
 void	expandir(t_token **stack, t_env *env);

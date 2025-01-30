@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 19:35:51 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/30 17:09:52 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/30 18:01:41 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:33:13 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/30 17:32:41 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/30 18:14:48 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,25 +185,3 @@ void	exec_duo(t_cmd *cmd, t_shell *shell)
 		exec_parent(cmd, id, pid);
 }
 
-int	check_pipe(t_cmd **cmd)
-{
-	t_cmd	*aux;
-	int		fd[2];
-
-	if (!cmd || !*cmd)
-		return (-1);
-	aux = *cmd;
-	while (aux->next)
-	{
-		aux->pipe = 1;
-		if (pipe(fd) == -1)
-		{
-			perror("pipe error");
-			return (-1);
-		}
-		aux->fd_out = fd[1];
-		aux->next->fd_in = fd[0];
-		aux = aux->next;
-	}
-	return (0);
-}
