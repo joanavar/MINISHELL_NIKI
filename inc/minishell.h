@@ -136,15 +136,16 @@ struct							s_shell
 
 /***FUNTIONS AUX***/
 /*int		check_doubles(char *str, char ltr);*/
-
-int		check_specials(char *str, char ltr);
-int		check_numeric(char *str);
-int		count_cmd(t_cmd *cmd);
-void	waiting(t_shell *shell);
-void 	printf_dups(t_cmd *cmd);
-
-/*** REDDIR ***/
-void	check_reddir(t_cmd *cmd);
+int								check_specials(char *str, char ltr);
+int								check_numeric(char *str);
+int								count_cmd(t_cmd *cmd);
+void							waiting(t_shell *shell);
+void							printf_dups(t_cmd *cmd);
+/*
+int								parssing(t_shell **shell);
+t_env	*get_env(char **env);*/
+// void	get_less_env(t_shell *shell, char *cmp);
+// void	prints(void);
 
 /***MAIN***/
 void							init_shell(t_shell **shell, char **env);
@@ -175,7 +176,6 @@ void							get_pwd(void);
 void							get_cd(t_cmd *cmd);
 void							print_env(t_shell *shell);
 int								built_ins(t_cmd *cmd);
-
 /***Exit***/
 int								mini_exit(t_cmd *cmd);
 
@@ -231,6 +231,7 @@ t_token							*space_zero(t_token *token);
 int								add_first_redir(t_token *token, t_cmd *cmd);
 int								add_rest_redir(t_token *token, t_cmd *cmd);
 t_env							*choose_env(t_shell *shell);
+t_cmd							*cmds_shell_exec(t_cmd *cmd, t_shell *shell);
 
 // heredoc
 

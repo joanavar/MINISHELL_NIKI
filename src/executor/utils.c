@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:06:40 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/28 15:46:43 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/30 13:20:38 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,18 @@ void	waiting(t_shell *shell)
 		}
 	}
 	check_signal(g_signal_received);
+}
+
+t_cmd	*cmds_shell_exec(t_cmd *cmds, t_shell *shell)
+{
+	t_token	*tmp;
+
+	tmp = shell->eco_token;
+	cmds = token_to_cmd(tmp);
+	if (!cmds)
+		return (NULL);
+	cmds->shell = shell;
+	if (!cmds->shell)
+		return (NULL);
+	return (cmds);
 }

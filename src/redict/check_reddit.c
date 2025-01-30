@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 16:17:53 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/28 20:08:35 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/30 13:24:51 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	redir_l_one(t_cmd *cmd, t_redir *redir)
 {
 	int		fd;
 	t_cmd	*aux;
-	
+
 	aux = cmd;
 	fd = open(redir->file_name, O_RDONLY);
 	if (fd == -1)
