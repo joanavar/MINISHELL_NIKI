@@ -6,22 +6,22 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 17:42:39 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/28 15:34:38 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/30 13:23:03 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static int echo_n(char *content)
+static int	echo_n(char *content)
 {
-	int i;
+	int	i;
 
 	if (content[0] != '-')
 		return (0);
 	if (content[1] != 'n')
 		return (0);
 	i = 2;
-	while(content[i])
+	while (content[i])
 	{
 		if (content[i] != 'n')
 			return (0);
@@ -29,6 +29,7 @@ static int echo_n(char *content)
 	}
 	return (1);
 }
+
 void	get_echo(t_cmd *cmd)
 {
 	size_t	i;

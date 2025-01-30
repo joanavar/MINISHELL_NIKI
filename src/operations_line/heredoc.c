@@ -55,6 +55,7 @@ static int	parent_heredoc(t_cmd *cmd, int *heredoc)
 			cmd->std_in = dup(heredoc[0]);
 		close(heredoc[0]);
 	}
+	//signals_init();
 	check_signal(g_signal_received);
 	return (0);
 }
