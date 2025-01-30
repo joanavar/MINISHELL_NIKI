@@ -175,7 +175,7 @@ void							get_export(t_cmd *cmd);
 void							get_pwd(void);
 void							get_cd(t_cmd *cmd);
 void							print_env(t_shell *shell);
-int								built_ins(t_cmd *cmd);
+int								built_ins(t_cmd *cmd, int type);
 /***Exit***/
 int								mini_exit(t_cmd *cmd);
 
@@ -251,5 +251,8 @@ void							expandir(t_token **stack, t_env *env);
 int								executor(t_shell *shell);
 int								open_file(char *file, int type);
 t_token							*is_heredoc(t_token *token);
+t_token							*expansor_res(t_token *tmp);
+void							travel_expansor(t_token *token, t_env *env);
+void							expander(t_token *token, int i, t_env *env);
 
 #endif

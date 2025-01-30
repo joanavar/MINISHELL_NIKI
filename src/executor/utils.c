@@ -76,3 +76,44 @@ t_cmd	*cmds_shell_exec(t_cmd *cmds, t_shell *shell)
 		return (NULL);
 	return (cmds);
 }
+
+t_token	*expansor_res(t_token *tmp)
+{
+	if (tmp->type == 0)
+		tmp = tmp->next;
+	if (!tmp)
+		return (NULL);
+	if (tmp->type == 5)
+	{
+		tmp = is_heredoc(tmp);
+		if (!(tmp->next))
+			return (NULL);
+	}
+	return (tmp);
+}
+
+void	travel_expansor(t_token *tmp, t_env *env)
+{
+	int	i;
+
+	while (tmp)
+	{
+		i = 0;
+		tmp = expansor_res(tmp);
+		if (!tmp)
+			return ;
+		if ((tmp->type == 1 || tmp->type == 3))
+		{
+			while (tmp->content[i])
+			{
+				if (tmp->content[i] == '$')
+				{
+					expander(tmp, i, env);
+					continue ;
+				}
+				i++;
+			}
+		}
+		tmp = tmp->next;
+	}
+}

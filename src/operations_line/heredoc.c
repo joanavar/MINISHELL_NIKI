@@ -23,6 +23,8 @@ static void	go_heredoc(t_cmd *cmd, int fd_doc)
 			break ;
 		if (ft_strcmp(line, cmd->redirs->file_name))
 			break ;
+		if (ft_strcmp(line, cmd->redirs->file_name))
+			break ;
 		ft_putstr_fd(line, fd_doc);
 		ft_putstr_fd("\n", fd_doc);
 	}

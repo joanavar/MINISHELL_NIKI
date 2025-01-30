@@ -50,7 +50,7 @@ int	add_first_redir(t_token *token, t_cmd *cmd)
 	cmd->redirs->next = NULL;
 	if (cmd->redirs->type == 5)
 		heredoc(cmd);
-	check_reddir(cmd);
+	//check_reddir(cmd);
 	return (1);
 }
 
@@ -74,7 +74,7 @@ int	add_rest_redir(t_token *token, t_cmd *cmd)
 	tmp_redir->next->next = NULL;
 	if (tmp_redir->next->type == 5)
 		heredoc(cmd);
-	check_reddir(cmd);
+	//check_reddir(cmd);
 	return (1);
 }
 
