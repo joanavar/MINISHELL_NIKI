@@ -23,8 +23,6 @@ static void	go_heredoc(t_cmd *cmd, int fd_doc)
 			break ;
 		if (ft_strcmp(line, cmd->redirs->file_name))
 			break ;
-		if (ft_strcmp(line, cmd->redirs->file_name))
-			break ;
 		ft_putstr_fd(line, fd_doc);
 		ft_putstr_fd("\n", fd_doc);
 	}
@@ -57,6 +55,7 @@ static int	parent_heredoc(t_cmd *cmd, int *heredoc)
 			cmd->std_in = dup(heredoc[0]);
 		close(heredoc[0]);
 	}
+	//signals_init();
 	check_signal(g_signal_received);
 	return (0);
 }

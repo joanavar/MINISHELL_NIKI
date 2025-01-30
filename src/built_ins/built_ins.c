@@ -82,7 +82,7 @@ int	built_ins(t_cmd *cmd, int type)
 	int	ln;
 
 	ln = 0;
-	printf("tester: %s", cmd->arr_cmd[0]);
+	printf("tester: %s ", cmd->arr_cmd[0]);
 	if (type == 0)
 		ln = aux_built_ins(cmd);
 	else

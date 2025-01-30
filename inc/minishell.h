@@ -166,6 +166,7 @@ void							check_signal(int sisgnal_received);
 void							handle_sigint(int signal);
 void							handle_sigint_heredoc(int sig);
 
+
 // void	handle_sigquit(int signal); quitar
 
 /***BUILTS_INS***/
