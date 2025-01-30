@@ -31,6 +31,7 @@ void	init_shell(t_shell **shell, char **env)
 	(*shell)->status = 0;
 	(*shell)->arg = NULL;
 	(*shell)->env = NULL;
+	(*shell)->trust = NULL;
 	if (!env || !(*env))
 	{
 		(*shell)->env = choose_env(*shell);

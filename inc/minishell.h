@@ -116,6 +116,7 @@ typedef struct s_cmd
 
 typedef struct s_env
 {
+	char						**arr_export;
 	char						*value;
 	char						*content;
 	struct s_env				*next;
@@ -132,6 +133,7 @@ struct							s_shell
 	t_export					*export;
 	t_token						*eco_token;
 	t_cmd						*cmds;
+	char						**trust;
 };
 
 /***FUNTIONS AUX***/
