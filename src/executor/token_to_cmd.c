@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:37:16 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/30 17:19:20 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/30 17:57:05 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ t_cmd	*create_new_cmd(void)
 	cmd->fd_in = 0;
 	cmd->fd_out = 0;
 	cmd->pipe = 0;
+	cmd->std_dup = 0;
+	cmd->stdout_dup = 1;
 	cmd->redirs = NULL;
 	cmd->next = NULL;
 	return (cmd);
