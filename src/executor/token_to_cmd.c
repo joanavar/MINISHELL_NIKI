@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_to_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joanavar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:37:16 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/28 15:38:27 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/28 19:44:31 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ static int	clas_token(t_token **token, t_cmd **aux_cmd)
 	else if ((*token)->type == 4)
 	{
 		(*aux_cmd)->next = create_new_cmd();
+		(*aux_cmd)->pipe = 1;
 		if (!(*aux_cmd)->next)
 			return (0);
 		*aux_cmd = (*aux_cmd)->next;

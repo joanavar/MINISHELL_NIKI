@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:33:13 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/28 15:36:06 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/28 20:42:59 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,10 @@ void	exec_child(t_cmd *cmd, int id, t_shell *shell)
 		clean_data(shell);
 		exit(127);
 	}
-	if (cmd->builtins != 1)
+	if (aux->builtins != 1)
 		mini_exec(aux, shell);
 	else
-		built_ins(aux);
+		built_ins(aux, 1);
 }
 
 void	exec_duo(t_cmd *cmd, t_shell *shell)
@@ -114,10 +114,7 @@ void	exec_duo(t_cmd *cmd, t_shell *shell)
 		if (aux->id == 0 || aux_2->pipe == 1)
 			pid = fork();
 		if (pid == 0)
-		{
 			exec_child(cmd, aux->id, shell);
-			exit(EXIT_SUCCESS);
-		}
 		else if (aux != 0)
 		{
 			aux_2 = aux;

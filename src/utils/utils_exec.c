@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   utils_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 17:11:34 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/28 15:28:25 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/28 19:52:47 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 int	arr_size(char **array)
@@ -49,6 +50,7 @@ int	add_first_redir(t_token *token, t_cmd *cmd)
 	cmd->redirs->next = NULL;
 	if (cmd->redirs->type == 5)
 		heredoc(cmd);
+	check_reddir(cmd);
 	return (1);
 }
 
@@ -72,6 +74,7 @@ int	add_rest_redir(t_token *token, t_cmd *cmd)
 	tmp_redir->next->next = NULL;
 	if (tmp_redir->next->type == 5)
 		heredoc(cmd);
+	check_reddir(cmd);
 	return (1);
 }
 
