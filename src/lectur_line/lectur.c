@@ -86,5 +86,6 @@ t_token	*lectur_imput(char *str, t_env *env)
 		return (NULL);
 	expandir(&stack, env);
 	remove_quotes(stack);
+
 	return (stack);
 }

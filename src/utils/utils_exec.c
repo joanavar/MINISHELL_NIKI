@@ -57,11 +57,9 @@ int	add_first_redir(t_token *token, t_cmd *cmd)
 int	add_rest_redir(t_token *token, t_cmd *cmd)
 {
 	t_redir	*tmp_redir;
-	int		filename_size;
 	t_token	*tmp_token;
 
 	tmp_token = space_zero(token);
-	filename_size = ft_strlen(tmp_token->content);
 	tmp_redir = cmd->redirs;
 	while (tmp_redir->next)
 		tmp_redir = tmp_redir->next;

@@ -46,9 +46,11 @@ int	executor(t_shell *shell)
 	t_cmd	*cmds;
 	t_token	*tmp;
 	int		i;
+	int		j;
 
 	cmds = NULL;
 	i = 0;
+	j = 0;
 	tmp = shell->eco_token;
 	cmds = token_to_cmd(tmp);
 	if (!cmds)
