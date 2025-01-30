@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
@@ -37,3 +38,13 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	ptr[j] = '\0';
 	return (ptr);
 }
+
+/*int main()
+{
+	char const *s = "echo $USERadios";
+	unsigned int start = 6;
+	size_t len = 4;
+	char *res = ft_substr(s, start, len);
+	printf("la nueva string : %s\n", res);
+	return (0);
+}*/

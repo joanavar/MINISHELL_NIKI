@@ -6,18 +6,18 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:49:47 by camurill          #+#    #+#             */
-/*   Updated: 2024/12/03 20:02:38 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:31:12 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 volatile sig_atomic_t	g_signal_received = 0;
 
 void	error_message(char *str, t_opcode OPCODE)
 {
 	if (OPCODE == NO_CLOSE || OPCODE == CLOSE)
-		printf(RED"Error found: %s\n"GBD, str);
+		printf(RED "Error found: %s\n" GBD, str);
 	if (OPCODE == CLOSE)
 		exit(1);
 }
@@ -28,44 +28,19 @@ void	init_shell(t_shell **shell, char **env)
 	if (!shell || !(*shell))
 		error_message("Problems with mallocs", CLOSE);
 	(*shell)->prompt = NULL;
-	(*shell)->token = 0;
 	(*shell)->status = 0;
 	(*shell)->arg = NULL;
 	(*shell)->env = NULL;
-	(*shell)->aux_env = NULL;
-	get_env(shell, env);//toD
-}
-
-void	clean_data(t_shell **shell)
-{
-	if ((*shell)->prompt)
+	if (!env || !(*env))
 	{
-		free((*shell)->prompt);
-		(*shell)->prompt = NULL;
+		(*shell)->env = choose_env(*shell);
+		if (!(*shell)->env)
+			error_message("Problems, not found env", CLOSE);
 	}
-	if ((*shell)->env)
-		free_matrix((*shell)->env);
-	if ((*shell)->arg)
-		free_matrix((*shell)->arg);
-	if ((*shell)->aux_env)
-		free_matrix((*shell)->aux_env);
-	free((*shell));
-}
-
-void	free_matrix(char **matrix)
-{
-	size_t	i;
-
-	i = 0;
-	if (!matrix || !(*matrix))
-		return ;
-	while (matrix[i])
-	{
-		free(matrix[i]);
-		i++;
-	}
-	free(matrix);
-	matrix = NULL;
+	else
+		(*shell)->env = get_env(env);
+	(*shell)->eco_token = NULL;
+	(*shell)->cmds = NULL;
 }
 
 int	main(int ac, char **ag, char **env)
@@ -79,19 +54,18 @@ int	main(int ac, char **ag, char **env)
 	check_signal(g_signal_received);
 	while (1)
 	{
-		shell->prompt = readline(BLUE"/home/minishell$ "GBD);
+		shell->prompt = readline(BLUE "/home/minishell$ " GBD);
 		if (!shell->prompt)
 		{
 			printf("exit\n");
-			break ;
+			return (EXIT_SUCCESS);
 		}
-		if (start_shell(shell) == -1)
-			error_message("Write a double \" o \'", NO_CLOSE);
-		//if (built_ins(shell) == -1)
-		//	break ;
-		add_history(shell->prompt);
+		if (*shell->prompt && start_shell(shell) == -1)
+			break ;
+		if (ft_strncmp(shell->prompt, "", ft_strlen(shell->prompt)))
+			add_history(shell->prompt);
 		free(shell->prompt);
 	}
-	clean_data(&shell);
+	clean_data(shell);
 	return (0);
 }
