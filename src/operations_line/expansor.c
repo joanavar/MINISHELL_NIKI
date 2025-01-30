@@ -61,7 +61,7 @@ static void	exchange_expanser(t_token *token, t_env *env, int start, int end)
 	token->content = str;
 }
 
-static void	expander(t_token *token, int i, t_env *env)
+void	expander(t_token *token, int i, t_env *env)
 {
 	char	*str;
 	int		j;
@@ -92,34 +92,7 @@ static void	expander(t_token *token, int i, t_env *env)
 void	expandir(t_token **stack, t_env *env)
 {
 	t_token	*tmp;
-	int		i;
 
 	tmp = *stack;
-	while (tmp)
-	{
-		i = 0;
-		if (tmp->type == 0)
-			tmp = tmp->next;
-		if (!tmp)
-			return ;
-		if (tmp->type == 5)
-		{
-			tmp = is_heredoc(tmp);
-			if (!(tmp->next))
-				return ;
-		}
-		if ((tmp->type == 1 || tmp->type == 3))
-		{
-			while (tmp->content[i])
-			{
-				if (tmp->content[i] == '$')
-				{
-					expander(tmp, i, env);
-					continue ;
-				}
-				i++;
-			}
-		}
-		tmp = tmp->next;
-	}
+	travel_expansor(tmp, env);
 }

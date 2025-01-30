@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:50:29 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/28 20:35:53 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/30 13:22:35 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,12 @@ static int	pid_builtins(t_cmd *cmd)
 	return (-1);
 }
 
-int built_ins(t_cmd *cmd, int type)
+int	built_ins(t_cmd *cmd, int type)
 {
-	int ln;
+	int	ln;
 
 	ln = 0;
-	printf("tester: %s", cmd->arr_cmd[0]);
+	printf("tester: %s ", cmd->arr_cmd[0]);
 	if (type == 0)
 		ln = aux_built_ins(cmd);
 	else

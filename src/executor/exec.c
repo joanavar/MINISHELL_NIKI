@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 20:48:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/28 20:14:12 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/30 13:21:38 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,12 @@ int	executor(t_shell *shell)
 	t_cmd	*cmds;
 	t_token	*tmp;
 	int		i;
+	int		j;
 
 	cmds = NULL;
 	i = 0;
-	tmp = shell->eco_token;
-	cmds = token_to_cmd(tmp);
-	if (!cmds)
-		return (-1);
-	cmds->shell = shell;
-	if (!cmds->shell)
-		return (-1);
+	j = 0;
+	cmds = cmds_shell_exec(cmds, shell);
 	if (check_pipe(&cmds) == -1)
 		return (-1);
 	cmds->path = get_path(cmds, shell->env);

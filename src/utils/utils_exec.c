@@ -50,18 +50,16 @@ int	add_first_redir(t_token *token, t_cmd *cmd)
 	cmd->redirs->next = NULL;
 	if (cmd->redirs->type == 5)
 		heredoc(cmd);
-	check_reddir(cmd);
+	//check_reddir(cmd);
 	return (1);
 }
 
 int	add_rest_redir(t_token *token, t_cmd *cmd)
 {
 	t_redir	*tmp_redir;
-	int		filename_size;
 	t_token	*tmp_token;
 
 	tmp_token = space_zero(token);
-	filename_size = ft_strlen(tmp_token->content);
 	tmp_redir = cmd->redirs;
 	while (tmp_redir->next)
 		tmp_redir = tmp_redir->next;
@@ -76,7 +74,7 @@ int	add_rest_redir(t_token *token, t_cmd *cmd)
 	tmp_redir->next->next = NULL;
 	if (tmp_redir->next->type == 5)
 		heredoc(cmd);
-	check_reddir(cmd);
+	//check_reddir(cmd);
 	return (1);
 }
 
