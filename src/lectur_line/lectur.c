@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lectur.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 18:54:07 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/30 13:24:00 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:42:53 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,32 @@
 #include <readline/history.h>
 #include <readline/readline.h>
 
-//#include "paquito.h"
 
-static void	is_caracter_token(char c, t_token **stack)
+
+static int	is_caracter_token(char c, t_token **stack)
 {
 	char	*token;
 
-	token = malloc(sizeof(char *) * 2);
+	token = malloc(sizeof(char) * 2);
 	if (!token)
-		return ;
+		return (0);
 	token[0] = c;
 	token[1] = '\0';
-	get_token(token, stack);
+	if (!get_token(token, stack))
+	{
+		free(token);
+		return (0);
+	}
+	return (1);
 }
 
-static void	is_redireccion(char *str, int i, t_token **stack)
+static int	is_redireccion(char *str, int i, t_token **stack)
 {
 	char	*token;
 
-	token = malloc(sizeof(char *) * 3);
+	token = malloc(sizeof(char) * 3);
+	if (!token)
+		return (0);
 	if (str[i] == '<' && str[i + 1] == '<')
 	{
 		token[0] = '<';
@@ -44,32 +51,50 @@ static void	is_redireccion(char *str, int i, t_token **stack)
 		token[1] = '>';
 	}
 	token[2] = '\0';
-	get_token(token, stack);
+	if (!get_token(token, stack))
+	{
+		free(token);
+		return (0);
+	}
+	return (1);
 }
 
-static void	lectur_line(char *str, t_token **stack, int i)
+static int	lectur_line(char *str, t_token **stack, int i)
 {
 	while (str[i])
 	{
 		if (str[i] == ' ')
-			is_caracter_token(str[i], stack);
+		{
+			if (!is_caracter_token(str[i], stack))
+				return (0);
+		}
 		else if (str[i] == '|')
-			is_caracter_token(str[i], stack);
+		{
+			if (!is_caracter_token(str[i], stack))
+				return (0);
+		}
 		else if (str[i] == '>' || str[i] == '<')
 		{
 			if ((str[i] == '<' && str[i + 1] == '<')
 				|| str[i] == '>' && str[i + 1] == '>')
 			{
-				is_redireccion(str, i, stack);
+				if (!is_redireccion(str, i, stack))
+					return (0);
 				i++;
 			}
-			else
-				is_caracter_token(str[i], stack);
+			else if (!is_caracter_token(str[i], stack))
+				return (0);
 		}
 		else
-			i = is_string(str, i, stack) - 1;
+		{
+			i = is_string(str, i, stack);
+			if (i == -1)
+				return (0);
+			i--;
+		}
 		i++;
 	}
+	return (1);
 }
 
 t_token	*lectur_imput(char *str, t_env *env)
@@ -77,13 +102,22 @@ t_token	*lectur_imput(char *str, t_env *env)
 	int		i;
 	t_token	*stack;
 
+	if (!str || !env)
+		return (NULL);
 	i = 0;
 	stack = NULL;
 	if (!*str)
 		return (NULL);
-	lectur_line(str, &stack, i);
-	if (syntax_error(&stack))
+	if (!lectur_line(str, &stack, i))
+	{
+		free_token(&stack);
 		return (NULL);
+	}
+	if (syntax_error(&stack))
+	{
+		free_token(&stack);
+		return (NULL);
+	}
 	expandir(&stack, env);
 	remove_quotes(stack);
 	return (stack);

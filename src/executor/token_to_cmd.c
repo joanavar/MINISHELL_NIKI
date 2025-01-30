@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_to_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:37:16 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/28 19:44:31 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:19:20 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,16 @@ static char	**add_to_array(char *token, char **cmd)
 	{
 		new_cmd[i] = ft_strdup(cmd[i]);
 		if (!new_cmd[i])
-			return (free_matrix(new_cmd), NULL);
+			return (free_matrix(cmd), free_matrix(new_cmd), NULL);
 		i++;
 	}
 	new_cmd[i] = ft_strdup(token);
 	if (!new_cmd[i])
-		return (free_matrix(cmd), free_matrix(new_cmd), NULL);
+	{
+		free_matrix(cmd);
+		free_matrix(new_cmd);
+		return (NULL);
+	}
 	new_cmd[++i] = NULL;
 	free_matrix(cmd);
 	return (new_cmd);
@@ -115,6 +119,8 @@ t_cmd	*token_to_cmd(t_token *tokens)
 	t_cmd	*aux_cmd;
 	t_token	*tmp;
 
+	if (!tokens)
+		return (NULL);
 	tmp = tokens;
 	cmd = create_new_cmd();
 	if (!cmd)
@@ -124,13 +130,13 @@ t_cmd	*token_to_cmd(t_token *tokens)
 	{
 		if (!clas_token(&tokens, &aux_cmd))
 		{
-			free_cmds(&cmd);
-			free_token(&tmp);
+			if (cmd)
+				free_cmds(&cmd);
+			if (tmp)
+				free_token(&tmp);
 			return (NULL);
 		}
 		tokens = tokens->next;
 	}
-	if (!cmd)
-		return (NULL);
 	return (cmd);
 }

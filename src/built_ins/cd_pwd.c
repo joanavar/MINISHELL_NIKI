@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 00:08:20 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/28 15:33:18 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/30 16:22:51 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	get_cd(t_cmd *cmd)
 			ft_putstr_fd("bash: cd: ", 2);
 			ft_putendl_fd(home, 2);
 		}
+		free(home);
 	}
 	else if ((cmd->arr_cmd[1]) && !(cmd->arr_cmd[2]))
 	{

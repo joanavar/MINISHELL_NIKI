@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:06:40 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/30 13:20:38 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:21:37 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,25 +41,28 @@ int	check_pipe(t_cmd **cmd)
 
 void	waiting(t_shell *shell)
 {
-	int	exit_status;
-	int	status;
+	int		exit_status;
+	int		status;
+	void	(*old_sigint)(int);
+	void	(*old_sigquit)(int);
 
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+	old_sigint = signal(SIGINT, SIG_IGN);
+	old_sigquit = signal(SIGQUIT, SIG_IGN);
+	
 	while (wait(&exit_status) != -1)
 	{
 		if (WIFSIGNALED(exit_status) != 0)
 		{
-			ft_putstr_fd("\n", 1);
+			write(STDOUT_FILENO, "\n", 1);
 			status = WTERMSIG(exit_status) + 128;
 			shell->exit_status = status;
 		}
 		if (WIFEXITED(exit_status))
-		{
-			status = WEXITSTATUS(exit_status);
-			shell->exit_status = status;
-		}
+			shell->exit_status = WEXITSTATUS(exit_status);
 	}
+	
+	signal(SIGINT, old_sigint);
+	signal(SIGQUIT, old_sigquit);
 	check_signal(g_signal_received);
 }
 
@@ -67,13 +70,18 @@ t_cmd	*cmds_shell_exec(t_cmd *cmds, t_shell *shell)
 {
 	t_token	*tmp;
 
+	if (!shell)
+		return (NULL);
 	tmp = shell->eco_token;
 	cmds = token_to_cmd(tmp);
 	if (!cmds)
 		return (NULL);
 	cmds->shell = shell;
 	if (!cmds->shell)
+	{
+		free_cmds(&cmds);
 		return (NULL);
+	}
 	return (cmds);
 }
 

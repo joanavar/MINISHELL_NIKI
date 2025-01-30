@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:33:13 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/28 20:42:59 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:32:41 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,19 @@ int	count_cmd(t_cmd *cmd)
 	return (i);
 }
 
+static int	safe_close(int fd)
+{
+	if (fd > 2)
+	{
+		if (close(fd) == -1)
+		{
+			perror("close error");
+			return (-1);
+		}
+	}
+	return (0);
+}
+
 static t_cmd	*close_pipes(t_cmd *cmd, int id)
 {
 	t_cmd	*aux;
@@ -37,18 +50,18 @@ static t_cmd	*close_pipes(t_cmd *cmd, int id)
 		if (aux->id != id)
 		{
 			if (aux->std_in != 0 && aux->std_in != -1)
-				close(aux->std_in);
+				safe_close(aux->std_in);
 			if (aux->std_out != 1 && aux->std_out != -1)
-				close(aux->std_out);
+				safe_close(aux->std_out);
 			if (aux->fd_in != 0 && aux->fd_in != -1)
-				close(aux->fd_in);
+				safe_close(aux->fd_in);
 			if (aux->fd_out != 0 && aux->fd_out != -1)
-				close(aux->fd_out);
+				safe_close(aux->fd_out);
 		}
 		aux = aux->next;
 	}
 	aux = cmd;
-	while (aux->id != id)
+	while (aux && aux->id != id)
 		aux = aux->next;
 	if (!aux)
 		return (NULL);
@@ -59,7 +72,8 @@ static t_cmd	*close_pipes(t_cmd *cmd, int id)
 static void	exec_parent(t_cmd *cmd, int id, int pid)
 {
 	t_cmd	*aux;
-	int		status;
+	void	(*old_sigint)(int);
+	void	(*old_sigquit)(int);
 
 	aux = cmd;
 	while (aux)
@@ -74,7 +88,38 @@ static void	exec_parent(t_cmd *cmd, int id, int pid)
 			close(aux->fd_in);
 		aux = aux->next;
 	}
+	old_sigint = signal(SIGINT, SIG_IGN);
+	old_sigquit = signal(SIGQUIT, SIG_IGN);
 	waiting(cmd->shell);
+	signal(SIGINT, old_sigint);
+	signal(SIGQUIT, old_sigquit);
+}
+
+static void	cleanup_pipes_and_exit(t_cmd *cmd, t_shell *shell, int status)
+{
+	t_cmd	*aux;
+
+	aux = cmd;
+	while (aux)
+	{
+		if (aux->std_in != 0)
+			safe_close(aux->std_in);
+		if (aux->std_out != 1)
+			safe_close(aux->std_out);
+		if (aux->fd_in != 0)
+			safe_close(aux->fd_in);
+		if (aux->fd_out != 0)
+			safe_close(aux->fd_out);
+		aux = aux->next;
+	}
+	clean_data(shell);
+	exit(status);
+}
+
+static void	setup_child_signals(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }
 
 void	exec_child(t_cmd *cmd, int id, t_shell *shell)
@@ -82,24 +127,31 @@ void	exec_child(t_cmd *cmd, int id, t_shell *shell)
 	t_cmd	*aux;
 
 	aux = close_pipes(cmd, id);
+	if (!aux)
+		cleanup_pipes_and_exit(NULL, shell, 1);
 	aux->path = get_path(aux, shell->env);
 	if (!aux->path)
 	{
 		if (aux->shell->exit_status == 0)
-			exit(0);
+			cleanup_pipes_and_exit(aux, shell, 0);
 		ft_putstr_fd("Minishell: Command not found: ", 2);
 		ft_putendl_fd(aux->arr_cmd[0], 2);
-		clean_data(shell);
-		exit(127);
+		cleanup_pipes_and_exit(aux, shell, 127);
 	}
 	if (aux->builtins != 1)
 		mini_exec(aux, shell);
 	else
+	{
 		built_ins(aux, 1);
+		cleanup_pipes_and_exit(aux, shell, aux->shell->exit_status);
+	}
 }
 
 void	exec_duo(t_cmd *cmd, t_shell *shell)
 {
+	if (!cmd || !shell)
+		return;
+
 	t_cmd	*aux;
 	t_cmd	*aux_2;
 	int		pid;
@@ -112,16 +164,46 @@ void	exec_duo(t_cmd *cmd, t_shell *shell)
 	while (aux && pid != 0)
 	{
 		if (aux->id == 0 || aux_2->pipe == 1)
-			pid = fork();
-		if (pid == 0)
-			exec_child(cmd, aux->id, shell);
-		else if (aux != 0)
 		{
-			aux_2 = aux;
-			id = aux->id;
-			aux = aux->next;
+			pid = fork();
+			if (pid == -1)
+			{
+				perror("fork error");
+				cleanup_pipes_and_exit(cmd, shell, 1);
+			}
+			if (pid == 0)
+			{
+				setup_child_signals();
+				exec_child(cmd, aux->id, shell);
+			}
 		}
+		aux_2 = aux;
+		id = aux->id;
+		aux = aux->next;
 	}
 	if (pid != 0)
 		exec_parent(cmd, id, pid);
+}
+
+int	check_pipe(t_cmd **cmd)
+{
+	t_cmd	*aux;
+	int		fd[2];
+
+	if (!cmd || !*cmd)
+		return (-1);
+	aux = *cmd;
+	while (aux->next)
+	{
+		aux->pipe = 1;
+		if (pipe(fd) == -1)
+		{
+			perror("pipe error");
+			return (-1);
+		}
+		aux->fd_out = fd[1];
+		aux->next->fd_in = fd[0];
+		aux = aux->next;
+	}
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:50:29 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/30 13:22:35 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:29:14 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	ft_selector(t_cmd *cmd)
 {
-	if (!strncmp("exit", cmd->arr_cmd[0], 5))
+	if (!strncmp("exit", cmd->arr_cmd[0], 4))
 	{
 		if (!cmd->arr_cmd[1])
 		{
@@ -25,9 +25,9 @@ static int	ft_selector(t_cmd *cmd)
 		else
 			return (mini_exit(cmd));
 	}
-	if (!strncmp("env", cmd->arr_cmd[0], 4))
+	if (!strncmp("env", cmd->arr_cmd[0], 3))
 		print_env(cmd->shell);
-	if (!strncmp("pwd", cmd->arr_cmd[0], 4) && !cmd->arr_cmd[1])
+	if (!strncmp("pwd", cmd->arr_cmd[0], 3) && !cmd->arr_cmd[1])
 		get_pwd();
 	else if (!strncmp("pwd", cmd->arr_cmd[0], 4) && cmd->arr_cmd[1])
 		error_message("pwd: too many arguments", NO_CLOSE);
@@ -40,11 +40,11 @@ static int	aux_built_ins(t_cmd *cmd) // corregir errores
 {
 	if (ft_selector(cmd) == -1)
 		return (-1);
-	if (!strncmp("export", cmd->arr_cmd[0], 7))
+	if (!strncmp("export", cmd->arr_cmd[0], 6))
 		get_export(cmd);
-	if (!strncmp("unset", cmd->arr_cmd[0], 6))
+	if (!strncmp("unset", cmd->arr_cmd[0], 5))
 		unset_shell(cmd->shell, cmd->arr_cmd[1]);
-	if (!strncmp("echo", cmd->arr_cmd[0], 5))
+	if (!strncmp("echo", cmd->arr_cmd[0], 4))
 		get_echo(cmd);
 	return (0);
 }
@@ -53,15 +53,21 @@ static void	close2_dups(t_cmd *cmd)
 {
 	if (cmd->std_in != 0)
 	{
-		close(cmd->std_in);
-		dup2(cmd->std_dup, 0);
-		close(cmd->std_dup);
+		if (close(cmd->std_in) == -1)
+			perror("close error");
+		if (dup2(cmd->std_dup, 0) == -1)
+			perror("dup2 error");
+		if (close(cmd->std_dup) == -1)
+			perror("close error");
 	}
 	if (cmd->std_out != 1)
 	{
-		close(cmd->std_out);
-		dup2(cmd->stdout_dup, 1);
-		close(cmd->stdout_dup);
+		if (close(cmd->std_out) == -1)
+			perror("close error");
+		if (dup2(cmd->stdout_dup, 1) == -1)
+			perror("dup2 error");
+		if (close(cmd->stdout_dup) == -1)
+			perror("close error");
 	}
 }
 
@@ -82,7 +88,6 @@ int	built_ins(t_cmd *cmd, int type)
 	int	ln;
 
 	ln = 0;
-	printf("tester: %s ", cmd->arr_cmd[0]);
 	if (type == 0)
 		ln = aux_built_ins(cmd);
 	else

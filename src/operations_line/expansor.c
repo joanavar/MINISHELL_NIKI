@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 16:17:46 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/28 15:21:14 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:35:42 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,15 @@ static void	exchange_expanser(t_token *token, t_env *env, int start, int end)
 	int		i;
 	int		j;
 	int		len;
-	int		res;
 
+	if (!token || !env || !token->content || !env->content)
+		return;
 	i = -1;
 	j = -1;
 	len = change_malloc_token(token, env, start - end);
-	str = malloc(sizeof(char *) * len + 1);
+	str = malloc(sizeof(char) * len + 1);
+	if (!str)
+		return;
 	while (++i < start)
 		str[i] = token->content[i];
 	while (env->content[++j])
@@ -67,24 +70,30 @@ void	expander(t_token *token, int i, t_env *env)
 	int		j;
 	t_env	*tmp;
 
+	if (!token || !env || !token->content)
+		return;
 	if (token->content[++i] == '$')
-		return ;
+		return;
 	j = i;
 	if (correct_expansor(token, i))
 	{
 		while (close_expansor(token, i))
 			i++;
 		str = ft_substr(token->content, j, i - j);
+		if (!str)
+			return;
 		tmp = env;
 		while (tmp)
 		{
 			if (ft_strcmp(str, tmp->value))
 			{
+				free(str);
 				exchange_expanser(token, tmp, j - 1, i);
 				return ;
 			}
 			tmp = tmp->next;
 		}
+		free(str);
 		delete_expanser(token, j - 1, i);
 	}
 }

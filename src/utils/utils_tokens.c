@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 17:11:34 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/28 15:23:17 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:32:13 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,16 @@ t_token	*is_heredoc(t_token *token)
 {
 	t_token	*tmp;
 
+	if (!token)
+		return (NULL);
 	tmp = token;
 	if (!(tmp->type == 5) || !(tmp->next))
 		return (tmp);
 	tmp = tmp->next;
-	while (tmp->type == 0)
+	while (tmp && tmp->type == 0)
 		tmp = tmp->next;
+	if (!tmp)
+		return (token);
 	if (tmp->next && string_type(tmp))
 		tmp = tmp->next;
 	return (tmp);

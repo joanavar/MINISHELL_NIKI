@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 20:25:58 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/28 15:36:01 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:24:17 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,19 @@ void	mini_exec(t_cmd *cmd, t_shell *shell)
 
 	env_arr = lst_to_chr(&(shell->env));
 	if (!env_arr)
+	{
 		error_message("Error with env", NO_CLOSE);
+		clean_data(shell);
+		exit(1);
+	}
 	if (execve(cmd->path, cmd->arr_cmd, env_arr) == -1)
 	{
 		ft_putstr_fd("Minishell: Command not found: ", 2);
 		ft_putendl_fd(cmd->arr_cmd[0], 2);
-		return ;
+		free_matrix(env_arr);
+		clean_data(shell);
+		exit(127);
 	}
+	free_matrix(env_arr);
 	exit(2);
 }

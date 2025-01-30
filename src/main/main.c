@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:49:47 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/28 15:31:12 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:28:38 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	main(int ac, char **ag, char **env)
 	if (ac > 1)
 		error_message("Enter only one argument", CLOSE);
 	shell = NULL;
+	setup_signal_handlers();
 	init_shell(&shell, env);
 	check_signal(g_signal_received);
 	while (1)
@@ -58,6 +59,7 @@ int	main(int ac, char **ag, char **env)
 		if (!shell->prompt)
 		{
 			printf("exit\n");
+			clean_data(shell);
 			return (EXIT_SUCCESS);
 		}
 		if (*shell->prompt && start_shell(shell) == -1)
@@ -65,7 +67,9 @@ int	main(int ac, char **ag, char **env)
 		if (ft_strncmp(shell->prompt, "", ft_strlen(shell->prompt)))
 			add_history(shell->prompt);
 		free(shell->prompt);
+		shell->prompt = NULL;
 	}
+	restore_signals();
 	clean_data(shell);
 	return (0);
 }

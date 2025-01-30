@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:34:47 by joanavar          #+#    #+#             */
-/*   Updated: 2024/12/23 19:14:08 by joannavarro      ###   ########.fr       */
+/*   Updated: 2025/01/30 17:37:54 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,12 @@ static void	quotes_correct(t_token *token)
 	char	tmp;
 	int		j;
 
+	if (!token || !token->content)
+		return;
 	i = count_quotes(token);
-	str = malloc(sizeof(char *) * (i + 1));
+	str = malloc(sizeof(char) * (i + 1));
+	if (!str)
+		return ;
 	i = 0;
 	j = 0;
 	delete_quotes(token, str, i, j);
@@ -56,23 +60,29 @@ static void	quotes_correct(t_token *token)
 
 void	remove_quotes(t_token *stack)
 {
-	while (stack)
+	t_token *current;
+
+	if (!stack)
+		return;
+	current = stack;
+	while (current)
 	{
-		if (!stack->next)
-			break ;
-		if (string_type(stack) && string_type(stack->next))
+		if (!current->next)
+			break;
+		if (string_type(current) && string_type(current->next))
 		{
-			union_string(stack);
-			quotes_correct(stack);
+			union_string(current);
+			if (current->content)
+				quotes_correct(current);
 		}
-		else if (string_type(stack))
+		else if (string_type(current))
 		{
-			quotes_correct(stack);
-			stack = stack->next;
+			quotes_correct(current);
+			current = current->next;
 		}
 		else
-			stack = stack->next;
+			current = current->next;
 	}
-	if (!(stack->next) && string_type(stack))
-		quotes_correct(stack);
+	if (!current->next && string_type(current))
+		quotes_correct(current);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 17:41:18 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/28 15:33:31 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/30 16:37:43 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,11 @@ void	unset_shell(t_shell *shell, char *arg)
 	t_env	*aux;
 	t_env	*del;
 
+	if (!shell || !arg)
+		return;
 	aux = shell->env;
-	if (!shell->eco_token->next)
-		return ;
+	if (!aux)
+		return;
 	while (aux)
 	{
 		if (!ft_strncmp(aux->value, arg, ft_strlen(arg) + 1))
@@ -47,6 +49,8 @@ void	unset_shell(t_shell *shell, char *arg)
 				del->next->prev = del->prev;
 			if (del->prev)
 				del->prev->next = del->next;
+			else
+				shell->env = del->next;
 			free(del->value);
 			free(del->content);
 			free(del);

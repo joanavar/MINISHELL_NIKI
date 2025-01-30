@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 20:43:52 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/28 15:31:06 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/30 16:48:51 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,16 @@ static char	*get_value(char *value)
 	i = 0;
 	if (!value)
 		return (NULL);
-	while (value[i] != '=')
+	while (value[i] && value[i] != '=')
 		i++;
+	if (!value[i])  // Si no hay '=', retornar NULL
+		return (NULL);
 	aux = malloc(sizeof(char) * (i + 1));
 	if (!aux)
 		return (NULL);
-	j = i + 1;
+	j = i;
 	i = 0;
-	while (--j > 0)
+	while (i < j)
 	{
 		aux[i] = value[i];
 		i++;
@@ -44,16 +46,18 @@ static char	*get_content(char *content)
 	size_t	j;
 	size_t	k;
 
-	i = 0;
-	k = 0;
 	if (!content)
 		return (NULL);
-	j = ft_strlen(content);
-	while (content[i] != '=')
+	i = 0;
+	while (content[i] && content[i] != '=')
 		i++;
-	aux = malloc(sizeof(char) * (j - i + 2));
+	if (!content[i])
+		return (NULL);
+	j = ft_strlen(content);
+	aux = malloc(sizeof(char) * (j - i + 1));
 	if (!aux)
 		return (NULL);
+	k = 0;
 	i++;
 	while (content[i])
 		aux[k++] = content[i++];
@@ -65,16 +69,26 @@ t_env	*lstnew(char *content)
 {
 	t_env	*list;
 
+	if (!content)
+		return (NULL);
 	list = (t_env *)malloc(sizeof(*list));
 	if (!list)
 		return (NULL);
 	list->value = get_value(content);
 	if (!list->value)
+	{
+		free(list);
 		return (NULL);
+	}
 	list->content = get_content(content);
 	if (!list->content)
+	{
+		free(list->value);
+		free(list);
 		return (NULL);
+	}
 	list->next = NULL;
+	list->prev = NULL; 
 	return (list);
 }
 
@@ -85,11 +99,20 @@ t_env	*get_env(char **env)
 	t_env	*new_node;
 	size_t	i;
 
+	if (!env)
+		return (NULL);
 	i = -1;
 	head = NULL;
+	current = NULL;
 	while (env[++i])
 	{
 		new_node = lstnew(env[i]);
+		if (!new_node)
+		{
+			if (head)
+				free_env(head);  // Liberar toda la lista si falla
+			return (NULL);
+		}
 		if (!head)
 		{
 			head = new_node;
@@ -102,8 +125,6 @@ t_env	*get_env(char **env)
 			current = new_node;
 		}
 	}
-	if (current)
-		current->next = NULL;
 	return (head);
 }
 
