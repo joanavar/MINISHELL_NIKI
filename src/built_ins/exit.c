@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 15:43:42 by nikitadorof       #+#    #+#             */
-/*   Updated: 2025/01/31 15:43:51 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 16:29:31 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ static int	aux_exit(t_cmd *cmd)
 
 int	mini_exit(t_cmd *cmd)
 {
-	int	i;
-
 	if (!cmd || !cmd->shell || !cmd->arr_cmd)
 	{
 		printf("Error: Invalid command structure\n");
@@ -65,6 +63,8 @@ int	mini_exit(t_cmd *cmd)
 	if (!cmd->arr_cmd[1])
 	{
 		printf(YELLOW "exit\n" GBD);
+		if (cmd->shell->eco_token)
+			free_token(&(cmd->shell->eco_token));
 		clean_data(cmd->shell);
 		exit(cmd->shell->exit_status);
 	}
