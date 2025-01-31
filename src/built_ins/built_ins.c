@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:50:29 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/30 17:29:14 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 11:46:18 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	ft_selector(t_cmd *cmd)
 	return (0);
 }
 
-static int	aux_built_ins(t_cmd *cmd) // corregir errores
+static int	aux_built_ins(t_cmd *cmd)
 {
 	if (ft_selector(cmd) == -1)
 		return (-1);

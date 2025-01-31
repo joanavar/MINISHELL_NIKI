@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:51:10 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/30 16:38:16 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 13:32:58 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	aux_export(t_cmd *cmd, t_env *aux)
 	if (!aux)
 	{
 		cmd->shell->env = new_node;
-		return;
+		return ;
 	}
 	while (aux->next)
 		aux = aux->next;
@@ -37,7 +37,7 @@ void	get_export(t_cmd *cmd)
 	int		i;
 
 	if (!cmd || !cmd->shell)
-		return;
+		return ;
 	aux = cmd->shell->env;
 	if (!cmd->arr_cmd[1])
 	{
@@ -46,7 +46,7 @@ void	get_export(t_cmd *cmd)
 			printf("declare -x %s=%s\n", aux->value, aux->content);
 			aux = aux->next;
 		}
-		return;
+		return ;
 	}
 	if (check_specials(cmd->arr_cmd[1], '=') == 1)
 		aux_export(cmd, aux);

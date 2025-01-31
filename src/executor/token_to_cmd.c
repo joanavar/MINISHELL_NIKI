@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_to_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:37:16 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/31 11:36:50 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 13:45:17 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static char	**create_arr_cmd(char *token, char **cmd)
 	cmd[0] = ft_strdup(token);
 	if (!cmd[0])
 	{
-		free(cmd[0]);
 		free(cmd);
 		return (NULL);
 	}
@@ -78,13 +77,19 @@ static char	**add_to_array(char *token, char **cmd)
 	if (!new_cmd[i])
 		return (free_matrix(cmd), free_matrix(new_cmd), NULL);
 	new_cmd[++i] = NULL;
-	return (free_matrix(new_cmd), new_cmd);
+	free_matrix(cmd);
+	return (new_cmd);
 }
 
 static int	clas_token(t_token **token, t_cmd **aux_cmd)
 {
-	if ((*token)->type == 5 || (*token)->type == 6 || (*token)->type == 7
-		|| (*token)->type == 8)
+	if ((*token)->type == 5)
+	{
+		*token = is_heredoc(*token);
+		if (!*token)
+			return (0);
+	}
+	if ((*token)->type == 6 || (*token)->type == 7 || (*token)->type == 8)
 	{
 		if (add_redir(*token, *aux_cmd) == 2)
 			return (0);

@@ -43,6 +43,7 @@ SRC_FILES   =       main/main.c \
                     operations_line/expansor.c \
 					executor/exec.c \
 					executor/pipe.c \
+					executor/child.c \
 					executor/get_path.c \
 					executor/dups.c \
 					executor/mini_exec.c \
@@ -51,6 +52,8 @@ SRC_FILES   =       main/main.c \
 					executor/token_to_cmd.c \
 					main/clean2.c \
 					utils/utils_exec2.c \
+					utils/utils_dups.c \
+					utils/utils_pipes.c \
 					operations_line/heredoc.c \
 					redict/check_reddit.c 
 

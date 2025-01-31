@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 11:40:58 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/31 13:51:00 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ void	handle_sigint_heredoc(int sig);
 void	setup_signal_handlers(void);
 void	setup_heredoc_signals(void);
 void	restore_signals(void);
+void	setup_child_signals(void);
 
 /* Built-ins */
 int		built_ins(t_cmd *cmd, int type);
@@ -180,7 +181,15 @@ t_cmd	*cmds_shell_exec(t_cmd *cmds, t_shell *shell);
 
 /* Pipes */
 int		check_pipe(t_cmd **last);
-void	ft_dups(t_cmd *cmd);
+int		safe_close(int fd);
+t_cmd	*close_pipes(t_cmd *cmd, int id);
+void	ft_dups(t_cmd *cmd);;
+void	exec_parent(t_cmd *cmd, int id, int pid);
+void	execute_command(t_cmd *aux, t_shell *shell);
+void	handle_fork_error(t_cmd *cmd, t_shell *shell);
+void	execute_pipeline(t_cmd *cmd, t_shell *shell, t_cmd *aux, t_cmd *aux_2);
+void	handle_command_not_found(t_cmd *aux, t_shell *shell);
+void	cleanup_pipes_and_exit(t_cmd *cmd, t_shell *shell, int status);
 
 /* Parser */
 t_token	*lectur_imput(char *str, t_env *env);
@@ -224,6 +233,9 @@ int		check_specials(char *str, char ltr);
 int		count_quotes_utils(t_token *token, int i, int count, char tmp);
 int		opcion_syntax(t_token *tmp);
 int		change_malloc_token(t_token *str, t_env *env, int measure);
+int		handle_dup_error(int fd, const char *msg);
+int		handle_stdin_dup(t_cmd *cmd);
+int		handle_fd_in_dup(t_cmd *cmd);
 
 /* Expansor */
 void	expandir(t_token **stack, t_env *env);

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 17:41:18 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 11:24:06 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 13:33:34 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static void ft_free(t_env *aux)
+static void	ft_free(t_env *aux)
 {
 	free(aux->value);
 	free(aux->content);
@@ -43,10 +43,10 @@ void	unset_shell(t_shell *shell, char *arg)
 	t_env	*del;
 
 	if (!shell || !arg)
-		return;
+		return ;
 	aux = shell->env;
 	if (!aux)
-		return;
+		return ;
 	while (aux)
 	{
 		if (!ft_strncmp(aux->value, arg, ft_strlen(arg) + 1))

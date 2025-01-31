@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lectur.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 18:54:07 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/31 11:39:08 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 12:00:21 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

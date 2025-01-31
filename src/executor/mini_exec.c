@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 20:25:58 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/30 17:24:17 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 12:46:36 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void	mini_exec(t_cmd *cmd, t_shell *shell)
 {
 	char	**env_arr;
 
+	if (cmd->path)
+		return ;
 	env_arr = lst_to_chr(&(shell->env));
 	if (!env_arr)
 	{
@@ -76,5 +78,5 @@ void	mini_exec(t_cmd *cmd, t_shell *shell)
 		exit(127);
 	}
 	free_matrix(env_arr);
-	exit(2);
+	exit(1);
 }

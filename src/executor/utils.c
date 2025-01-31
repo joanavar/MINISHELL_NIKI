@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:06:40 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/30 20:52:31 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 13:45:29 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	check_pipe(t_cmd **cmd)
 		aux = aux->next;
 	}
 	aux->id = id;
-	aux->pipe = 0;  // El último comando no tiene pipe
+	aux->pipe = 0;
 	return (0);
 }
 

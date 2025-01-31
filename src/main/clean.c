@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:40:02 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/30 20:17:39 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/31 12:54:33 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,10 +127,7 @@ void	free_cmds(t_cmd **cmds)
 			free(buffer->arr_cmd);
 		}
 		if (buffer->path)
-		{
-			//free(buffer->path);
-			buffer->path = NULL;
-		}
+			free(buffer->path);
 		if (buffer->redirs)
 			free_redirs(buffer->redirs);
 		free(buffer);

@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 13:12:21 by camurill          #+#    #+#             */
-/*   Updated: 2024/01/23 18:46:03 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/31 12:10:52 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,27 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*s3;
+	char	*result;
+	size_t	len1;
+	size_t	len2;
 	size_t	i;
-	size_t	j;
-	size_t	k;
 
 	if (!s1 || !s2)
-		return (0);
-	i = ft_strlen(s1);
-	k = ft_strlen(s2);
-	j = 0;
-	s3 = (char *)malloc(sizeof(char) * (i + k + 1));
-	if (!s3)
-		return (0);
-	while (i-- > 0)
-	{
-		s3[j] = s1[j];
-		j++;
-	}
+		return (NULL);
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	result = (char *)malloc(sizeof(char) * (len1 +len2 + 1));
+	if (!result)
+		return (NULL);
 	i = 0;
-	while (k-- > 0)
-		s3[j++] = s2[i++];
-	s3[j] = '\0';
-	return (s3);
+	while (i < len1)
+	{
+		result[i] = s1[i];
+		i++;
+	}
+	i = -1;
+	while (++i < len2)
+		result[len1 + i] = s2[i];
+	result[len1 + len2] = '\0';
+	return (result);
 }
