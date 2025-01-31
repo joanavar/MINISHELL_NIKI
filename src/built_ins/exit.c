@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 12:09:50 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/30 20:37:41 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/31 11:26:35 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,10 @@ int static	interpretor(char *str)
 	return (nbr);
 }
 
-int	mini_exit(t_cmd *cmd)
+static int aux_exit(t_cmd *cmd)
 {
 	int	i;
 	
-	if (!cmd || !cmd->shell || !cmd->arr_cmd)
-	{
-		printf("Error: Invalid command structure\n");
-		exit(1);
-	}
-	if (!cmd->arr_cmd[1])
-	{
-		printf(YELLOW "exit\n" GBD);
-		clean_data(cmd->shell);
-		exit(cmd->shell->exit_status);
-	}
-	cmd->shell->exit_status = check_numeric(cmd->arr_cmd[1]);
 	if (cmd->shell->exit_status == 0)
 	{
 		if (!cmd->arr_cmd[2])
@@ -63,4 +51,23 @@ int	mini_exit(t_cmd *cmd)
 		exit(2);
 	}
 	return (cmd->shell->exit_status);
+}
+
+int	mini_exit(t_cmd *cmd)
+{
+	int	i;
+	
+	if (!cmd || !cmd->shell || !cmd->arr_cmd)
+	{
+		printf("Error: Invalid command structure\n");
+		exit(1);
+	}
+	if (!cmd->arr_cmd[1])
+	{
+		printf(YELLOW "exit\n" GBD);
+		clean_data(cmd->shell);
+		exit(cmd->shell->exit_status);
+	}
+	cmd->shell->exit_status = check_numeric(cmd->arr_cmd[1]);
+	return (aux_exit(cmd));
 }

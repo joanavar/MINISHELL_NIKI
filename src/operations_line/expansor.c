@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 16:17:46 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/31 11:18:16 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 11:33:02 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,15 +73,11 @@ void	expander(t_token *token, int i, t_env *env)
 	if (!token || !env || !token->content)
 		return;
 	if (token->content[++i] == '$' || token->content[i] == '\0')
-		return;
+		return ;
 	if (token->content[i] == '?')
 	{
-		char *exit_status = ft_itoa(env->shell->exit_status);
-		if (!exit_status)
-			return;
 		exchange_expanser(token, env, i - 1, i + 1);
-		free(exit_status);
-		return;
+		return ;
 	}
 	j = i;
 	if (correct_expansor(token, i))
@@ -107,7 +103,15 @@ void	expander(t_token *token, int i, t_env *env)
 	}
 }
 
-void	travel_expansor(t_token *token, t_env *env)
+void	expandir(t_token **stack, t_env *env)
+{
+	t_token	*tmp;
+
+	tmp = *stack;
+	process_expansions(tmp, env);
+}
+
+static void	process_token(t_token *token, t_env *env)
 {
 	int	i;
 

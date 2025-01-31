@@ -6,11 +6,18 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 17:41:18 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/30 16:37:43 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 11:24:06 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+static void ft_free(t_env *aux)
+{
+	free(aux->value);
+	free(aux->content);
+	free(aux);
+}
 
 void	print_env(t_shell *shell)
 {
@@ -51,9 +58,7 @@ void	unset_shell(t_shell *shell, char *arg)
 				del->prev->next = del->next;
 			else
 				shell->env = del->next;
-			free(del->value);
-			free(del->content);
-			free(del);
+			ft_free(del);
 			return ;
 		}
 		aux = aux->next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_to_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:37:16 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/30 20:42:01 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/31 11:36:50 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,9 @@ static char	**add_to_array(char *token, char **cmd)
 	}
 	new_cmd[i] = ft_strdup(token);
 	if (!new_cmd[i])
-	{
-		free_matrix(cmd);
-		free_matrix(new_cmd);
-		return (NULL);
-	}
+		return (free_matrix(cmd), free_matrix(new_cmd), NULL);
 	new_cmd[++i] = NULL;
-	free_matrix(cmd);
-	return (new_cmd);
+	return (free_matrix(new_cmd), new_cmd);
 }
 
 static int	clas_token(t_token **token, t_cmd **aux_cmd)
