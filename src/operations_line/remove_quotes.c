@@ -63,7 +63,9 @@ void	remove_quotes(t_token *stack)
 		if (string_type(stack) && string_type(stack->next))
 		{
 			union_string(stack);
+			printf("antes : %s\n", stack->content);
 			quotes_correct(stack);
+			printf("despues : %s\n", stack->content);
 		}
 		else if (string_type(stack))
 		{
@@ -73,6 +75,4 @@ void	remove_quotes(t_token *stack)
 		else
 			stack = stack->next;
 	}
-	if (!(stack->next) && string_type(stack))
-		quotes_correct(stack);
 }
