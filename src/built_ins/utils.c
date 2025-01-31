@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 19:35:51 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/28 15:33:57 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/31 15:45:17 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,20 @@ int	check_numeric(char *str)
 	int	i;
 
 	i = 0;
+	if (!str)
+		return (2);
 	if (str[i] == '-' || str[i] == '+')
 		i++;
+	if (!strncmp("9223372036854775808", str, 19))
+		return (2);
 	while (str[i])
 	{
 		if (str[i] < 48 || str[i] > 57)
 			return (2);
 		i++;
 	}
+	if (i > 19)
+		return (2);
 	return (0);
 }
 
@@ -63,12 +69,3 @@ int	check_specials(char *str, char ltr)
 	}
 	return (0);
 }
-
-/*int	parssing(t_shell **shell)
-{
-	if (check_doubles((*shell)->prompt, 34))
-		return (-1);
-	if (check_doubles((*shell)->prompt, 39))
-		return (-1);
-	return (0);
-}*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/28 15:40:41 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/31 15:49:45 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,6 @@ int								check_specials(char *str, char ltr);
 int								check_numeric(char *str);
 int								count_cmd(t_cmd *cmd);
 void							waiting(t_shell *shell);
-void							printf_dups(t_cmd *cmd);
 /*
 int								parssing(t_shell **shell);
 t_env	*get_env(char **env);*/
@@ -195,6 +194,9 @@ void							mini_exec(t_cmd *cmd, t_shell *shell);
 /*** PIPES ***/
 int								check_pipe(t_cmd **last);
 void							ft_dups(t_cmd *cmd);
+
+/*** REDIRECTS ***/
+void							check_reddir(t_cmd *cmd);
 
 /***NAVARRO_FUNCTIONS***/
 // lectur.c
