@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 20:48:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 18:02:10 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 18:41:16 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,21 +56,12 @@ int	executor(t_shell *shell, t_trust *trust)
 	i = 0;
 	cmds = cmds_shell_exec(cmds, shell);
 	if (!cmds || check_pipe(&cmds) == -1)
-	{
-		free_cmds(&cmds);
-		return (-1);
-	}
+		return (free_cmds(&cmds), -1);
 	if (handle_redirections(cmds, shell) == -1)
-	{
-		free_cmds(&cmds);
-		return (-1);
-	}
+		return (free_cmds(&cmds), -1);
 	cmds->path = get_path(cmds, shell->env);
 	if (!cmds->path)
-	{
-		free_cmds(&cmds);
-		return (-1);
-	}
+		return (free_cmds(&cmds), -1);
 	cmds = initial_cmd(cmds);
 	if (cmds->path && cmds->builtins == 1 && cmds->next == NULL)
 		i = built_ins(cmds, 0, trust);
@@ -79,7 +70,5 @@ int	executor(t_shell *shell, t_trust *trust)
 		exec_duo(cmds, shell, trust);
 		i = shell->exit_status;
 	}
-	if (!cmds->builtins || cmds->next)
-		free_cmds(&cmds);
 	return (i);
 }

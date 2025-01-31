@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   remove_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:34:47 by joanavar          #+#    #+#             */
-/*   Updated: 2024/12/23 19:14:08 by joannavarro      ###   ########.fr       */
+/*   Updated: 2025/01/31 18:38:34 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-//#include "paquito.h"
 
 int	string_type(t_token *token)
 {
@@ -56,8 +54,8 @@ static void	quotes_correct(t_token *token)
 
 void	remove_quotes(t_token *stack)
 {
-	t_token *tmp;
-	int i;
+	t_token	*tmp;
+	int		i;
 
 	stack = space_zero(stack);
 	i = 0;
@@ -66,17 +64,11 @@ void	remove_quotes(t_token *stack)
 		if (!stack->next)
 			break ;
 		if (i == 0 && (stack->type == 2 || stack->type == 3))
-		{
 			quotes_correct(stack);
-			printf("%s\n", stack->content);
-		}
-
 		if (string_type(stack) && string_type(stack->next))
 		{
 			quotes_correct(stack->next);
-			printf("antes : %s\n", stack->content);
 			union_string(stack);
-			printf("despues : %s\n", stack->content);
 		}
 		else if (string_type(stack))
 		{

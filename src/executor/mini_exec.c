@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 20:25:58 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/28 15:36:01 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/31 18:15:27 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,11 @@ static char	**lst_to_chr(t_env **env)
 	while (a_env)
 	{
 		prom = ft_strjoin(a_env->value, "=");
+		if (!prom)
+			return (free_matrix(aux), NULL);
 		aux[i] = ft_strjoin(prom, a_env->content);
+		if (!aux[i])
+			return (free_matrix(aux), free(prom), NULL);
 		i++;
 		a_env = a_env->next;
 		free(prom);

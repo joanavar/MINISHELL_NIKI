@@ -3,58 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:06:40 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 17:46:25 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 18:43:13 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-int	check_pipe(t_cmd **cmd)
-{
-	t_cmd	*aux;
-	int		fd[2];
-
-	if (!cmd)
-		return (-1);
-	aux = *cmd;
-	while (aux->next)
-	{
-		aux->pipe = 1;
-		if (pipe(fd) == -1)
-			return (-1);
-		aux->fd_out = fd[1];
-		aux->next->fd_in = fd[0];
-		aux = aux->next;
-	}
-	return (0);
-}
-
-void	waiting(t_shell *shell)
-{
-	int	exit_status;
-	int	status;
-
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-	while (wait(&exit_status) != -1)
-	{
-		if (WIFSIGNALED(exit_status) != 0)
-		{
-			ft_putstr_fd("\n", 1);
-			status = WTERMSIG(exit_status) + 128;
-			shell->exit_status = status;
-		}
-		if (WIFEXITED(exit_status))
-		{
-			status = WEXITSTATUS(exit_status);
-			shell->exit_status = status;
-		}
-	}
-	check_signal(g_signal_received);
-}
 
 t_cmd	*cmds_shell_exec(t_cmd *cmds, t_shell *shell)
 {

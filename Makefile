@@ -47,6 +47,7 @@ SRC_FILES   =       main/main.c \
 					executor/dups.c \
 					executor/mini_exec.c \
 					executor/utils.c \
+					executor/utils2.c \
 					utils/utils_exec.c \
 					executor/token_to_cmd.c \
 					main/clean2.c \

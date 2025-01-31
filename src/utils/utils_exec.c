@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 17:11:34 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/31 16:45:27 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 18:11:21 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_token	*space_zero(t_token *token)
 	if (!token->next)
 		return (NULL);
 	tmp = token->next;
-	while (tmp->type == 0)
+	while (tmp->next && tmp->type == 0)
 		tmp = tmp->next;
 	return (tmp);
 }
