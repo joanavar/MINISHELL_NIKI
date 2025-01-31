@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:49:47 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/28 15:31:12 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/31 16:17:03 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,8 @@ int	main(int ac, char **ag, char **env)
 	t_trust	*trust;
 
 	trust = create_new_trust();
-
 	if (ac > 1)
 		error_message("Enter only one argument", CLOSE);
-	shell = NULL;
 	init_shell(&shell, env);
 	check_signal(g_signal_received);
 	while (1)
@@ -67,7 +65,7 @@ int	main(int ac, char **ag, char **env)
 			break ;
 		if (ft_strncmp(shell->prompt, "", ft_strlen(shell->prompt)))
 			add_history(shell->prompt);
-		//free(shell->prompt);
+		free(shell->prompt);
 	}
 	clean_data(shell);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 17:11:34 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/31 15:48:10 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 16:45:27 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	add_first_redir(t_token *token, t_cmd *cmd)
 	t_token	*tmp;
 
 	tmp = space_zero(token);
+	if (!tmp)
+		return (0);
 	filename_size = ft_strlen(tmp->content);
 	cmd->redirs = malloc(sizeof(t_redir) * 1);
 	if (!cmd->redirs)
@@ -51,7 +53,7 @@ int	add_first_redir(t_token *token, t_cmd *cmd)
 	cmd->redirs->fd = -1;
 	cmd->redirs->next = NULL;
 	if (cmd->redirs->type == 5)
-		heredoc(cmd);
+		heredoc(cmd->redirs->file_name, cmd->shell);
 	check_reddir(cmd);
 	return (1);
 }
@@ -62,6 +64,8 @@ int	add_rest_redir(t_token *token, t_cmd *cmd)
 	t_token	*tmp_token;
 
 	tmp_token = space_zero(token);
+	if (!tmp_token)
+		return (0);
 	tmp_redir = cmd->redirs;
 	while (tmp_redir->next)
 		tmp_redir = tmp_redir->next;
@@ -75,7 +79,7 @@ int	add_rest_redir(t_token *token, t_cmd *cmd)
 	tmp_redir->next->fd = -1;
 	tmp_redir->next->next = NULL;
 	if (tmp_redir->next->type == 5)
-		heredoc(cmd);
+		heredoc(tmp_redir->next->file_name, cmd->shell);
 	check_reddir(cmd);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 15:49:45 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 16:58:56 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,13 @@ struct							s_shell
 	t_cmd						*cmds;
 };
 
+enum e_redir_type {
+    INPUT,
+    OUTPUT,
+    APPENDS,
+    HEREDOC
+};
+
 /***FUNTIONS AUX***/
 /*int		check_doubles(char *str, char ltr);*/
 int								check_specials(char *str, char ltr);
@@ -172,6 +179,8 @@ void							free_shell(t_shell *shell);
 void							check_signal(int sisgnal_received);
 void							handle_sigint(int signal);
 void							handle_sigint_heredoc(int sig);
+void							set_heredoc_signals(void);
+void							reset_signals(void);
 
 
 // void	handle_sigquit(int signal); quitar
@@ -209,7 +218,7 @@ void							check_reddir(t_cmd *cmd);
 t_token							*lectur_imput(char *str, t_env *env);
 
 // token.c
-void							get_token(char *str, t_token **stack);
+int								get_token(char *str, t_token **stack);
 t_token							*find_last(t_token *stack);
 t_cmd							*create_new_cmd(void);
 // string.c
@@ -248,7 +257,7 @@ t_cmd							*cmds_shell_exec(t_cmd *cmd, t_shell *shell);
 
 // heredoc
 
-int								heredoc(t_cmd *cmd);
+int	heredoc(char *delimiter, t_shell *shell);
 
 // syntax_error.c
 int								syntax_error(t_token **stack);

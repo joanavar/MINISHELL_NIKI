@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 20:48:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/30 13:21:38 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/31 16:42:23 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,41 +28,76 @@ static t_cmd	*initial_cmd(t_cmd *cmd)
 	return (aux);
 }
 
-void	print_cmd(char **array)
+static int	handle_redirections(t_cmd *cmd, t_shell *shell)
 {
-	int	i;
+	t_redir	*redir;
 
-	i = 0;
-	while (array && array[i])
+	redir = cmd->redirs;
+	while (redir)
 	{
-		printf("%s ", array[i]);
-		i++;
+		if (redir->type == HEREDOC)
+		{
+			cmd->std_in = heredoc(redir->file_name, shell);
+			if (cmd->std_in == -1)
+				return (-1);
+		}
+		else if (redir->type == INPUT)
+		{
+			cmd->std_in = open(redir->file_name, O_RDONLY);
+			if (cmd->std_in == -1)
+				return (-1);
+		}
+		else if (redir->type == OUTPUT)
+		{
+			cmd->std_out = open(redir->file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (cmd->std_out == -1)
+				return (-1);
+		}
+		else if (redir->type == APPENDS)
+		{
+			cmd->std_out = open(redir->file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			if (cmd->std_out == -1)
+				return (-1);
+		}
+		redir = redir->next;
 	}
-	printf("\n");
+	return (0);
 }
 
 int	executor(t_shell *shell, t_trust *trust)
 {
 	t_cmd	*cmds;
-	t_token	*tmp;
 	int		i;
-	int		j;
+	int		status;
 
 	cmds = NULL;
 	i = 0;
-	j = 0;
 	cmds = cmds_shell_exec(cmds, shell);
-	if (check_pipe(&cmds) == -1)
+	if (!cmds || check_pipe(&cmds) == -1)
+	{
+		free_cmds(&cmds);
 		return (-1);
+	}
+	if (handle_redirections(cmds, shell) == -1)
+	{
+		free_cmds(&cmds);
+		return (-1);
+	}
 	cmds->path = get_path(cmds, shell->env);
 	if (!cmds->path)
+	{
+		free_cmds(&cmds);
 		return (-1);
+	}
 	cmds = initial_cmd(cmds);
 	if (cmds->path && cmds->builtins == 1 && cmds->next == NULL)
-	{
 		i = built_ins(cmds, 0, trust);
-	}
 	else
+	{
 		exec_duo(cmds, shell, trust);
+		i = shell->exit_status;
+	}
+	if (!cmds->builtins || cmds->next)
+		free_cmds(&cmds);
 	return (i);
 }

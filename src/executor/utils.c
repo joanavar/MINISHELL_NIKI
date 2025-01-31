@@ -3,22 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:06:40 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/30 13:20:38 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/31 16:38:11 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-/*
-void	change_status(t_shell *shell)
-{
-	t_cmd	*aux;
-	int		fd[2];
-
-}*/
 int	check_pipe(t_cmd **cmd)
 {
 	t_cmd	*aux;
