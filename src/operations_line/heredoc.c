@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 14:53:31 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/31 17:48:31 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 18:55:51 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ int	heredoc(char *delimiter, t_shell *shell)
 	if (WIFSIGNALED(status) || WEXITSTATUS(status) != 0)
 	{
 		close(fd[0]);
-		shell->exit_status = 130;
 		free(clean_delimiter);
 		return (-1);
 	}

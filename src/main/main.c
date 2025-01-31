@@ -3,16 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:49:47 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 17:44:08 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 19:01:09 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
 volatile sig_atomic_t	g_signal_received = 0;
+
+static void	free_trust(t_trust *trust)
+{
+	free_matrix(trust->arg);
+	free(trust);
+	trust = NULL;
+}
 
 void	error_message(char *str, t_opcode OPCODE)
 {
@@ -69,5 +76,6 @@ int	main(int ac, char **ag, char **env)
 		free(shell->prompt);
 	}
 	clean_data(shell);
+	free_trust(trust);
 	return (0);
 }

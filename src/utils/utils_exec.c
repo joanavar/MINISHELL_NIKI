@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 17:11:34 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/31 18:11:21 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/31 19:05:01 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ int	add_rest_redir(t_token *token, t_cmd *cmd)
 		return (0);
 	tmp_redir->next->fd = -1;
 	tmp_redir->next->next = NULL;
-	if (tmp_redir->next->type == 5)
-		heredoc(tmp_redir->next->file_name, cmd->shell);
+	//if (tmp_redir->next->type == 5)
+	//	heredoc(tmp_redir->next->file_name, cmd->shell);
 	check_reddir(cmd);
 	return (1);
 }

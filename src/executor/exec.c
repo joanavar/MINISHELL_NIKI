@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 20:48:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 18:41:16 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/31 19:01:32 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,13 @@ static int	handle_redirections(t_cmd *cmd, t_shell *shell)
 	return (0);
 }
 
+static void handle_exit_heredoc(t_cmd *cmd)
+{
+	free_cmds(&cmd);
+	exit (130);
+}
+
+
 int	executor(t_shell *shell, t_trust *trust)
 {
 	t_cmd	*cmds;
@@ -58,7 +65,7 @@ int	executor(t_shell *shell, t_trust *trust)
 	if (!cmds || check_pipe(&cmds) == -1)
 		return (free_cmds(&cmds), -1);
 	if (handle_redirections(cmds, shell) == -1)
-		return (free_cmds(&cmds), -1);
+		handle_exit_heredoc(cmds);
 	cmds->path = get_path(cmds, shell->env);
 	if (!cmds->path)
 		return (free_cmds(&cmds), -1);
