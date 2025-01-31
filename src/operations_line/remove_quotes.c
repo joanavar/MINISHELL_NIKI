@@ -56,15 +56,26 @@ static void	quotes_correct(t_token *token)
 
 void	remove_quotes(t_token *stack)
 {
+	t_token *tmp;
+	int i;
+
+	stack = space_zero(stack);
+	i = 0;
 	while (stack)
 	{
 		if (!stack->next)
 			break ;
+		if (i == 0 && (stack->type == 2 || stack->type == 3))
+		{
+			quotes_correct(stack);
+			printf("%s\n", stack->content);
+		}
+
 		if (string_type(stack) && string_type(stack->next))
 		{
-			union_string(stack);
+			quotes_correct(stack->next);
 			printf("antes : %s\n", stack->content);
-			quotes_correct(stack);
+			union_string(stack);
 			printf("despues : %s\n", stack->content);
 		}
 		else if (string_type(stack))
@@ -74,5 +85,6 @@ void	remove_quotes(t_token *stack)
 		}
 		else
 			stack = stack->next;
+		i++;
 	}
 }
