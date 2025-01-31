@@ -72,16 +72,14 @@ static char	**aux_trust(char *s, char **trust)
 	return (new_trust);
 }
 
-void	get_export(t_cmd *cmd)
+void	get_export(t_cmd *cmd, t_trust *trust)
 {
 	t_env	*aux;
 	t_env	*new_node;
 	int		i;
 	int		j;
-	char	**trust;
 
 	aux = cmd->shell->env;
-	trust = cmd->shell->trust;
 	i = -1;
 	if (!cmd->arr_cmd[1])
 	{
@@ -90,14 +88,16 @@ void	get_export(t_cmd *cmd)
 			printf("declare -x %s=%s\n", aux->value, aux->content);
 			aux = aux->next;
 		}
-		if (!trust)
+		if (!trust->arg)
 			printf("hola\n");
-		if (trust)
+		if (trust->arg)
 		{
 			j = 0;
 			while(trust)
 			{
-				printf("declare -x %s\n", trust[j]);
+				if (trust->arg[j] == NULL)
+					break ;
+				printf("declare -x %s\n", trust->arg[j]);
 				j++;
 			}
 		}
@@ -106,7 +106,6 @@ void	get_export(t_cmd *cmd)
 		aux_export(cmd, aux);
 	else if (cmd->arr_cmd[1] && check_specials(cmd->arr_cmd[1], '=') == 0)
 	{
-		trust = aux_trust(cmd->arr_cmd[1], trust);
-		printf("Este es mi nuevo export: %s\n", trust[0]);
+		trust->arg = aux_trust(cmd->arr_cmd[1], trust->arg);
 	}
 }

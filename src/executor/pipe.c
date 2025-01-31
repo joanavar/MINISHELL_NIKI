@@ -77,7 +77,7 @@ static void	exec_parent(t_cmd *cmd, int id, int pid)
 	waiting(cmd->shell);
 }
 
-void	exec_child(t_cmd *cmd, int id, t_shell *shell)
+void	exec_child(t_cmd *cmd, int id, t_shell *shell, t_trust *trust)
 {
 	t_cmd	*aux;
 
@@ -95,10 +95,10 @@ void	exec_child(t_cmd *cmd, int id, t_shell *shell)
 	if (aux->builtins != 1)
 		mini_exec(aux, shell);
 	else
-		built_ins(aux, 1);
+		built_ins(aux, 1, trust);
 }
 
-void	exec_duo(t_cmd *cmd, t_shell *shell)
+void	exec_duo(t_cmd *cmd, t_shell *shell, t_trust *trust)
 {
 	t_cmd	*aux;
 	t_cmd	*aux_2;
@@ -114,7 +114,7 @@ void	exec_duo(t_cmd *cmd, t_shell *shell)
 		if (aux->id == 0 || aux_2->pipe == 1)
 			pid = fork();
 		if (pid == 0)
-			exec_child(cmd, aux->id, shell);
+			exec_child(cmd, aux->id, shell, trust);
 		else if (aux != 0)
 		{
 			aux_2 = aux;
