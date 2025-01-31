@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:19 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 18:37:12 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/31 19:43:41 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ void	handle_sigint_heredoc(int sig)
 {
 	(void)sig;
 	g_signal_received = 130;
-	rl_on_new_line();
 	write(1, "\n", 1);
-	close(STDIN_FILENO);
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 void	set_heredoc_signals(void)
@@ -53,6 +53,7 @@ void	set_heredoc_signals(void)
 	struct sigaction	sa_int;
 	struct sigaction	sa_quit;
 
+	g_signal_received = 0;
 	sa_int.sa_handler = handle_sigint_heredoc;
 	sigemptyset(&sa_int.sa_mask);
 	sa_int.sa_flags = 0;

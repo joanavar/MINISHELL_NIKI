@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:37:16 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/31 19:07:40 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 19:33:13 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static char	**create_arr_cmd(char *token, char **cmd)
 	cmd[0] = ft_strdup(token);
 	if (!cmd[0])
 	{
-		free(cmd[0]);
 		free(cmd);
 		return (NULL);
 	}
@@ -89,9 +88,13 @@ static int	clas_token(t_token **token, t_cmd **aux_cmd)
 	{
 		if (add_redir(*token, *aux_cmd) == 2)
 			return (0);
+		if (!(*token)->next)
+			return (0);
 		(*token) = (*token)->next;
-		while ((*token)->type == 0)
+		while ((*token) && (*token)->type == 0)
 			(*token) = (*token)->next;
+		if (!(*token))
+			return (0);
 	}
 	else if (string_type(*token))
 	{

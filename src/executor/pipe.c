@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:33:13 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 19:28:26 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 19:38:42 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,11 @@ void	exec_child(t_cmd *cmd, int id, t_shell *shell, t_trust *trust)
 	aux->path = get_path(aux, shell->env);
 	if (!aux->path)
 	{
+		if (aux->shell->exit_status == 130)
+		{
+			clean_data(shell);
+			exit(130);
+		}
 		if (aux->shell->exit_status == 0)
 			exit(0);
 		ft_putstr_fd("Minishell: Command not found: ", 2);
@@ -130,4 +135,11 @@ void	exec_duo(t_cmd *cmd, t_shell *shell, t_trust *trust)
 	}
 	if (pid != 0)
 		exec_parent(cmd, id, pid);
+	if (cmd->builtins == 1 && !cmd->next)
+	{
+		if (shell->exit_status == 130)
+			return;
+		built_ins(cmd, 0, trust);
+		return;
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:34:15 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/31 18:38:59 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/31 19:49:27 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ static int	syntax_redi(t_token *token)
 	}
 	else if (redir_type(token) && (token->next->type == 0))
 	{
-		token = token->next;
+		if (token->next)
+			token = token->next;
 		while (token->type == 0)
 			token = token->next;
 		if (redir_type(token))

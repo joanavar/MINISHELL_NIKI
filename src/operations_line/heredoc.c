@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 14:53:31 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/31 18:55:51 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/31 19:51:51 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,23 @@ static char	*get_heredoc_input(char *delimiter, t_shell *shell)
 		if (!line)
 		{
 			printf("\nwarning: here-document delimited by end-of-file\n");
-			break;
+			free(content);
+			return (NULL);
+		}
+		if (g_signal_received == 130)
+		{
+			free(content);
+			free(line);
+			return (NULL);
 		}
 		trimmed = ft_strtrim(line, " \t");
-		free(line);  // Liberamos la línea original
+		free(line);
 		if (!trimmed)
 		{
 			free(content);
 			return (NULL);
 		}
+		printf("trimmed: %s\n", trimmed);
 		if (ft_strlen(trimmed) == ft_strlen(delimiter) && 
 			ft_strncmp(trimmed, delimiter, ft_strlen(delimiter)) == 0)
 		{
@@ -85,20 +93,31 @@ int	heredoc(char *delimiter, t_shell *shell)
 		close(fd[0]);
 		content = get_heredoc_input(clean_delimiter, shell);
 		if (!content)
+		{
+			close(fd[1]);
+			free(clean_delimiter);
+			if (g_signal_received == 130)
+				exit(130);
 			exit(1);
+		}
 		write(fd[1], content, ft_strlen(content));
 		free(content);
 		close(fd[1]);
+		free(clean_delimiter);
 		exit(0);
 	}
 	close(fd[1]);
 	waitpid(pid, &status, 0);
-	if (WIFSIGNALED(status) || WEXITSTATUS(status) != 0)
+	if (WIFSIGNALED(status) || WEXITSTATUS(status) == 130)
 	{
+		shell->exit_status = 130;
 		close(fd[0]);
 		free(clean_delimiter);
+		reset_signals();
+		g_signal_received = 0;  // Resetear la señal
 		return (-1);
 	}
 	free(clean_delimiter);
+	reset_signals();
 	return (fd[0]);
 }
