@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 17:11:34 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/28 19:52:47 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/31 15:48:10 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ t_token	*space_zero(t_token *token)
 {
 	t_token	*tmp;
 
+	if (!token->next)
+		return (NULL);
 	tmp = token->next;
 	while (tmp->type == 0)
 		tmp = tmp->next;
@@ -50,7 +52,7 @@ int	add_first_redir(t_token *token, t_cmd *cmd)
 	cmd->redirs->next = NULL;
 	if (cmd->redirs->type == 5)
 		heredoc(cmd);
-	//check_reddir(cmd);
+	check_reddir(cmd);
 	return (1);
 }
 
@@ -74,7 +76,7 @@ int	add_rest_redir(t_token *token, t_cmd *cmd)
 	tmp_redir->next->next = NULL;
 	if (tmp_redir->next->type == 5)
 		heredoc(cmd);
-	//check_reddir(cmd);
+	check_reddir(cmd);
 	return (1);
 }
 

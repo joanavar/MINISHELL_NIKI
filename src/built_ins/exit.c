@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/20 12:09:50 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/28 15:33:38 by joanavar         ###   ########.fr       */
+/*   Created: 2025/01/31 15:43:42 by nikitadorof       #+#    #+#             */
+/*   Updated: 2025/01/31 15:43:51 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,36 +16,58 @@ int static	interpretor(char *str)
 {
 	long	nbr;
 
+	if (!str)
+		return (0);
 	nbr = ft_atoi((const char *)str);
-	if (nbr < 0)
-		nbr *= -1;
-	if (nbr > 255)
-		return (nbr % 255);
+	if (nbr > 255 || nbr < -255)
+		nbr = nbr % 256;
 	return (nbr);
 }
 
-int	mini_exit(t_cmd *cmd)
+static int	aux_exit(t_cmd *cmd)
 {
-	cmd->shell->exit_status = check_numeric(cmd->arr_cmd[1]);
-	printf("check: %s = %i\n", cmd->arr_cmd[1], cmd->shell->exit_status);
+	int	i;
+
 	if (cmd->shell->exit_status == 0)
 	{
 		if (!cmd->arr_cmd[2])
 		{
-			cmd->shell->exit_status = interpretor(cmd->arr_cmd[1]);
-			exit(cmd->shell->exit_status);
+			i = interpretor(cmd->arr_cmd[1]);
+			printf(YELLOW "exit\n" GBD);
+			clean_data(cmd->shell);
+			exit(i);
 		}
 		else
 		{
-			printf("exit\nbash: exit: too many arguments\n");
+			printf(YELLOW "exit\n" GBD "bash: exit: too many arguments\n");
 			return (1);
 		}
 	}
 	else if (cmd->shell->exit_status == 2)
 	{
-		printf("exit\nbash: exit: %s: numeric argument requeried",
-			cmd->arr_cmd[1]);
+		printf(YELLOW "exit\n" GBD);
+		printf("bash: exit: %s: numeric argument required\n", cmd->arr_cmd[1]);
+		clean_data(cmd->shell);
 		exit(2);
 	}
 	return (cmd->shell->exit_status);
+}
+
+int	mini_exit(t_cmd *cmd)
+{
+	int	i;
+
+	if (!cmd || !cmd->shell || !cmd->arr_cmd)
+	{
+		printf("Error: Invalid command structure\n");
+		exit(1);
+	}
+	if (!cmd->arr_cmd[1])
+	{
+		printf(YELLOW "exit\n" GBD);
+		clean_data(cmd->shell);
+		exit(cmd->shell->exit_status);
+	}
+	cmd->shell->exit_status = check_numeric(cmd->arr_cmd[1]);
+	return (aux_exit(cmd));
 }
