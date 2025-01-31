@@ -31,7 +31,6 @@ void	init_shell(t_shell **shell, char **env)
 	(*shell)->status = 0;
 	(*shell)->arg = NULL;
 	(*shell)->env = NULL;
-	(*shell)->trust = NULL;
 	if (!env || !(*env))
 	{
 		(*shell)->env = choose_env(*shell);
@@ -47,6 +46,9 @@ void	init_shell(t_shell **shell, char **env)
 int	main(int ac, char **ag, char **env)
 {
 	t_shell	*shell;
+	t_trust	*trust;
+
+	trust = create_new_trust();
 
 	if (ac > 1)
 		error_message("Enter only one argument", CLOSE);
@@ -61,11 +63,11 @@ int	main(int ac, char **ag, char **env)
 			printf("exit\n");
 			return (EXIT_SUCCESS);
 		}
-		if (*shell->prompt && start_shell(shell) == -1)
+		if (*shell->prompt && start_shell(shell, trust) == -1)
 			break ;
 		if (ft_strncmp(shell->prompt, "", ft_strlen(shell->prompt)))
 			add_history(shell->prompt);
-		free(shell->prompt);
+		//free(shell->prompt);
 	}
 	clean_data(shell);
 	return (0);

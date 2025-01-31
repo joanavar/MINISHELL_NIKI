@@ -41,7 +41,7 @@ void	print_cmd(char **array)
 	printf("\n");
 }
 
-int	executor(t_shell *shell)
+int	executor(t_shell *shell, t_trust *trust)
 {
 	t_cmd	*cmds;
 	t_token	*tmp;
@@ -59,8 +59,10 @@ int	executor(t_shell *shell)
 		return (-1);
 	cmds = initial_cmd(cmds);
 	if (cmds->path && cmds->builtins == 1 && cmds->next == NULL)
-		i = built_ins(cmds, 0);
+	{
+		i = built_ins(cmds, 0, trust);
+	}
 	else
-		exec_duo(cmds, shell);
+		exec_duo(cmds, shell, trust);
 	return (i);
 }
