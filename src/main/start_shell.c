@@ -12,7 +12,7 @@
 
 #include "../../inc/minishell.h"
 
-int	start_shell(t_shell *shell)
+int	start_shell(t_shell *shell, t_trust *trust)
 {
 	if (shell->prompt[0] == '\0')
 		return (0);
@@ -25,7 +25,7 @@ int	start_shell(t_shell *shell)
 		free_token(&(shell->eco_token));
 		return (1);
 	}
-	if (executor(shell) == -1)
+	if (executor(shell, trust) == -1)
 	{
 		free_token(&(shell->eco_token));
 		return (1);

@@ -36,12 +36,12 @@ static int	ft_selector(t_cmd *cmd)
 	return (0);
 }
 
-static int	aux_built_ins(t_cmd *cmd)
+static int	aux_built_ins(t_cmd *cmd, t_trust *trust)
 {
 	if (ft_selector(cmd) == -1)
 		return (-1);
 	if (!strncmp("export", cmd->arr_cmd[0], 7))
-		get_export(cmd);
+		get_export(cmd, trust);
 	if (!strncmp("unset", cmd->arr_cmd[0], 6))
 		unset_shell(cmd->shell, cmd->arr_cmd[1]);
 	if (!strncmp("echo", cmd->arr_cmd[0], 5))
@@ -71,26 +71,26 @@ static void	close2_dups(t_cmd *cmd)
 	}
 }
 
-static int	pid_builtins(t_cmd *cmd)
+static int	pid_builtins(t_cmd *cmd, t_trust *trust)
 {
 	t_cmd	*aux;
 
 	aux = cmd;
 	ft_dups(aux);
-	if (aux_built_ins(aux) == 1)
+	if (aux_built_ins(aux, trust) == 1)
 		return (-1);
 	close2_dups(aux);
 	return (-1);
 }
 
-int	built_ins(t_cmd *cmd, int type)
+int	built_ins(t_cmd *cmd, int type, t_trust *trust)
 {
 	int	ln;
 
 	ln = 0;
 	if (type == 0)
-		ln = aux_built_ins(cmd);
+		ln = aux_built_ins(cmd, trust);
 	else
-		ln = pid_builtins(cmd);
+		ln = pid_builtins(cmd, trust);
 	return (ln);
 }

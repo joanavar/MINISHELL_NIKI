@@ -112,7 +112,14 @@ typedef struct s_cmd
 	t_redir						*redirs;
 	struct s_cmd				*next;
 	t_shell						*shell;
+	char						**trust;
+
 }								t_cmd;
+
+typedef struct s_trust
+{
+	char						**arg;
+}								t_trust;
 
 typedef struct s_env
 {
@@ -133,7 +140,6 @@ struct							s_shell
 	t_export					*export;
 	t_token						*eco_token;
 	t_cmd						*cmds;
-	char						**trust;
 };
 
 /***FUNTIONS AUX***/
@@ -151,7 +157,7 @@ t_env	*get_env(char **env);*/
 /***MAIN***/
 void							init_shell(t_shell **shell, char **env);
 void							clean_data(t_shell *shell);
-int								start_shell(t_shell *shell);
+int								start_shell(t_shell *shell, t_trust *trust);
 
 /****ERORR FOUND***/
 void							error_message(char *str, t_opcode OPCODE);
@@ -173,11 +179,11 @@ void							handle_sigint_heredoc(int sig);
 /***BUILTS_INS***/
 void							unset_shell(t_shell *shell, char *arg);
 void							get_echo(t_cmd *cmd);
-void							get_export(t_cmd *cmd);
+void							get_export(t_cmd *cmd, t_trust *trust);
 void							get_pwd(void);
 void							get_cd(t_cmd *cmd);
 void							print_env(t_shell *shell);
-int								built_ins(t_cmd *cmd, int type);
+int								built_ins(t_cmd *cmd, int type, t_trust *trust);
 /***Exit***/
 int								mini_exit(t_cmd *cmd);
 
@@ -186,9 +192,9 @@ t_env							*lstnew(char *content);
 t_env							*get_env(char **env);
 
 /*** EXECUTOR ***/
-void							exec_duo(t_cmd *cmd, t_shell *shell);
+void							exec_duo(t_cmd *cmd, t_shell *shell, t_trust *trust);
 char							*get_path(t_cmd *cmd, t_env *env);
-void							exec_child(t_cmd *cmd, int id, t_shell *shell);
+void							exec_child(t_cmd *cmd, int id, t_shell *shell, t_trust *trust);
 void							mini_exec(t_cmd *cmd, t_shell *shell);
 
 /*** PIPES ***/
@@ -227,6 +233,8 @@ int								count_quotes_utils(t_token *token, int i,
 void							print_line(t_token *tmp);
 int								arr_size(char **array);
 int								is_spaces(t_cmd *cmd);
+t_trust 						*create_new_trust(void);
+
 
 // exec
 t_cmd							*token_to_cmd(t_token *tokens);
@@ -253,7 +261,7 @@ int								syntax_pipe_or_redi(t_token *token);
 // int		correct_expansor(t_token *token, int i);
 // void	expander(t_token *token, int i, t_env **env);
 void							expandir(t_token **stack, t_env *env);
-int								executor(t_shell *shell);
+int								executor(t_shell *shell, t_trust *trust);
 int								open_file(char *file, int type);
 t_token							*is_heredoc(t_token *token);
 t_token							*expansor_res(t_token *tmp);

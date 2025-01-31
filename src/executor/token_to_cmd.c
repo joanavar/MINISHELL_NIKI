@@ -22,6 +22,7 @@ t_cmd	*create_new_cmd(void)
 	cmd->arr_cmd = NULL;
 	cmd->path = NULL;
 	cmd->builtins = 0;
+	cmd->trust = NULL;
 	cmd->id = 0;
 	cmd->pid = -1;
 	cmd->std_in = 0;
