@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 19:01:29 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/31 21:19:11 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ void							handle_sigint(int signal);
 void							handle_sigint_heredoc(int sig);
 void							set_heredoc_signals(void);
 void							reset_signals(void);
+void							signals_init(void);
 
 /***BUILTS_INS***/
 void							unset_shell(t_shell *shell, char *arg);
@@ -192,20 +193,20 @@ void							exec_duo(t_cmd *cmd, t_shell *shell, t_trust *trust);
 char							*get_path(t_cmd *cmd, t_env *env);
 void							exec_child(t_cmd *cmd, int id, t_shell *shell, t_trust *trust);
 void							mini_exec(t_cmd *cmd, t_shell *shell);
-int								add_redir(t_token *token, t_cmd *cmd);
-int								add_first_redir(t_token *token, t_cmd *cmd);
-int								add_rest_redir(t_token *token, t_cmd *cmd);
+int								add_redir(t_token *token, t_cmd *cmd, t_shell *shell);
+int								add_first_redir(t_token *token, t_cmd *cmd, t_shell *shell);
+int								add_rest_redir(t_token *token, t_cmd *cmd, t_shell *shell);
 t_env							*choose_env(t_shell *shell);
 t_cmd							*cmds_shell_exec(t_cmd *cmd, t_shell *shell);
 t_token							*space_zero(t_token *token);
-t_cmd							*token_to_cmd(t_token *tokens);
+t_cmd							*token_to_cmd(t_token *tokens, t_shell *shell);
 
 /*** PIPES ***/
 int								check_pipe(t_cmd **last);
 void							ft_dups(t_cmd *cmd);
 
 /*** REDIRECTS ***/
-void							check_reddir(t_cmd *cmd);
+int							check_reddir(t_cmd *cmd, t_shell *shell);
 
 /*** TOKENS */
 int								get_token(char *str, t_token **stack);
@@ -235,7 +236,7 @@ t_trust 						*create_new_trust(void);
 
 /*** HEREDOC */
 
-int	heredoc(char *delimiter, t_shell *shell);
+int	heredoc(t_cmd *cmd, t_shell *shell, char *delimiter);
 
 /*** SINTAX ERROR */
 int								syntax_error(t_token **stack);

@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 17:11:34 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/31 19:05:01 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/31 21:14:43 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_token	*space_zero(t_token *token)
 	return (tmp);
 }
 
-int	add_first_redir(t_token *token, t_cmd *cmd)
+int	add_first_redir(t_token *token, t_cmd *cmd, t_shell *shell)
 {
 	int		filename_size;
 	t_token	*tmp;
@@ -52,13 +52,12 @@ int	add_first_redir(t_token *token, t_cmd *cmd)
 		return (0);
 	cmd->redirs->fd = -1;
 	cmd->redirs->next = NULL;
-	if (cmd->redirs->type == 5)
-		heredoc(cmd->redirs->file_name, cmd->shell);
-	check_reddir(cmd);
+	if (check_reddir(cmd, shell) < 0)
+		return (0);
 	return (1);
 }
 
-int	add_rest_redir(t_token *token, t_cmd *cmd)
+int	add_rest_redir(t_token *token, t_cmd *cmd, t_shell *shell)
 {
 	t_redir	*tmp_redir;
 	t_token	*tmp_token;
@@ -78,22 +77,20 @@ int	add_rest_redir(t_token *token, t_cmd *cmd)
 		return (0);
 	tmp_redir->next->fd = -1;
 	tmp_redir->next->next = NULL;
-	//if (tmp_redir->next->type == 5)
-	//	heredoc(tmp_redir->next->file_name, cmd->shell);
-	check_reddir(cmd);
+	check_reddir(cmd, shell);
 	return (1);
 }
 
-int	add_redir(t_token *token, t_cmd *cmd)
+int	add_redir(t_token *token, t_cmd *cmd, t_shell *shell)
 {
 	if (!cmd->redirs)
 	{
-		if (!add_first_redir(token, cmd))
+		if (!add_first_redir(token, cmd, shell))
 			return (2);
 	}
 	else
 	{
-		if (!add_rest_redir(token, cmd))
+		if (!add_rest_redir(token, cmd, shell))
 			return (2);
 	}
 	return (1);

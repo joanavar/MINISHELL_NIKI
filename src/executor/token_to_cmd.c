@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_to_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:37:16 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/31 19:33:13 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 21:22:05 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,12 @@ static char	**add_to_array(char *token, char **cmd)
 	return (new_cmd);
 }
 
-static int	clas_token(t_token **token, t_cmd **aux_cmd)
+static int	clas_token(t_token **token, t_cmd **aux_cmd, t_shell *shell)
 {
 	if ((*token)->type == 5 || (*token)->type == 6 || (*token)->type == 7
 		|| (*token)->type == 8)
 	{
-		if (add_redir(*token, *aux_cmd) == 2)
+		if (add_redir(*token, *aux_cmd, shell) == 2)
 			return (0);
 		if (!(*token)->next)
 			return (0);
@@ -114,7 +114,7 @@ static int	clas_token(t_token **token, t_cmd **aux_cmd)
 	return (1);
 }
 
-t_cmd	*token_to_cmd(t_token *tokens)
+t_cmd	*token_to_cmd(t_token *tokens, t_shell *shell)
 {
 	t_cmd	*cmd;
 	t_cmd	*aux_cmd;
@@ -127,10 +127,12 @@ t_cmd	*token_to_cmd(t_token *tokens)
 	aux_cmd = cmd;
 	while (tokens)
 	{
-		if (!clas_token(&tokens, &aux_cmd))
+		if (!clas_token(&tokens, &aux_cmd, shell))
 		{
-			free_cmds(&cmd);
-			free_token(&tmp);
+			if (aux_cmd)
+				free_cmds(&cmd);
+			if (tmp)
+				free_token(&tmp);
 			return (NULL);
 		}
 		tokens = tokens->next;

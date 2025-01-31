@@ -26,6 +26,7 @@ SRC_FILES   =       main/main.c \
                     main/get_env.c \
                     main/clean.c \
                     signal/signal.c \
+					signal/signals2.c \
                     built_ins/cd_pwd.c \
                     built_ins/built_ins.c \
                     built_ins/echo.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 20:48:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 19:11:50 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 20:51:34 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,30 +28,6 @@ static t_cmd	*initial_cmd(t_cmd *cmd)
 	return (aux);
 }
 
-static int	handle_redirections(t_cmd *cmd, t_shell *shell)
-{
-	t_redir	*redir;
-
-	redir = cmd->redirs;
-	while (redir)
-	{
-		if (redir->type == 8)
-		{
-			cmd->std_in = heredoc(redir->file_name, shell);
-			if (cmd->std_in == -1)
-				return (-1);
-		}
-		redir = redir->next;
-	}
-	return (0);
-}
-
-static int handle_exit_heredoc(t_cmd *cmd, t_shell *shell)
-{
-	shell->exit_status = 130;
-	return (-1);
-}
-
 int	executor(t_shell *shell, t_trust *trust)
 {
 	t_cmd	*cmds;
@@ -63,8 +39,6 @@ int	executor(t_shell *shell, t_trust *trust)
 	cmds = cmds_shell_exec(cmds, shell);
 	if (!cmds || check_pipe(&cmds) == -1)
 		return (-1);
-	if (handle_redirections(cmds, shell) == -1)
-		return (handle_exit_heredoc(cmds, shell));
 	cmds->path = get_path(cmds, shell->env);
 	if (!cmds->path)
 		return (-1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start_shell.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 22:48:04 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 19:15:34 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 21:17:56 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,15 @@ int	start_shell(t_shell *shell, t_trust *trust)
 	shell->eco_token = lectur_imput(shell->prompt, shell->env, shell);
 	if (!shell->eco_token)
 		return (2);
-	shell->cmds = token_to_cmd(shell->eco_token);
+	shell->cmds = token_to_cmd(shell->eco_token, shell);
 	if (!shell->cmds)
 	{
-		free_token(&(shell->eco_token));
 		ft_putstr_fd("Error with cmds\n", 2);
 		return (2);
 	}
 	if (executor(shell, trust) == -1)
 	{
-		free_token(&(shell->eco_token));
+		//free_token(&(shell->eco_token));
 		free_cmds(&(shell->cmds));
 		return (1);
 	}
