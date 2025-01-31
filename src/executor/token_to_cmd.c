@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_to_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:37:16 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/28 19:44:31 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/31 19:07:40 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ t_cmd	*create_new_cmd(void)
 	cmd->fd_in = 0;
 	cmd->fd_out = 0;
 	cmd->pipe = 0;
+	cmd->shell = NULL;
 	cmd->redirs = NULL;
 	cmd->next = NULL;
 	return (cmd);

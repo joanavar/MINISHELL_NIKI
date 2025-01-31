@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 20:25:58 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 18:15:27 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/31 19:28:42 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,9 @@ void	mini_exec(t_cmd *cmd, t_shell *shell)
 	{
 		ft_putstr_fd("Minishell: Command not found: ", 2);
 		ft_putendl_fd(cmd->arr_cmd[0], 2);
-		return ;
+		free_matrix(env_arr);
+		clean_data(shell);
+		exit(127);
 	}
 	exit(2);
 }

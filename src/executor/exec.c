@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 20:48:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 19:01:32 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/31 19:11:50 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,11 @@ static int	handle_redirections(t_cmd *cmd, t_shell *shell)
 	return (0);
 }
 
-static void handle_exit_heredoc(t_cmd *cmd)
+static int handle_exit_heredoc(t_cmd *cmd, t_shell *shell)
 {
-	free_cmds(&cmd);
-	exit (130);
+	shell->exit_status = 130;
+	return (-1);
 }
-
 
 int	executor(t_shell *shell, t_trust *trust)
 {
@@ -63,12 +62,12 @@ int	executor(t_shell *shell, t_trust *trust)
 	i = 0;
 	cmds = cmds_shell_exec(cmds, shell);
 	if (!cmds || check_pipe(&cmds) == -1)
-		return (free_cmds(&cmds), -1);
+		return (-1);
 	if (handle_redirections(cmds, shell) == -1)
-		handle_exit_heredoc(cmds);
+		return (handle_exit_heredoc(cmds, shell));
 	cmds->path = get_path(cmds, shell->env);
 	if (!cmds->path)
-		return (free_cmds(&cmds), -1);
+		return (-1);
 	cmds = initial_cmd(cmds);
 	if (cmds->path && cmds->builtins == 1 && cmds->next == NULL)
 		i = built_ins(cmds, 0, trust);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:49:47 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 19:01:09 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/31 19:19:21 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ volatile sig_atomic_t	g_signal_received = 0;
 
 static void	free_trust(t_trust *trust)
 {
-	free_matrix(trust->arg);
-	free(trust);
+	if (trust)
+		free_matrix(trust->arg);
+	if (trust)
+		free(trust);
 	trust = NULL;
 }
 
@@ -55,6 +57,7 @@ int	main(int ac, char **ag, char **env)
 {
 	t_shell	*shell;
 	t_trust	*trust;
+	int     status;
 
 	trust = create_new_trust();
 	if (ac > 1)
@@ -67,10 +70,11 @@ int	main(int ac, char **ag, char **env)
 		if (!shell->prompt)
 		{
 			printf("exit\n");
-			return (EXIT_SUCCESS);
+			break;
 		}
-		if (*shell->prompt && start_shell(shell, trust) == -1)
-			break ;
+		status = start_shell(shell, trust);
+		if (status == 1)
+			break;
 		if (ft_strncmp(shell->prompt, "", ft_strlen(shell->prompt)))
 			add_history(shell->prompt);
 		free(shell->prompt);
