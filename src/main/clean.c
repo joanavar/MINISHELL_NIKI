@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:40:02 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/28 15:32:51 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/31 16:54:25 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,22 +66,31 @@ void	free_env(t_env *lst)
 	}
 }
 
-void	free_token(t_token **lst) // Corregir, peta con valores nulos
+void	free_token(t_token **lst)
 {
 	t_token	*buffer;
 	t_token	*aux;
 
-	if (!lst)
+	if (!lst || !*lst)
 		return ;
 	buffer = *lst;
+	if (!buffer->next)
+	{
+		if (buffer->content)
+			free(buffer->content);
+		free(buffer);
+		*lst = NULL;
+		return ;
+	}
 	while (buffer)
 	{
 		aux = buffer->next;
-		free(buffer->content);
+		if (buffer->content)
+			free(buffer->content);
 		free(buffer);
 		buffer = aux;
 	}
-	lst = NULL;
+	*lst = NULL;
 }
 
 void	free_cmds(t_cmd **cmds)

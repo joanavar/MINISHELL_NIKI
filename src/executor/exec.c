@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 20:48:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 16:22:46 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 16:42:23 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,42 @@ static t_cmd	*initial_cmd(t_cmd *cmd)
 	return (aux);
 }
 
+static int	handle_redirections(t_cmd *cmd, t_shell *shell)
+{
+	t_redir	*redir;
+
+	redir = cmd->redirs;
+	while (redir)
+	{
+		if (redir->type == HEREDOC)
+		{
+			cmd->std_in = heredoc(redir->file_name, shell);
+			if (cmd->std_in == -1)
+				return (-1);
+		}
+		else if (redir->type == INPUT)
+		{
+			cmd->std_in = open(redir->file_name, O_RDONLY);
+			if (cmd->std_in == -1)
+				return (-1);
+		}
+		else if (redir->type == OUTPUT)
+		{
+			cmd->std_out = open(redir->file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (cmd->std_out == -1)
+				return (-1);
+		}
+		else if (redir->type == APPENDS)
+		{
+			cmd->std_out = open(redir->file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			if (cmd->std_out == -1)
+				return (-1);
+		}
+		redir = redir->next;
+	}
+	return (0);
+}
+
 int	executor(t_shell *shell, t_trust *trust)
 {
 	t_cmd	*cmds;
@@ -37,7 +73,12 @@ int	executor(t_shell *shell, t_trust *trust)
 	cmds = NULL;
 	i = 0;
 	cmds = cmds_shell_exec(cmds, shell);
-	if (check_pipe(&cmds) == -1)
+	if (!cmds || check_pipe(&cmds) == -1)
+	{
+		free_cmds(&cmds);
+		return (-1);
+	}
+	if (handle_redirections(cmds, shell) == -1)
 	{
 		free_cmds(&cmds);
 		return (-1);

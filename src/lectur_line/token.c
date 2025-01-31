@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 18:16:05 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/28 15:18:33 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/31 16:58:29 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,22 +53,29 @@ static void	get_type_token(t_token *token)
 		token->type = 1;
 }
 
-void	get_token(char *str, t_token **stack)
+int	get_token(char *str, t_token **stack)
 {
 	t_token	*token;
 
+	if (!str || !stack)
+		return (0);
 	token = malloc(sizeof(t_token));
 	if (!token)
-		return ;
+	{
+		free(str);
+		return (0);
+	}
 	token->content = str;
 	get_type_token(token);
 	if (!(*stack))
 	{
 		*stack = token;
+		token->prev = NULL;
 		token->next = NULL;
 	}
 	else
 		stack_token(token, stack);
+	return (1);
 }
 
 void	print_token(t_token **stack)
