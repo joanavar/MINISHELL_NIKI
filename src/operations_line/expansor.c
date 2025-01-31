@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 16:17:46 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/31 11:33:02 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 11:40:35 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,14 +103,6 @@ void	expander(t_token *token, int i, t_env *env)
 	}
 }
 
-void	expandir(t_token **stack, t_env *env)
-{
-	t_token	*tmp;
-
-	tmp = *stack;
-	process_expansions(tmp, env);
-}
-
 static void	process_token(t_token *token, t_env *env)
 {
 	int	i;
@@ -136,4 +128,12 @@ static void	process_token(t_token *token, t_env *env)
 		}
 		token = token->next;
 	}
+}
+
+void	expandir(t_token **stack, t_env *env)
+{
+	t_token	*tmp;
+
+	tmp = *stack;
+	process_expansions(tmp, env);
 }

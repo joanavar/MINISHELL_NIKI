@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/30 20:50:14 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 11:40:58 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,6 @@ t_env	*choose_env(t_shell *shell);
 int		executor(t_shell *shell);
 void	exec_duo(t_cmd *cmd, t_shell *shell);
 void	exec_child(t_cmd *cmd, int id, t_shell *shell);
-void	exec_parent(t_cmd *cmd, int id, int pid);
 void	mini_exec(t_cmd *cmd, t_shell *shell);
 char	*get_path(t_cmd *cmd, t_env *env);
 void	waiting(t_shell *shell);
