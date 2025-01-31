@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 14:08:16 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/28 20:41:49 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/31 19:30:47 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,13 @@ char	*get_path(t_cmd *cmd, t_env *env)
 		aux = aux->next;
 	}
 	if (cmd->builtins == 1 && !cmd->next)
+	{
 		path = ft_strdup(cmd->arr_cmd[0]);
-	else
-		path = search_path(cmd, env);
+		if (!path)
+			error_message("Memory allocation failed", NO_CLOSE);
+		return (path);
+	}
+	path = search_path(cmd, env);
 	if (!path)
 		error_message("Command not found", NO_CLOSE);
 	return (path);
