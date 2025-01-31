@@ -99,7 +99,12 @@ void	travel_expansor(t_token *tmp, t_env *env)
 		{
 			while (tmp->content[i])
 			{
-				if (tmp->content[i] == '$')
+				if (!tmp->content[i + 1] && tmp->content[i] == '$')
+					return ;
+				else if (tmp->content[i] == '$'
+					&& tmp->content[i + 1] == '?')
+					return ;
+				else if (tmp->content[i] == '$')
 				{
 					expander(tmp, i, env);
 					continue ;
