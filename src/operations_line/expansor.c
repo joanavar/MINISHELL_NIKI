@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 16:17:46 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/30 17:35:42 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 11:18:16 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,22 @@ static void	exchange_expanser(t_token *token, t_env *env, int start, int end)
 void	expander(t_token *token, int i, t_env *env)
 {
 	char	*str;
-	int		j;
 	t_env	*tmp;
+	int		j;
 
 	if (!token || !env || !token->content)
 		return;
-	if (token->content[++i] == '$')
+	if (token->content[++i] == '$' || token->content[i] == '\0')
 		return;
+	if (token->content[i] == '?')
+	{
+		char *exit_status = ft_itoa(env->shell->exit_status);
+		if (!exit_status)
+			return;
+		exchange_expanser(token, env, i - 1, i + 1);
+		free(exit_status);
+		return;
+	}
 	j = i;
 	if (correct_expansor(token, i))
 	{
@@ -89,7 +98,7 @@ void	expander(t_token *token, int i, t_env *env)
 			{
 				free(str);
 				exchange_expanser(token, tmp, j - 1, i);
-				return ;
+				return;
 			}
 			tmp = tmp->next;
 		}
@@ -98,10 +107,29 @@ void	expander(t_token *token, int i, t_env *env)
 	}
 }
 
-void	expandir(t_token **stack, t_env *env)
+void	travel_expansor(t_token *token, t_env *env)
 {
-	t_token	*tmp;
+	int	i;
 
-	tmp = *stack;
-	travel_expansor(tmp, env);
+	while (token)
+	{
+		i = 0;
+		token = expansor_res(token);
+		if (!token)
+			return;
+		if ((token->type == 1 || token->type == 3))
+		{
+			while (token->content[i])
+			{
+				if (token->content[i] == '$')
+				{
+					if (!(token->content[i + 1] == '\0' || 
+						(token->content[i + 1] == '$' && token->content[i + 2] == '\0')))
+						expander(token, i, env);
+				}
+				i++;
+			}
+		}
+		token = token->next;
+	}
 }

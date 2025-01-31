@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:33:13 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/30 20:45:07 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/30 20:52:08 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,25 +138,24 @@ void	exec_child(t_cmd *cmd, int id, t_shell *shell)
 		ft_putendl_fd(aux->arr_cmd[0], 2);
 		cleanup_pipes_and_exit(aux, shell, 127);
 	}
-	if (aux->builtins != 1)
-		mini_exec(aux, shell);
-	else
-	{
+	ft_dups(aux);
+	if (aux->builtins == 1)
 		built_ins(aux, 1);
-		//cleanup_pipes_and_exit(aux, shell, aux->shell->exit_status);
-	}
+	else
+		mini_exec(aux, shell);
 }
 
 void	exec_duo(t_cmd *cmd, t_shell *shell)
 {
-	if (!cmd || !shell)
-		return;
-
 	t_cmd	*aux;
 	t_cmd	*aux_2;
 	int		pid;
 	int		id;
 
+	if (!cmd || !shell)
+		return ;
+	if (check_pipe(&cmd) == -1)
+		return ;
 	pid = 1;
 	id = 0;
 	aux = cmd;
@@ -169,7 +168,7 @@ void	exec_duo(t_cmd *cmd, t_shell *shell)
 			if (pid == -1)
 			{
 				perror("fork error");
-				cleanup_pipes_and_exit(cmd, shell, 1);
+				return ;
 			}
 			if (pid == 0)
 			{

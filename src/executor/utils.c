@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:06:40 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/30 18:14:36 by camurill         ###   ########.fr       */
+/*   Updated: 2025/01/30 20:52:31 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,15 @@ int	check_pipe(t_cmd **cmd)
 {
 	t_cmd	*aux;
 	int		fd[2];
+	int		id;
 
 	if (!cmd || !*cmd)
 		return (-1);
 	aux = *cmd;
+	id = 0;
 	while (aux->next)
 	{
+		aux->id = id++;
 		aux->pipe = 1;
 		if (pipe(fd) == -1)
 		{
@@ -32,6 +35,8 @@ int	check_pipe(t_cmd **cmd)
 		aux->next->fd_in = fd[0];
 		aux = aux->next;
 	}
+	aux->id = id;
+	aux->pipe = 0;  // El último comando no tiene pipe
 	return (0);
 }
 
