@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 22:48:04 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 17:26:04 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 17:40:34 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	start_shell(t_shell *shell, t_trust *trust)
 {
 	if (shell->prompt[0] == '\0')
 		return (0);
-	shell->eco_token = lectur_imput(shell->prompt, shell->env);
+	shell->eco_token = lectur_imput(shell->prompt, shell->env, shell);
 	if (!shell->eco_token)
 		return (2);
 	shell->cmds = token_to_cmd(shell->eco_token);

@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:49:47 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 16:17:03 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 17:44:08 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	init_shell(t_shell **shell, char **env)
 		(*shell)->env = get_env(env);
 	(*shell)->eco_token = NULL;
 	(*shell)->cmds = NULL;
+	(*shell)->exit_status = 0;
 }
 
 int	main(int ac, char **ag, char **env)

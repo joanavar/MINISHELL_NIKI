@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 18:54:07 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/31 16:59:23 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 17:41:45 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static void	lectur_line(char *str, t_token **stack, int i)
 	}
 }
 
-t_token	*lectur_imput(char *str, t_env *env)
+t_token	*lectur_imput(char *str, t_env *env, t_shell *shell)
 {
 	int		i;
 	t_token	*stack;
@@ -90,7 +90,7 @@ t_token	*lectur_imput(char *str, t_env *env)
 	lectur_line(str, &stack, i);
 	if (syntax_error(&stack))
 		return (NULL);
-	expandir(&stack, env);
+	expandir(&stack, env, shell);
 	remove_quotes(stack);
 	return (stack);
 }

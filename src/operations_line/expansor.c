@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 16:17:46 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/28 15:21:14 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/31 17:41:25 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	exchange_expanser(t_token *token, t_env *env, int start, int end)
 	token->content = str;
 }
 
-void	expander(t_token *token, int i, t_env *env)
+void	expander(t_token *token, int i, t_env *env, t_shell *shell)
 {
 	char	*str;
 	int		j;
@@ -89,10 +89,10 @@ void	expander(t_token *token, int i, t_env *env)
 	}
 }
 
-void	expandir(t_token **stack, t_env *env)
+void	expandir(t_token **stack, t_env *env, t_shell *shell)
 {
 	t_token	*tmp;
 
 	tmp = *stack;
-	travel_expansor(tmp, env);
+	travel_expansor(tmp, env, shell);
 }

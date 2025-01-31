@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:06:40 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 16:38:11 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 17:46:25 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,28 @@ t_token	*expansor_res(t_token *tmp)
 	return (tmp);
 }
 
-void	travel_expansor(t_token *tmp, t_env *env)
+void	expand_exit_status(t_token *token, int i, t_shell *shell)
+{
+	char	*before;
+	char	*after;
+	char	*exit_str;
+	char	*result;
+
+	before = ft_substr(token->content, 0, i);
+	after = ft_strdup(token->content + i + 2);
+	exit_str = ft_itoa(shell->exit_status);
+	result = ft_strjoin(before, exit_str);
+	free(before);
+	free(exit_str);
+	before = result;
+	result = ft_strjoin(before, after);
+	free(before);
+	free(after);
+	free(token->content);
+	token->content = result;
+}
+
+void	travel_expansor(t_token *tmp, t_env *env, t_shell *shell)
 {
 	int	i;
 
@@ -103,10 +124,13 @@ void	travel_expansor(t_token *tmp, t_env *env)
 					return ;
 				else if (tmp->content[i] == '$'
 					&& tmp->content[i + 1] == '?')
-					return ;
+				{
+					expand_exit_status(tmp, i, shell);
+					continue ;
+				}
 				else if (tmp->content[i] == '$')
 				{
-					expander(tmp, i, env);
+					expander(tmp, i, env, shell);
 					continue ;
 				}
 				i++;

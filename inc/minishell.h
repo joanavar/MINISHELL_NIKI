@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 16:58:56 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/01/31 18:00:33 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,13 +142,6 @@ struct							s_shell
 	t_cmd						*cmds;
 };
 
-enum e_redir_type {
-    INPUT,
-    OUTPUT,
-    APPENDS,
-    HEREDOC
-};
-
 /***FUNTIONS AUX***/
 /*int		check_doubles(char *str, char ltr);*/
 int								check_specials(char *str, char ltr);
@@ -215,7 +208,7 @@ void							check_reddir(t_cmd *cmd);
 
 /***NAVARRO_FUNCTIONS***/
 // lectur.c
-t_token							*lectur_imput(char *str, t_env *env);
+t_token							*lectur_imput(char *str, t_env *env, t_shell *shell);
 
 // token.c
 int								get_token(char *str, t_token **stack);
@@ -269,12 +262,11 @@ int								syntax_pipe_or_redi(t_token *token);
 // int		close_expansor(t_token *token, int i);
 // int		correct_expansor(t_token *token, int i);
 // void	expander(t_token *token, int i, t_env **env);
-void							expandir(t_token **stack, t_env *env);
+void							expandir(t_token **stack, t_env *env, t_shell *shell);
 int								executor(t_shell *shell, t_trust *trust);
-int								open_file(char *file, int type);
 t_token							*is_heredoc(t_token *token);
 t_token							*expansor_res(t_token *tmp);
-void							travel_expansor(t_token *token, t_env *env);
-void							expander(t_token *token, int i, t_env *env);
+void							travel_expansor(t_token *token, t_env *env, t_shell *shell);
+void							expander(t_token *token, int i, t_env *env, t_shell *shell);
 
 #endif
