@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 18:42:41 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/01 17:04:16 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 17:07:10 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static int	is_quotes(char *str, int i, t_token **stack, char quote)
 	int		j;
 	int		count;
 
+	if (!str || !stack)
+		return (0);
 	j = i + 1;
 	count = 0;
 	while (str[j] && str[j] != quote)
@@ -44,7 +46,11 @@ static int	is_quotes(char *str, int i, t_token **stack, char quote)
 		token[j++] = str[i++];
 	token[j++] = quote;
 	token[j] = '\0';
-	get_token(token, stack);
+	if (!get_token(token, stack))
+	{
+		free(token);
+		return (0);
+	}
 	return (++i);
 }
 

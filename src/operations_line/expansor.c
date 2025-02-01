@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 16:17:46 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/01 16:46:10 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 17:09:22 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 
 static int	close_expansor(t_token *token, int i)
 {
+	if (!token || !token->content)
+		return (0);
 	if (token->content[i] >= 'a' && token->content[i] <= 'z')
 		return (1);
 	else if (token->content[i] >= 'A' && token->content[i] <= 'Z')
@@ -29,6 +31,8 @@ static int	close_expansor(t_token *token, int i)
 
 static int	correct_expansor(t_token *token, int i)
 {
+	if (!token || !token->content)
+		return (0);
 	if (token->content[i] >= 'a' && token->content[i] <= 'z')
 		return (1);
 	else if (token->content[i] >= 'A' && token->content[i] <= 'Z')
@@ -45,10 +49,14 @@ static void	exchange_expanser(t_token *token, t_env *env, int start, int end)
 	int		j;
 	int		len;
 
+	if (!token || !env || !token->content || !env->content)
+		return ;
 	i = -1;
 	j = -1;
 	len = change_malloc_token(token, env, start - end);
 	str = malloc(sizeof(char) * len + 1);
+	if (!str)
+		return ;
 	while (++i < start)
 		str[i] = token->content[i];
 	while (env->content[++j])
@@ -66,6 +74,8 @@ void	expander(t_token *token, int i, t_env *env, t_shell *shell)
 	int		j;
 	t_env	*tmp;
 
+	if (!token || !env || !shell || !token->content)
+		return;
 	if (token->content[++i] == '$')
 		return ;
 	j = i;
@@ -96,6 +106,8 @@ void	expandir(t_token **stack, t_env *env, t_shell *shell)
 {
 	t_token	*tmp;
 
+	if (!stack || !*stack || !env || !shell)
+		return;
 	tmp = *stack;
 	travel_expansor(tmp, env, shell);
 }
