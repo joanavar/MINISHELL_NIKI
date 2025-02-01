@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 14:53:31 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/01 15:18:56 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/01 15:35:32 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@ static char	*line_exp(char *line, t_env *env, t_shell *shell)
 	tmp->prev = NULL;
 	expander(tmp, 0, env, shell);
 	str = ft_strdup(tmp->content);
+	if (!str)
+	{
+		free(tmp->content);
+		free(tmp);
+		return (NULL);
+	}
 	free(tmp->content);
 	free(tmp);
 	return (str);
