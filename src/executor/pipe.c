@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:33:13 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 19:38:42 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 19:49:21 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ void	exec_child(t_cmd *cmd, int id, t_shell *shell, t_trust *trust)
 	else
 	{
 		exit_status = built_ins(aux, 1, trust);
-		built_ins(aux, 1, trust);
 		clean_data(shell);
 		exit(exit_status);
 	}
@@ -135,11 +134,4 @@ void	exec_duo(t_cmd *cmd, t_shell *shell, t_trust *trust)
 	}
 	if (pid != 0)
 		exec_parent(cmd, id, pid);
-	if (cmd->builtins == 1 && !cmd->next)
-	{
-		if (shell->exit_status == 130)
-			return;
-		built_ins(cmd, 0, trust);
-		return;
-	}
 }

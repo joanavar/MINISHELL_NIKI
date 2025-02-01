@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 21:19:11 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/01 19:52:42 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ void							get_echo(t_cmd *cmd);
 void							get_export(t_cmd *cmd, t_trust *trust);
 void							get_pwd(void);
 void							get_cd(t_cmd *cmd);
-void							print_env(t_shell *shell);
+void							print_env(t_shell *shell, t_cmd *cmd);
 int								built_ins(t_cmd *cmd, int type, t_trust *trust);
 
 /***Exit***/

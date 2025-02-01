@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:50:29 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/01 19:16:30 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/01 19:52:57 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	ft_selector(t_cmd *cmd)
 {
-	if (!strncmp("exit", cmd->arr_cmd[0], 5))
+	if (!ft_strncmp("exit", cmd->arr_cmd[0], 5))
 	{
 		if (!cmd->arr_cmd[1])
 		{
@@ -25,13 +25,13 @@ static int	ft_selector(t_cmd *cmd)
 		else
 			return (mini_exit(cmd));
 	}
-	if (!strncmp("env", cmd->arr_cmd[0], 4))
-		print_env(cmd->shell);
-	if (!strncmp("pwd", cmd->arr_cmd[0], 4) && !cmd->arr_cmd[1])
+	if (!ft_strncmp("env", cmd->arr_cmd[0], 4))
+		print_env(cmd->shell, cmd);
+	if (!ft_strncmp("pwd", cmd->arr_cmd[0], 4) && !cmd->arr_cmd[1])
 		get_pwd();
-	else if (!strncmp("pwd", cmd->arr_cmd[0], 4) && cmd->arr_cmd[1])
+	else if (!ft_strncmp("pwd", cmd->arr_cmd[0], 4) && cmd->arr_cmd[1])
 		error_message("pwd: too many arguments", NO_CLOSE);
-	if (!strncmp("cd", cmd->arr_cmd[0], 3))
+	if (!ft_strncmp("cd", cmd->arr_cmd[0], 3))
 		get_cd(cmd);
 	return (0);
 }
@@ -40,11 +40,11 @@ static int	aux_built_ins(t_cmd *cmd, t_trust *trust)
 {
 	if (ft_selector(cmd) == -1)
 		return (-1);
-	if (!strncmp("export", cmd->arr_cmd[0], 7))
+	if (!ft_strncmp("export", cmd->arr_cmd[0], 7))
 		get_export(cmd, trust);
-	if (!strncmp("unset", cmd->arr_cmd[0], 6))
+	if (!ft_strncmp("unset", cmd->arr_cmd[0], 6))
 		unset_shell(cmd->shell, cmd->arr_cmd[1]);
-	if (!strncmp("echo", cmd->arr_cmd[0], 5))
+	if (!ft_strncmp("echo", cmd->arr_cmd[0], 5))
 		get_echo(cmd);
 	return (0);
 }
