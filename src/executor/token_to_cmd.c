@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_to_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:37:16 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/31 21:22:05 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/01 14:00:42 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static char	**create_arr_cmd(char *token, char **cmd)
 	cmd[0] = ft_strdup(token);
 	if (!cmd[0])
 	{
+		free(cmd[0]);
 		free(cmd);
 		return (NULL);
 	}
@@ -88,13 +89,9 @@ static int	clas_token(t_token **token, t_cmd **aux_cmd, t_shell *shell)
 	{
 		if (add_redir(*token, *aux_cmd, shell) == 2)
 			return (0);
-		if (!(*token)->next)
-			return (0);
 		(*token) = (*token)->next;
-		while ((*token) && (*token)->type == 0)
+		while ((*token)->type == 0)
 			(*token) = (*token)->next;
-		if (!(*token))
-			return (0);
 	}
 	else if (string_type(*token))
 	{
@@ -129,10 +126,8 @@ t_cmd	*token_to_cmd(t_token *tokens, t_shell *shell)
 	{
 		if (!clas_token(&tokens, &aux_cmd, shell))
 		{
-			if (aux_cmd)
-				free_cmds(&cmd);
-			if (tmp)
-				free_token(&tmp);
+			free_cmds(&cmd);
+			free_token(&tmp);
 			return (NULL);
 		}
 		tokens = tokens->next;

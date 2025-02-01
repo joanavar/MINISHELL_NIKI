@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 14:53:31 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/31 21:25:27 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/01 14:00:15 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,26 +39,30 @@ static void run_heredoc(t_cmd *cmd, char *deli, int heredoc, t_shell *shell)
 	while (1)
 	{
 		line = readline("> ");
-		if (!line)
-			break ;
-		//line = line_exp(line, shell->env, shell);
+		if (!line || g_signal_received == 130)
+		{
+			if (line)
+				free(line);
+			exit(130);
+		}
+		if (!strncmp(line, deli, ft_strlen(deli) + 1))
+		{
+			free(line);
+			exit(0);
+		}
 		ft_putstr_fd(line, heredoc);
 		ft_putstr_fd("\n", heredoc);
-		if (!strncmp(line, deli, ft_strlen(deli) + 1))
-			break;
 		free(line);
 	}
-	if (line != 0)
-		free(line);
 }
 
 static void	child_heredoc(t_cmd *cmd, char *delimiter, int *heredoc, t_shell *shell)
 {
-	signal(SIGINT, handle_sigint_heredoc);
+	set_heredoc_signals();
 	close(heredoc[0]);
 	run_heredoc(cmd, delimiter, heredoc[1], shell);
 	close(heredoc[1]);
-	exit (0);
+	exit(0);
 }
 
 static int	parent_heredoc(t_cmd *cmd, t_shell *shell, int *heredoc)
@@ -66,17 +70,20 @@ static int	parent_heredoc(t_cmd *cmd, t_shell *shell, int *heredoc)
 	int exit_status;
 
 	signal(SIGINT, SIG_IGN);
-	wait(&exit_status);
-	while (WIFEXITED(exit_status))
+	close(heredoc[1]);
+	waitpid(-1, &exit_status, 0);
+	
+	if (WIFSIGNALED(exit_status) || WEXITSTATUS(exit_status) == 130)
 	{
-		exit_status = WEXITSTATUS(exit_status);
-		if (exit_status == 1)
-			return (-3);
-		else
-			cmd->std_in = dup(heredoc[0]);
 		close(heredoc[0]);
+		shell->exit_status = 130;
+		reset_signals();
+		return (-1);
 	}
-	signals_init();
+	
+	cmd->std_in = dup(heredoc[0]);
+	close(heredoc[0]);
+	reset_signals();
 	return (0);
 }
 
@@ -86,11 +93,15 @@ int	heredoc(t_cmd *cmd, t_shell *shell, char *delimiter)
 	int	heredoc[2];
 
 	if (pipe(heredoc) == -1)
-		exit (1);
+		return (-1);
 	pid = fork();
+	if (pid == -1)
+	{
+		close(heredoc[0]);
+		close(heredoc[1]);
+		return (-1);
+	}
 	if (pid == 0)
 		child_heredoc(cmd, delimiter, heredoc, shell);
-	else
-		return (parent_heredoc(cmd, shell, heredoc));
-	return (0);
+	return (parent_heredoc(cmd, shell, heredoc));
 }
