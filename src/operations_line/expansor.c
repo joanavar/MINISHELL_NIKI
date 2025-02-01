@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 16:17:46 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/01 16:42:31 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 16:46:10 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,11 @@ static void	exchange_expanser(t_token *token, t_env *env, int start, int end)
 	int		i;
 	int		j;
 	int		len;
-	int		res;
 
 	i = -1;
 	j = -1;
 	len = change_malloc_token(token, env, start - end);
-	str = malloc(sizeof(char *) * len + 1);
+	str = malloc(sizeof(char) * len + 1);
 	while (++i < start)
 		str[i] = token->content[i];
 	while (env->content[++j])

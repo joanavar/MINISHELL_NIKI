@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 18:54:07 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/31 17:41:45 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 16:53:01 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	is_caracter_token(char c, t_token **stack)
 {
 	char	*token;
 
-	token = malloc(sizeof(char *) * 2);
+	token = malloc(sizeof(char) * 2);
 	if (!token)
 		return ;
 	token[0] = c;
@@ -34,7 +34,9 @@ static void	is_redireccion(char *str, int i, t_token **stack)
 {
 	char	*token;
 
-	token = malloc(sizeof(char *) * 3);
+	token = malloc(sizeof(char) * 3);
+	if (!token)
+		return ;
 	if (str[i] == '<' && str[i + 1] == '<')
 	{
 		token[0] = '<';
