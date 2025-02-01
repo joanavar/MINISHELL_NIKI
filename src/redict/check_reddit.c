@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_reddit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 16:17:53 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/01 15:03:50 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 15:21:09 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ int check_reddir(t_cmd *cmd, t_shell *shell)
 			{
 				if (shell->exit_status == 130)
 				{
-					g_signal_received = 130;  // Propagar la señal
-					return (0);  // Continuar con el siguiente comando
+					g_signal_received = 130;
+					return (0);
 				}
 				return (result);
 			}

@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 22:48:04 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/01 15:12:39 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/01 15:23:33 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,7 @@ int	start_shell(t_shell *shell, t_trust *trust)
 	shell->cmds = token_to_cmd(shell->eco_token, shell);
 	if (!shell->cmds)
 		return (2);
-	if (executor(shell, trust) == -1)
-	{
-		free_cmds(&(shell->cmds));
-		return (0);
-	}
+	executor(shell, trust);
 	if (shell->eco_token)
 		free_token(&(shell->eco_token));
 	if (shell->cmds)
