@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 20:48:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/01 15:49:08 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 16:00:11 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	executor(t_shell *shell, t_trust *trust)
 		exec_duo(cmds, shell, trust);
 		i = shell->exit_status;
 	}
-	free_cmds(&cmds);
+	if (cmds)
+		free_cmds(&cmds);
 	return (i);
 }
