@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 17:11:34 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/01 15:35:07 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 16:32:01 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,13 @@ int	add_first_redir(t_token *token, t_cmd *cmd, t_shell *shell)
 	cmd->redirs->next = NULL;
 	if (check_reddir(cmd, shell) < 0)
 	{
-		if (cmd->std_in != 0)
-			close(cmd->std_in);
-		if (cmd->std_out != 1)
-			close(cmd->std_out);
-		free(cmd->redirs->file_name);
-		free(cmd->redirs);
-		cmd->redirs = NULL;
+		if (cmd->redirs)
+		{
+			if (cmd->redirs->file_name)
+				free(cmd->redirs->file_name);
+			free(cmd->redirs);
+			cmd->redirs = NULL;
+		}
 		return (0);
 	}
 	return (1);
