@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:50:29 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 15:47:31 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 19:16:30 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
