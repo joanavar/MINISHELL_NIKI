@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 16:17:53 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/01 14:51:08 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 15:03:50 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,14 @@ int check_reddir(t_cmd *cmd, t_shell *shell)
 		{
 			result = heredoc(aux, shell, aux->redirs->file_name);
 			if (result < 0)
+			{
+				if (shell->exit_status == 130)
+				{
+					g_signal_received = 130;  // Propagar la señal
+					return (0);  // Continuar con el siguiente comando
+				}
 				return (result);
+			}
 		}
 		aux->redirs = aux->redirs->next;
 	}

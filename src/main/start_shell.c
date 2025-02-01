@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 22:48:04 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/01 13:55:11 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/01 15:12:39 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	start_shell(t_shell *shell, t_trust *trust)
 	if (executor(shell, trust) == -1)
 	{
 		free_cmds(&(shell->cmds));
-		return (1);
+		return (0);
 	}
 	if (shell->eco_token)
 		free_token(&(shell->eco_token));

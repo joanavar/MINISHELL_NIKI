@@ -6,110 +6,126 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 14:53:31 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/01 14:54:15 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/01 15:12:40 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-#include "../../inc/minishell.h"
+static char	*line_exp(char *line, t_env *env, t_shell *shell)
+{
+	t_token	*tmp;
+	char	*str;
 
-static void run_heredoc(t_cmd *cmd, char *deli, int heredoc, t_shell *shell)
+	tmp = malloc(sizeof(t_token));
+	if (!tmp)
+		return (NULL);
+	tmp->content = ft_strdup(line);
+	if (!tmp->content)
+	{
+		free(tmp);
+		return (NULL);
+	}
+	tmp->type = 1;
+	tmp->next = NULL;
+	tmp->prev = NULL;
+	expander(tmp, 0, env, shell);
+	str = ft_strdup(tmp->content);
+	free(tmp->content);
+	free(tmp);
+	return (str);
+}
+
+static void	run_heredoc(int fd, char *delimiter, t_shell *shell)
 {
 	char	*line;
-	char	*expanded_line;
-	
+	char	*expanded;
+
 	while (1)
 	{
 		line = readline("> ");
 		if (!line)  // EOF (Ctrl+D)
 		{
 			ft_putstr_fd("\nwarning: here-document delimited by end-of-file\n", 2);
-			close(heredoc);
-			break;  // En lugar de exit, usamos break
+			close(fd);
+			exit(0);  // Salir limpiamente con EOF
 		}
 		if (g_signal_received == 130)  // Ctrl+C
 		{
-			free(line);
-			close(heredoc);
+			if (line)
+				free(line);
+			close(fd);
 			exit(130);
 		}
-		if (!strncmp(line, deli, ft_strlen(deli) + 1))
+		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1))
 		{
 			free(line);
-			break;  // En lugar de exit, usamos break
+			close(fd);
+			exit(0);
 		}
-		expanded_line = line_exp(line, shell->env, shell);
-		if (expanded_line)
-		{
-			ft_putstr_fd(expanded_line, heredoc);
-			ft_putstr_fd("\n", heredoc);
-			free(expanded_line);
-		}
+		expanded = line_exp(line, shell->env, shell);
 		free(line);
+		if (expanded)
+		{
+			ft_putstr_fd(expanded, fd);
+			ft_putstr_fd("\n", fd);
+			free(expanded);
+		}
 	}
 }
 
-static void child_heredoc(t_cmd *cmd, char *delimiter, int *heredoc, t_shell *shell)
+static void	child_heredoc(int *pipe_fd, char *delimiter, t_shell *shell)
 {
-	set_heredoc_signals();  // Volver a usar set_heredoc_signals
-	close(heredoc[0]);
-	run_heredoc(cmd, delimiter, heredoc[1], shell);
-	close(heredoc[1]);
-	if (g_signal_received == 130)
-		exit(130);
-	exit(0);
+	set_heredoc_signals();
+	close(pipe_fd[0]);
+	run_heredoc(pipe_fd[1], delimiter, shell);
+	// run_heredoc siempre termina con exit
 }
 
-static int parent_heredoc(t_cmd *cmd, t_shell *shell, int *heredoc)
+static int	parent_heredoc(t_cmd *cmd, t_shell *shell, int *pipe_fd)
 {
-    int exit_status;
+	int	status;
 
 	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-	close(heredoc[1]);
-	
-	waitpid(-1, &exit_status, 0);
-	if (WIFSIGNALED(exit_status))
+	close(pipe_fd[1]);
+
+	waitpid(-1, &status, 0);
+	if (WIFSIGNALED(status) || WEXITSTATUS(status) == 130)
 	{
-		close(heredoc[0]);
+		close(pipe_fd[0]);
 		shell->exit_status = 130;
-		reset_signals();  // Usar reset_signals en lugar de signals_init
+		g_signal_received = 130;  // Establecer la señal global
 		return (-1);
 	}
 
-	if (WEXITSTATUS(exit_status) == 130)
-	{
-		close(heredoc[0]);
-		shell->exit_status = 130;
-		reset_signals();
-		return (-1);
-	}
-	
-	cmd->std_in = dup(heredoc[0]);
-	close(heredoc[0]);
-	reset_signals();
+	if (cmd->std_in != 0)
+		close(cmd->std_in);
+	cmd->std_in = pipe_fd[0];
 	return (0);
 }
 
 int heredoc(t_cmd *cmd, t_shell *shell, char *delimiter)
 {
-    int pid;
-    int heredoc[2];
+	int	pipe_fd[2];
+	int	pid;
+	int	result;
+
+	if (pipe(pipe_fd) == -1)
+		return (-1);
 
 	g_signal_received = 0;
-	if (pipe(heredoc) == -1)
-		return (-1);
-	
 	pid = fork();
 	if (pid == -1)
 	{
-		close(heredoc[0]);
-		close(heredoc[1]);
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
 		return (-1);
 	}
-	
+
 	if (pid == 0)
-		child_heredoc(cmd, delimiter, heredoc, shell);
-	return (parent_heredoc(cmd, shell, heredoc));
+		child_heredoc(pipe_fd, delimiter, shell);
+
+	result = parent_heredoc(cmd, shell, pipe_fd);
+	reset_signals();
+	return (result);
 }
