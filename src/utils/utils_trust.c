@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_trust.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 18:34:17 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/01 13:54:51 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/01 16:57:53 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:34:15 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/01 16:52:31 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 16:54:54 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	syntax_error(t_token **stack)
 	tmp = find_last(*stack);
 	if (!(string_type(tmp) || tmp->type == 0))
 	{
-		printf("ERROR SYNTAX\n");
+		ft_putendl_fd("ERROR SYNTAX", 2);
 		return (1);
 	}
 	else

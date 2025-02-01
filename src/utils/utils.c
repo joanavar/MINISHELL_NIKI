@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 16:45:08 by joanavar          #+#    #+#             */
-/*   Updated: 2024/12/23 18:55:32 by joannavarro      ###   ########.fr       */
+/*   Updated: 2025/02/01 16:56:27 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	delete_expanser(t_token *token, int start, int end)
 	char	*str;
 
 	i = ft_strlen(token->content);
-	str = malloc(sizeof(char *) * (i - (end - start)) + 2);
+	str = malloc(sizeof(char) * (i - (end - start) + 2));
 	if (!str)
 		return ;
 	i = -1;
@@ -66,7 +66,6 @@ void	delete_expanser(t_token *token, int start, int end)
 	str[i] = '\0';
 	free(token->content);
 	token->content = str;
-	printf("despues de eliminar expansor : %s\n", token->content);
 }
 
 void	union_string(t_token *stack)
@@ -77,6 +76,11 @@ void	union_string(t_token *stack)
 	tmp = stack->next;
 	tmp_content = stack->content;
 	stack->content = ft_strjoin(stack->content, stack->next->content);
+	if (!stack->content)
+	{
+		stack->content = tmp_content;
+		return ;
+	}
 	stack->next = tmp->next;
 	free(tmp_content);
 	free(tmp->content);
@@ -85,6 +89,8 @@ void	union_string(t_token *stack)
 
 void	delete_quotes(t_token *token, char *str, int i, int j)
 {
+	if (!token || !str || !token->content)
+		return;
 	char	tmp;
 
 	while (token->content[i])
