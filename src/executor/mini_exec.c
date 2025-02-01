@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 20:25:58 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 19:28:42 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 18:36:12 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	**lst_to_chr(t_env **env)
 
 	a_env = *env;
 	i = count_env(a_env);
-	aux = malloc(sizeof(char **) * (i + 1));
+	aux = malloc(sizeof(char *) * (i + 1));
 	if (!aux)
 		return (NULL);
 	i = 0;

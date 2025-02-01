@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 18:54:07 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/01 16:53:01 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 18:17:35 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ static void	is_redireccion(char *str, int i, t_token **stack)
 
 static void	lectur_line(char *str, t_token **stack, int i)
 {
+	if (!str)
+		return ;
 	while (str[i])
 	{
 		if (str[i] == ' ')

@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:06:40 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/01 16:45:37 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 18:23:21 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,14 @@ void	travel_expansor(t_token *tmp, t_env *env, t_shell *shell)
 					&& tmp->content[i + 1] == '?')
 				{
 					expand_exit_status(tmp, i, shell);
-					continue ;
+					i++;
+					continue;
 				}
 				else if (tmp->content[i] == '$')
 				{
 					expander(tmp, i, env, shell);
-					continue ;
+					i++;
+					continue;
 				}
 				i++;
 			}

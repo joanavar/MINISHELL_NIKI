@@ -6,12 +6,11 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 16:45:08 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/01 16:56:27 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 18:08:11 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-//#include "paquito.h"
 
 int	ft_strcmp(char *src, char *s)
 {
@@ -55,7 +54,7 @@ void	delete_expanser(t_token *token, int start, int end)
 	char	*str;
 
 	i = ft_strlen(token->content);
-	str = malloc(sizeof(char) * (i - (end - start) + 2));
+	str = malloc(sizeof(char) * (i - (end - start)) + 2);
 	if (!str)
 		return ;
 	i = -1;
@@ -89,8 +88,6 @@ void	union_string(t_token *stack)
 
 void	delete_quotes(t_token *token, char *str, int i, int j)
 {
-	if (!token || !str || !token->content)
-		return;
 	char	tmp;
 
 	while (token->content[i])
