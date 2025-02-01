@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 16:17:46 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/01 18:34:40 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 19:01:50 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	expander(t_token *token, int i, t_env *env, t_shell *shell)
 			}
 			tmp = tmp->next;
 		}
+		free(str);
 		delete_expanser(token, j - 1, i);
 	}
 }

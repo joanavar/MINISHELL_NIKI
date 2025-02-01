@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:06:40 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/01 18:53:19 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/01 18:57:40 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	travel_expansor(t_token *tmp, t_env *env, t_shell *shell)
 				{
 					expander(tmp, i, env, shell);
 					if (!tmp->content[i++])
-						i++;
+						break ;
 					continue;
 				}
 				i++;
