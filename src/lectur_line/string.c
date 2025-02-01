@@ -6,11 +6,12 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 18:42:41 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/01 17:14:23 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 17:16:36 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+//#include "paquito.h"
 
 static int	is_command(char c)
 {
@@ -29,8 +30,6 @@ static int	is_quotes(char *str, int i, t_token **stack, char quote)
 	int		j;
 	int		count;
 
-	if (!str || !stack)
-		return (0);
 	j = i + 1;
 	count = 0;
 	while (str[j] && str[j] != quote)
@@ -39,19 +38,15 @@ static int	is_quotes(char *str, int i, t_token **stack, char quote)
 		count++;
 	}
 	j = 0;
-	token = malloc(sizeof(char) * (count + 1));
+	token = malloc(sizeof(char) * (count + 3));
 	if (!token)
 		return (0);
-	i++;
-	while (str[i] && str[i] != quote)
+	while (str[i] && j < count + 1)
 		token[j++] = str[i++];
+	token[j++] = quote;
 	token[j] = '\0';
-	if (!get_token(token, stack))
-	{
-		free(token);
-		return (0);
-	}
-	return (i + 1);
+	get_token(token, stack);
+	return (++i);
 }
 
 static int	is_word(char *str, int i, t_token **stack)

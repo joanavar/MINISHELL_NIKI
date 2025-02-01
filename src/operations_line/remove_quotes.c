@@ -6,11 +6,13 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:34:47 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/01 17:13:03 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 17:18:13 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+//#include "paquito.h"
 
 int	string_type(t_token *token)
 {
@@ -43,48 +45,25 @@ static void	quotes_correct(t_token *token)
 	char	tmp;
 	int		j;
 
-	if (!token || !token->content)
-		return;
 	i = count_quotes(token);
 	str = malloc(sizeof(char) * (i + 1));
-	if (!str)
-		return;
 	i = 0;
 	j = 0;
 	delete_quotes(token, str, i, j);
-	if (!str[0])  // Si delete_quotes falló
-	{
-		free(str);
-		return;
-	}
 	free(token->content);
 	token->content = str;
 }
 
 void	remove_quotes(t_token *stack)
 {
-	t_token	*tmp;
-	int		i;
-
-	tmp = stack;  // Guardar el stack original
-	if (!stack)
-		return;
-	stack = space_zero(stack);
-	if (!stack)
-		return;
-	i = 0;
 	while (stack)
 	{
 		if (!stack->next)
 			break ;
-		if (i == 0 && (stack->type == 2 || stack->type == 3))
-			quotes_correct(stack);
 		if (string_type(stack) && string_type(stack->next))
 		{
-			quotes_correct(stack->next);
 			union_string(stack);
-			if (!stack->content)
-				return;
+			quotes_correct(stack);
 		}
 		else if (string_type(stack))
 		{
@@ -93,6 +72,7 @@ void	remove_quotes(t_token *stack)
 		}
 		else
 			stack = stack->next;
-		i++;
 	}
+	if (!(stack->next) && string_type(stack))
+		quotes_correct(stack);
 }

@@ -6,13 +6,11 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 16:17:46 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/01 17:09:22 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 17:19:06 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-//#include "paquito.h"
 
 static int	close_expansor(t_token *token, int i)
 {
