@@ -6,31 +6,11 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 14:53:31 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/31 21:25:27 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/01 13:57:11 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-static char	*line_exp(char *line, t_env *env, t_shell *shell)
-{
-	t_token	*tmp;
-	char	*str;
-
-	tmp =  malloc(sizeof(t_token));
-	if (!tmp)
-		return (NULL);
-	tmp->content = ft_strdup(line);
-	tmp->type = 1;
-	tmp->next = 0;
-	tmp->prev = 0;
-	expander(tmp, 0, env, shell);
-	str = ft_strdup(tmp->content);
-	if (tmp)
-		free(tmp->content);
-	free(tmp);
-	return (str);
-}
 
 static void run_heredoc(t_cmd *cmd, char *deli, int heredoc, t_shell *shell)
 {
@@ -41,11 +21,10 @@ static void run_heredoc(t_cmd *cmd, char *deli, int heredoc, t_shell *shell)
 		line = readline("> ");
 		if (!line)
 			break ;
-		//line = line_exp(line, shell->env, shell);
-		ft_putstr_fd(line, heredoc);
-		ft_putstr_fd("\n", heredoc);
 		if (!strncmp(line, deli, ft_strlen(deli) + 1))
 			break;
+		ft_putstr_fd(line, heredoc);
+		ft_putstr_fd("\n", heredoc);
 		free(line);
 	}
 	if (line != 0)

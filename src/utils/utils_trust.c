@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 18:34:17 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 18:36:37 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/01 13:54:51 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ t_trust	*create_new_trust(void)
 {
 	t_trust	*trust;
 
-	trust = malloc(sizeof(t_trust) * 1);
-	if (trust)
+	trust = malloc(sizeof(t_trust));
+	if (!trust)
 		return (NULL);
 	trust->arg = NULL;
 	return (trust);
