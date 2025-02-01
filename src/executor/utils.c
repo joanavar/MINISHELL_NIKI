@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:06:40 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/01 18:23:21 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 18:53:19 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,16 +82,18 @@ void	travel_expansor(t_token *tmp, t_env *env, t_shell *shell)
 					&& tmp->content[i + 1] == '?')
 				{
 					expand_exit_status(tmp, i, shell);
-					i++;
 					continue;
 				}
 				else if (tmp->content[i] == '$')
 				{
 					expander(tmp, i, env, shell);
-					i++;
+					if (!tmp->content[i++])
+						i++;
 					continue;
 				}
 				i++;
+				if (!tmp->content)
+					break ;
 			}
 		}
 		tmp = tmp->next;
