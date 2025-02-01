@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 14:53:31 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/01 15:12:40 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/01 15:18:56 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,7 @@ static void	run_heredoc(int fd, char *delimiter, t_shell *shell)
 	while (1)
 	{
 		line = readline("> ");
-		if (!line)  // EOF (Ctrl+D)
-		{
-			ft_putstr_fd("\nwarning: here-document delimited by end-of-file\n", 2);
-			close(fd);
-			exit(0);  // Salir limpiamente con EOF
-		}
-		if (g_signal_received == 130)  // Ctrl+C
+		if (!line || g_signal_received == 130)
 		{
 			if (line)
 				free(line);
@@ -63,14 +57,9 @@ static void	run_heredoc(int fd, char *delimiter, t_shell *shell)
 			close(fd);
 			exit(0);
 		}
-		expanded = line_exp(line, shell->env, shell);
+		ft_putstr_fd(line, fd);
+		ft_putstr_fd("\n", fd);
 		free(line);
-		if (expanded)
-		{
-			ft_putstr_fd(expanded, fd);
-			ft_putstr_fd("\n", fd);
-			free(expanded);
-		}
 	}
 }
 
@@ -79,7 +68,6 @@ static void	child_heredoc(int *pipe_fd, char *delimiter, t_shell *shell)
 	set_heredoc_signals();
 	close(pipe_fd[0]);
 	run_heredoc(pipe_fd[1], delimiter, shell);
-	// run_heredoc siempre termina con exit
 }
 
 static int	parent_heredoc(t_cmd *cmd, t_shell *shell, int *pipe_fd)
@@ -94,7 +82,7 @@ static int	parent_heredoc(t_cmd *cmd, t_shell *shell, int *pipe_fd)
 	{
 		close(pipe_fd[0]);
 		shell->exit_status = 130;
-		g_signal_received = 130;  // Establecer la señal global
+		g_signal_received = 130;
 		return (-1);
 	}
 
