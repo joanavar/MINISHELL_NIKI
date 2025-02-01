@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:40:02 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/01 16:01:16 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/01 16:03:39 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,8 @@ void	free_cmds(t_cmd **cmds)
 				free(buffer->arr_cmd[i++]);
 			free(buffer->arr_cmd);
 		}
-		//if (buffer->path)
-			//free(buffer->path);
+		if (buffer->path)
+			free(buffer->path);
 		if (buffer->redirs)
 			free_redirs(buffer->redirs);
 		if (buffer->std_in != 0)
