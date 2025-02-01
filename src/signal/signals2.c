@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 21:16:22 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 21:20:37 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/01 14:46:17 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,18 @@ static void	handle_sigquit(int sig)
 
 void	signals_init(void)
 {
-	suppress_output();
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, handle_sigquit);
+	struct sigaction sa_int;
+    struct sigaction sa_quit;
+
+    suppress_output();
+
+    sa_int.sa_handler = handle_sigint;
+    sigemptyset(&sa_int.sa_mask);
+    sa_int.sa_flags = SA_RESTART;
+    sigaction(SIGINT, &sa_int, NULL);
+
+    sa_quit.sa_handler = handle_sigquit;
+    sigemptyset(&sa_quit.sa_mask);
+    sa_quit.sa_flags = SA_RESTART;
+    sigaction(SIGQUIT, &sa_quit, NULL);
 }
