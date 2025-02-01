@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:34:47 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/01 17:07:58 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 17:13:03 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ static void	quotes_correct(t_token *token)
 	char	tmp;
 	int		j;
 
+	if (!token || !token->content)
+		return;
 	i = count_quotes(token);
 	str = malloc(sizeof(char) * (i + 1));
 	if (!str)
@@ -50,6 +52,11 @@ static void	quotes_correct(t_token *token)
 	i = 0;
 	j = 0;
 	delete_quotes(token, str, i, j);
+	if (!str[0])  // Si delete_quotes falló
+	{
+		free(str);
+		return;
+	}
 	free(token->content);
 	token->content = str;
 }
@@ -59,6 +66,7 @@ void	remove_quotes(t_token *stack)
 	t_token	*tmp;
 	int		i;
 
+	tmp = stack;  // Guardar el stack original
 	if (!stack)
 		return;
 	stack = space_zero(stack);

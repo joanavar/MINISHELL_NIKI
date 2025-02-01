@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 18:42:41 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/01 17:07:10 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 17:14:23 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,19 @@ static int	is_quotes(char *str, int i, t_token **stack, char quote)
 		count++;
 	}
 	j = 0;
-	token = malloc(sizeof(char) * (count + 3));
+	token = malloc(sizeof(char) * (count + 1));
 	if (!token)
 		return (0);
-	while (str[i] && j < count + 1)
+	i++;
+	while (str[i] && str[i] != quote)
 		token[j++] = str[i++];
-	token[j++] = quote;
 	token[j] = '\0';
 	if (!get_token(token, stack))
 	{
 		free(token);
 		return (0);
 	}
-	return (++i);
+	return (i + 1);
 }
 
 static int	is_word(char *str, int i, t_token **stack)
