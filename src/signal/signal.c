@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:19 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 19:43:41 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 14:35:54 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,21 @@ void	reset_signals(void)
 	sa_quit.sa_handler = SIG_IGN;
 	sigemptyset(&sa_quit.sa_mask);
 	sa_quit.sa_flags = SA_RESTART;
+	sigaction(SIGQUIT, &sa_quit, NULL);
+}
+
+void	signals_init(void)
+{
+	struct sigaction	sa_int;
+	struct sigaction	sa_quit;
+
+	sa_int.sa_handler = handle_sigint;
+	sigemptyset(&sa_int.sa_mask);
+	sa_int.sa_flags = 0;
+	sigaction(SIGINT, &sa_int, NULL);
+
+	sa_quit.sa_handler = SIG_IGN;
+	sigemptyset(&sa_quit.sa_mask);
+	sa_quit.sa_flags = 0;
 	sigaction(SIGQUIT, &sa_quit, NULL);
 }
