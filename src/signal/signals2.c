@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signals2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 21:16:22 by camurill          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/02/01 14:46:17 by camurill         ###   ########.fr       */
+=======
+/*   Updated: 2025/02/01 14:37:24 by nikitadorof      ###   ########.fr       */
+>>>>>>> 6be25854f9fabd806e471d867b4ea9c509bac5dc
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +33,9 @@ static void	handle_sigquit(int sig)
 	rl_redisplay();
 }
 
-void	signals_init(void)
+/*void	signals_init(void)
 {
+<<<<<<< HEAD
 	struct sigaction sa_int;
     struct sigaction sa_quit;
 
@@ -46,3 +51,9 @@ void	signals_init(void)
     sa_quit.sa_flags = SA_RESTART;
     sigaction(SIGQUIT, &sa_quit, NULL);
 }
+=======
+	suppress_output();
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, handle_sigquit);
+}*/
+>>>>>>> 6be25854f9fabd806e471d867b4ea9c509bac5dc
