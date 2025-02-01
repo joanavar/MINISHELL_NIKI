@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:40:02 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/01 16:03:39 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 16:42:04 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,4 +130,24 @@ void	free_cmds(t_cmd **cmds)
 		buffer = aux;
 	}
 	*cmds = NULL;
+}
+
+void	free_redirs(t_redir *redir)
+{
+	t_redir	*aux;
+	t_redir	*buffer;
+
+	if (!redir)
+		return;
+	buffer = redir;
+	while (buffer)
+	{
+		aux = buffer->next;
+		if (buffer->file_name)
+			free(buffer->file_name);
+		if (buffer->fd > 2)
+			close(buffer->fd);
+		free(buffer);
+		buffer = aux;
+	}
 }

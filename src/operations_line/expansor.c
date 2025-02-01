@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 16:17:46 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/01 16:33:51 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 16:42:31 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,21 @@ void	expander(t_token *token, int i, t_env *env, t_shell *shell)
 		while (close_expansor(token, i))
 			i++;
 		str = ft_substr(token->content, j, i - j);
+		if (!str)
+			return;
 		tmp = env;
 		while (tmp)
 		{
 			if (ft_strcmp(str, tmp->value))
 			{
 				exchange_expanser(token, tmp, j - 1, i);
+				free(str);
 				return ;
 			}
 			tmp = tmp->next;
 		}
 		delete_expanser(token, j - 1, i);
+		free(str);
 	}
 }
 
