@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_reddit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 16:17:53 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 21:12:57 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/01 14:51:08 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ static void	redir_r_two(t_cmd *cmd, t_redir *redir)
 int check_reddir(t_cmd *cmd, t_shell *shell)
 {
 	t_cmd	*aux;
+	int		result;
 
 	if (!cmd->redirs)
 		return (-1);
@@ -79,7 +80,11 @@ int check_reddir(t_cmd *cmd, t_shell *shell)
 		if (aux->redirs->type == 7)
 			redir_r_two(aux, aux->redirs);
 		if (aux->redirs->type == 5)
-			return (heredoc(aux, shell, aux->redirs->file_name));
+		{
+			result = heredoc(aux, shell, aux->redirs->file_name);
+			if (result < 0)
+				return (result);
+		}
 		aux->redirs = aux->redirs->next;
 	}
 	return (0);
