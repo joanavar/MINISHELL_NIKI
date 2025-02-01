@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 20:48:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/01 15:08:06 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 15:49:08 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,22 @@ int	executor(t_shell *shell, t_trust *trust)
 {
 	t_cmd	*cmds;
 	int		i;
-	int		status;
 
 	cmds = NULL;
 	i = 0;
 	cmds = cmds_shell_exec(cmds, shell);
 	if (!cmds || check_pipe(&cmds) == -1)
+	{
+		if (cmds)
+			free_cmds(&cmds);
 		return (-1);
+	}
 	cmds->path = get_path(cmds, shell->env);
 	if (!cmds->path)
+	{
+		free_cmds(&cmds);
 		return (-1);
+	}
 	cmds = initial_cmd(cmds);
 	if (cmds->path && cmds->builtins == 1 && cmds->next == NULL)
 		i = built_ins(cmds, 0, trust);
@@ -50,5 +56,6 @@ int	executor(t_shell *shell, t_trust *trust)
 		exec_duo(cmds, shell, trust);
 		i = shell->exit_status;
 	}
+	free_cmds(&cmds);
 	return (i);
 }

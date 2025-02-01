@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 14:08:16 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 19:30:47 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 15:48:36 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,11 @@ char	*get_path(t_cmd *cmd, t_env *env)
 	}
 	path = search_path(cmd, env);
 	if (!path)
+	{
+		if (cmd->path)
+			free(cmd->path);
 		error_message("Command not found", NO_CLOSE);
+		return (NULL);
+	}
 	return (path);
 }

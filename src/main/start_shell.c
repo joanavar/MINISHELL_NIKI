@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start_shell.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 22:48:04 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/01 15:23:33 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/01 15:48:48 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ int	start_shell(t_shell *shell, t_trust *trust)
 		return (2);
 	shell->cmds = token_to_cmd(shell->eco_token, shell);
 	if (!shell->cmds)
+	{
+		free_token(&(shell->eco_token));
 		return (2);
+	}
 	executor(shell, trust);
 	if (shell->eco_token)
 		free_token(&(shell->eco_token));

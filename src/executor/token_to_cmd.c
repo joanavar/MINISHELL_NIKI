@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_to_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:37:16 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/01 15:26:15 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/01 15:48:24 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_cmd	*create_new_cmd(void)
 	t_cmd	*cmd;
 
 	cmd = NULL;
-	cmd = malloc(sizeof(t_cmd) * 1);
+	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
 	cmd->arr_cmd = NULL;
@@ -48,7 +48,6 @@ static char	**create_arr_cmd(char *token, char **cmd)
 	cmd[0] = ft_strdup(token);
 	if (!cmd[0])
 	{
-		//free(cmd[0]);
 		free(cmd);
 		return (NULL);
 	}
