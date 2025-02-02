@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_to_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:37:16 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/01 15:48:24 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/02 19:11:15 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ t_cmd	*token_to_cmd(t_token *tokens, t_shell *shell)
 	t_cmd	*cmd;
 	t_cmd	*aux_cmd;
 	t_token	*tmp;
+	t_token *print = tokens;
 
 	tmp = tokens;
 	cmd = create_new_cmd();
