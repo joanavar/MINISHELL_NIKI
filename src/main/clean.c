@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:40:02 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/01 16:42:04 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/02 17:19:08 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,15 @@ void	free_redirs(t_redir *redir)
 	if (!redir)
 		return;
 	buffer = redir;
+	if (!buffer->next)
+	{
+		if (buffer->file_name)
+			free(buffer->file_name);
+		if (buffer->fd > 2)
+			close(buffer->fd);
+		free(buffer);
+		return ;
+	}
 	while (buffer)
 	{
 		aux = buffer->next;
