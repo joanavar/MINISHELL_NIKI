@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 08:12:43 by camurill          #+#    #+#             */
-/*   Updated: 2024/01/24 00:23:30 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/01 18:59:58 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	size_t	j;
 
 	if (!s)
-		return (0);
+		return (NULL);
 	else if (start >= (unsigned int)ft_strlen(s))
 		return (ft_strdup(""));
 	i = ft_strlen(s + start);

@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:34:15 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/31 17:01:53 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 16:54:54 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	syntax_pipe(t_token *token)
 {
 	if (token->type == 4 && (token->next->type == 4))
 	{
-		printf("Error Syntax pipe\n");
+		ft_putendl_fd("Error Syntax pipe", 2);
 		return (1);
 	}
 	else if (token->type == 4 && (token->next->type == 0))
@@ -40,7 +40,7 @@ static int	syntax_pipe(t_token *token)
 			token = token->next;
 		if (token->type == 4)
 		{
-			printf("Error Syntax pipe\n");
+			ft_putendl_fd("Error Syntax pipe", 2);
 			return (1);
 		}
 	}
@@ -51,17 +51,18 @@ static int	syntax_redi(t_token *token)
 {
 	if (redir_type(token) && redir_type(token->next))
 	{
-		printf ("Error syntax redi\n");
+		ft_putendl_fd("Error syntax redi", 2);
 		return (1);
 	}
 	else if (redir_type(token) && (token->next->type == 0))
 	{
-		token = token->next;
+		if (token->next)
+			token = token->next;
 		while (token->type == 0)
 			token = token->next;
 		if (redir_type(token))
 		{
-			printf("Error syntax redi\n");
+			ft_putendl_fd("Error syntax redi", 2);
 			return (1);
 		}
 	}
@@ -87,7 +88,7 @@ int	syntax_error(t_token **stack)
 	tmp = find_last(*stack);
 	if (!(string_type(tmp) || tmp->type == 0))
 	{
-		printf("ERROR SYNTAX\n");
+		ft_putendl_fd("ERROR SYNTAX", 2);
 		return (1);
 	}
 	else

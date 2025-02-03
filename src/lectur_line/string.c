@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   string.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 18:42:41 by joanavar          #+#    #+#             */
-/*   Updated: 2024/12/23 19:16:20 by joannavarro      ###   ########.fr       */
+/*   Updated: 2025/02/01 17:46:04 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-//#include "paquito.h"
 
 static int	is_command(char c)
 {
@@ -38,14 +37,19 @@ static int	is_quotes(char *str, int i, t_token **stack, char quote)
 		count++;
 	}
 	j = 0;
-	token = malloc(sizeof(char *) * (count + 3));
+	token = malloc(sizeof(char) * (count + 3));
 	if (!token)
 		return (0);
 	while (str[i] && j < count + 1)
 		token[j++] = str[i++];
 	token[j++] = quote;
 	token[j] = '\0';
-	get_token(token, stack);
+	if (!get_token(token, stack))
+	{
+		free(token);
+		return (0);
+	}
+	(*stack)->type = (quote == '"') ? 3 : 2;
 	return (++i);
 }
 
@@ -63,7 +67,7 @@ static int	is_word(char *str, int i, t_token **stack)
 		j++;
 	}
 	j = 0;
-	token = malloc(sizeof(char *) * (count + 1));
+	token = malloc(sizeof(char) * (count + 1));
 	if (!token)
 		return (0);
 	while (str[i] && !is_command(str[i]))

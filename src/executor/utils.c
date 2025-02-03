@@ -3,69 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:06:40 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 16:38:11 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/02 19:13:08 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	check_pipe(t_cmd **cmd)
-{
-	t_cmd	*aux;
-	int		fd[2];
-
-	if (!cmd)
-		return (-1);
-	aux = *cmd;
-	while (aux->next)
-	{
-		aux->pipe = 1;
-		if (pipe(fd) == -1)
-			return (-1);
-		aux->fd_out = fd[1];
-		aux->next->fd_in = fd[0];
-		aux = aux->next;
-	}
-	return (0);
-}
-
-void	waiting(t_shell *shell)
-{
-	int	exit_status;
-	int	status;
-
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-	while (wait(&exit_status) != -1)
-	{
-		if (WIFSIGNALED(exit_status) != 0)
-		{
-			ft_putstr_fd("\n", 1);
-			status = WTERMSIG(exit_status) + 128;
-			shell->exit_status = status;
-		}
-		if (WIFEXITED(exit_status))
-		{
-			status = WEXITSTATUS(exit_status);
-			shell->exit_status = status;
-		}
-	}
-	check_signal(g_signal_received);
-}
-
 t_cmd	*cmds_shell_exec(t_cmd *cmds, t_shell *shell)
 {
-	t_token	*tmp;
+	t_cmd	*tmp;
 
-	tmp = shell->eco_token;
-	cmds = token_to_cmd(tmp);
+	tmp = cmds;
 	if (!cmds)
 		return (NULL);
-	cmds->shell = shell;
-	if (!cmds->shell)
+	tmp->shell = shell;
+	if (!tmp->shell)
 		return (NULL);
 	return (cmds);
 }
@@ -79,13 +34,34 @@ t_token	*expansor_res(t_token *tmp)
 	if (tmp->type == 5)
 	{
 		tmp = is_heredoc(tmp);
-		if (!(tmp->next))
-			return (NULL);
+		//if (!(tmp->next))
+		//	return (NULL);
 	}
 	return (tmp);
 }
 
-void	travel_expansor(t_token *tmp, t_env *env)
+void	expand_exit_status(t_token *token, int i, t_shell *shell)
+{
+	char	*before;
+	char	*after;
+	char	*exit_str;
+	char	*result;
+
+	before = ft_substr(token->content, 0, i);
+	after = ft_strdup(token->content + i + 2);
+	exit_str = ft_itoa(shell->exit_status);
+	result = ft_strjoin(before, exit_str);
+	free(before);
+	free(exit_str);
+	before = result;
+	result = ft_strjoin(before, after);
+	free(before);
+	free(after);
+	free(token->content);
+	token->content = result;
+}
+
+void	travel_expansor(t_token *tmp, t_env *env, t_shell *shell)
 {
 	int	i;
 
@@ -103,13 +79,20 @@ void	travel_expansor(t_token *tmp, t_env *env)
 					return ;
 				else if (tmp->content[i] == '$'
 					&& tmp->content[i + 1] == '?')
-					return ;
+				{
+					expand_exit_status(tmp, i, shell);
+					continue;
+				}
 				else if (tmp->content[i] == '$')
 				{
-					expander(tmp, i, env);
-					continue ;
+					expander(tmp, i, env, shell);
+					if (!tmp->content[i++])
+						break ;
+					continue;
 				}
 				i++;
+				if (!tmp->content)
+					break ;
 			}
 		}
 		tmp = tmp->next;

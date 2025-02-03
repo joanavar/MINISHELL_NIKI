@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 18:16:05 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/31 16:58:29 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 16:53:59 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	print_token(t_token **stack)
 	{
 		while (tmp && tmp->type == 0)
 		{
-			printf(" \n");
+			ft_putendl_fd(" ", 1);
 			tmp = tmp->next;
 		}
 		if (!tmp)

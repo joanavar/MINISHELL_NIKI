@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 16:58:56 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/02 18:42:58 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,10 @@
 /*	STRUCTS		*/
 /*	struct with tokens	*/
 
+
+
+
+
 extern volatile sig_atomic_t	g_signal_received;
 
 typedef struct s_shell			t_shell;
@@ -82,7 +86,6 @@ typedef struct s_redir
 	int							type;
 	char						*file_name;
 	int							fd;
-	// int				amb_red;
 	struct s_redir				*next;
 }								t_redir;
 
@@ -142,29 +145,19 @@ struct							s_shell
 	t_cmd						*cmds;
 };
 
-enum e_redir_type {
-    INPUT,
-    OUTPUT,
-    APPENDS,
-    HEREDOC
-};
-
 /***FUNTIONS AUX***/
-/*int		check_doubles(char *str, char ltr);*/
 int								check_specials(char *str, char ltr);
 int								check_numeric(char *str);
 int								count_cmd(t_cmd *cmd);
 void							waiting(t_shell *shell);
-/*
-int								parssing(t_shell **shell);
-t_env	*get_env(char **env);*/
-// void	get_less_env(t_shell *shell, char *cmp);
-// void	prints(void);
 
 /***MAIN***/
 void							init_shell(t_shell **shell, char **env);
 void							clean_data(t_shell *shell);
 int								start_shell(t_shell *shell, t_trust *trust);
+
+/*** LECTUR ***/
+t_token							*lectur_imput(char *str, t_env *env, t_shell *shell);
 
 /****ERORR FOUND***/
 void							error_message(char *str, t_opcode OPCODE);
@@ -181,9 +174,7 @@ void							handle_sigint(int signal);
 void							handle_sigint_heredoc(int sig);
 void							set_heredoc_signals(void);
 void							reset_signals(void);
-
-
-// void	handle_sigquit(int signal); quitar
+void							signals_init(void);
 
 /***BUILTS_INS***/
 void							unset_shell(t_shell *shell, char *arg);
@@ -191,8 +182,9 @@ void							get_echo(t_cmd *cmd);
 void							get_export(t_cmd *cmd, t_trust *trust);
 void							get_pwd(void);
 void							get_cd(t_cmd *cmd);
-void							print_env(t_shell *shell);
+void							print_env(t_shell *shell, t_cmd *cmd);
 int								built_ins(t_cmd *cmd, int type, t_trust *trust);
+
 /***Exit***/
 int								mini_exit(t_cmd *cmd);
 
@@ -205,28 +197,30 @@ void							exec_duo(t_cmd *cmd, t_shell *shell, t_trust *trust);
 char							*get_path(t_cmd *cmd, t_env *env);
 void							exec_child(t_cmd *cmd, int id, t_shell *shell, t_trust *trust);
 void							mini_exec(t_cmd *cmd, t_shell *shell);
+int								add_redir(t_token *token, t_cmd *cmd, t_shell *shell);
+int								add_first_redir(t_token *token, t_cmd *cmd, t_shell *shell);
+int								add_rest_redir(t_token *token, t_cmd *cmd, t_shell *shell);
+t_env							*choose_env(t_shell *shell);
+t_cmd							*cmds_shell_exec(t_cmd *cmd, t_shell *shell);
+t_token							*space_zero(t_token *token);
+t_cmd							*token_to_cmd(t_token *tokens, t_shell *shell);
 
 /*** PIPES ***/
 int								check_pipe(t_cmd **last);
 void							ft_dups(t_cmd *cmd);
 
 /*** REDIRECTS ***/
-void							check_reddir(t_cmd *cmd);
+int							check_reddir(t_cmd *cmd, t_shell *shell);
 
-/***NAVARRO_FUNCTIONS***/
-// lectur.c
-t_token							*lectur_imput(char *str, t_env *env);
-
-// token.c
+/*** TOKENS */
 int								get_token(char *str, t_token **stack);
 t_token							*find_last(t_token *stack);
 t_cmd							*create_new_cmd(void);
-// string.c
 int								is_string(char *str, int i, t_token **stack);
-// remove_quotes.c
 void							remove_quotes(t_token *stack);
 int								string_type(t_token *token);
-// utils.c
+
+/*** UTILS ***/
 int								ft_strcmp(char *src, char *s);
 void							print_token(t_token **stack);
 int								change_malloc_token(t_token *str, t_env *env,
@@ -244,37 +238,22 @@ int								arr_size(char **array);
 int								is_spaces(t_cmd *cmd);
 t_trust 						*create_new_trust(void);
 
+/*** HEREDOC */
 
-// exec
-t_cmd							*token_to_cmd(t_token *tokens);
-void							print_cmd(char **array);
-int								add_redir(t_token *token, t_cmd *cmd);
-t_token							*space_zero(t_token *token);
-int								add_first_redir(t_token *token, t_cmd *cmd);
-int								add_rest_redir(t_token *token, t_cmd *cmd);
-t_env							*choose_env(t_shell *shell);
-t_cmd							*cmds_shell_exec(t_cmd *cmd, t_shell *shell);
+int	heredoc(t_cmd *cmd, t_shell *shell, char *delimiter);
 
-// heredoc
-
-int	heredoc(char *delimiter, t_shell *shell);
-
-// syntax_error.c
+/*** SINTAX ERROR */
 int								syntax_error(t_token **stack);
 int								redir_type(t_token *token);
 int								opcion_syntax(t_token *tmp);
 int								syntax_pipe_or_redi(t_token *token);
 
-// expasor.c
-// int		close_expansor(t_token *token, int i);
-// int		correct_expansor(t_token *token, int i);
-// void	expander(t_token *token, int i, t_env **env);
-void							expandir(t_token **stack, t_env *env);
+/*** EXPANSOR */
+void							expandir(t_token **stack, t_env *env, t_shell *shell);
 int								executor(t_shell *shell, t_trust *trust);
-int								open_file(char *file, int type);
 t_token							*is_heredoc(t_token *token);
 t_token							*expansor_res(t_token *tmp);
-void							travel_expansor(t_token *token, t_env *env);
-void							expander(t_token *token, int i, t_env *env);
+void							travel_expansor(t_token *token, t_env *env, t_shell *shell);
+void							expander(t_token *token, int i, t_env *env, t_shell *shell);
 
 #endif

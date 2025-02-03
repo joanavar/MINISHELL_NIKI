@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 17:11:34 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/28 15:23:17 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/02/01 18:10:32 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	count_quotes_utils(t_token *token, int i, int count, char tmp)
 {
+	if (!token || !token->content)
+		return (0);
 	while (token->content[i])
 	{
 		while (token->content[i])
@@ -22,6 +24,8 @@ int	count_quotes_utils(t_token *token, int i, int count, char tmp)
 			{
 				tmp = token->content[i];
 				i++;
+				if (!token->content[i])
+					return (count);
 				break ;
 			}
 			i++;
@@ -32,20 +36,25 @@ int	count_quotes_utils(t_token *token, int i, int count, char tmp)
 			if (token->content[i] == tmp)
 			{
 				i++;
+				tmp = 0;
 				break ;
 			}
 			i++;
 			count++;
 		}
+		if (!token->content[i] && tmp != 0)
+			return (count);
 	}
 	return (count);
 }
 
 int	opcion_syntax(t_token *tmp)
 {
+	if (!tmp)
+		return (0);
 	if (tmp->type == 4)
 	{
-		printf("error syntax\n");
+		ft_putendl_fd("error syntax", 2);
 		return (0);
 	}
 	while (tmp)
@@ -92,13 +101,17 @@ t_token	*is_heredoc(t_token *token)
 {
 	t_token	*tmp;
 
+	if (!token)
+		return (NULL);
 	tmp = token;
-	if (!(tmp->type == 5) || !(tmp->next))
+	if (tmp->type != 5 || !tmp->next)
 		return (tmp);
 	tmp = tmp->next;
-	while (tmp->type == 0)
+	while (tmp && tmp->type == 0)
 		tmp = tmp->next;
-	if (tmp->next && string_type(tmp))
+	if (!tmp)
+		return (token);
+	if (string_type(tmp))
 		tmp = tmp->next;
 	return (tmp);
 }

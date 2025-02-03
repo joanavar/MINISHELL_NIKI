@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 16:17:53 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/30 13:24:51 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/02/02 19:01:49 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,13 @@ static void	redir_r_two(t_cmd *cmd, t_redir *redir)
 	aux->std_out = fd;
 }
 
-void	check_reddir(t_cmd *cmd)
+int check_reddir(t_cmd *cmd, t_shell *shell)
 {
 	t_cmd	*aux;
+	int		result;
 
 	if (!cmd->redirs)
-		return ;
+		return (-1);
 	aux = cmd;
 	while (aux->redirs)
 	{
@@ -78,6 +79,20 @@ void	check_reddir(t_cmd *cmd)
 			redir_r_one(aux, aux->redirs);
 		if (aux->redirs->type == 7)
 			redir_r_two(aux, aux->redirs);
+		if (aux->redirs->type == 5)
+		{
+			result = heredoc(aux, shell, aux->redirs->file_name);
+			if (result < 0)
+			{
+				if (shell->exit_status == 130)
+				{
+					g_signal_received = 130;
+					return (0);
+				}
+				return (result);
+			}
+		}
 		aux->redirs = aux->redirs->next;
 	}
+	return (0);
 }

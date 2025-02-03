@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:40:02 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 16:54:25 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/02 17:19:08 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,47 @@ void	free_cmds(t_cmd **cmds)
 			free(buffer->path);
 		if (buffer->redirs)
 			free_redirs(buffer->redirs);
+		if (buffer->std_in != 0)
+			close(buffer->std_in);
+		if (buffer->std_out != 1)
+			close(buffer->std_out);
+		if (buffer->std_error != 2)
+			close(buffer->std_error);
+		if (buffer->fd_in)
+			close(buffer->fd_in);
+		if (buffer->fd_out)
+			close(buffer->fd_out);
 		free(buffer);
 		buffer = aux;
 	}
 	*cmds = NULL;
+}
+
+void	free_redirs(t_redir *redir)
+{
+	t_redir	*aux;
+	t_redir	*buffer;
+
+	if (!redir)
+		return;
+	buffer = redir;
+	if (!buffer->next)
+	{
+		if (buffer->file_name)
+			free(buffer->file_name);
+		if (buffer->fd > 2)
+			close(buffer->fd);
+		free(buffer);
+		return ;
+	}
+	while (buffer)
+	{
+		aux = buffer->next;
+		if (buffer->file_name)
+			free(buffer->file_name);
+		if (buffer->fd > 2)
+			close(buffer->fd);
+		free(buffer);
+		buffer = aux;
+	}
 }

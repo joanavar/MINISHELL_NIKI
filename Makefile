@@ -14,7 +14,7 @@ LIBFT_A     =       $(LIBFT)/libft.a
 ###############################################################################
 
 CC          =       cc
-CCFLAGS     =       -g -fsanitize=address -I/usr/local/Cellar/readline/8.2.13/include #-Wall -Wextra -Werror -fsanitize=address
+CCFLAGS     =       -g  -I/usr/local/Cellar/readline/8.2.13/include #-fsanitize=address -Wall -Wextra -Werror -fsanitize=address
 READLINE    =       -L/usr/local/Cellar/readline/8.2.13/lib -lreadline
 
 ###############################################################################
@@ -26,6 +26,7 @@ SRC_FILES   =       main/main.c \
                     main/get_env.c \
                     main/clean.c \
                     signal/signal.c \
+					signal/signals2.c \
                     built_ins/cd_pwd.c \
                     built_ins/built_ins.c \
                     built_ins/echo.c \
@@ -47,6 +48,7 @@ SRC_FILES   =       main/main.c \
 					executor/dups.c \
 					executor/mini_exec.c \
 					executor/utils.c \
+					executor/utils2.c \
 					utils/utils_exec.c \
 					executor/token_to_cmd.c \
 					main/clean2.c \

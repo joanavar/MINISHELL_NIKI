@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:37:16 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/28 19:44:31 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/02 19:11:15 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ t_cmd	*create_new_cmd(void)
 {
 	t_cmd	*cmd;
 
-	cmd = malloc(sizeof(t_cmd) * 1);
+	cmd = NULL;
+	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
 	cmd->arr_cmd = NULL;
@@ -31,6 +32,7 @@ t_cmd	*create_new_cmd(void)
 	cmd->fd_in = 0;
 	cmd->fd_out = 0;
 	cmd->pipe = 0;
+	cmd->shell = NULL;
 	cmd->redirs = NULL;
 	cmd->next = NULL;
 	return (cmd);
@@ -46,7 +48,6 @@ static char	**create_arr_cmd(char *token, char **cmd)
 	cmd[0] = ft_strdup(token);
 	if (!cmd[0])
 	{
-		free(cmd[0]);
 		free(cmd);
 		return (NULL);
 	}
@@ -81,12 +82,12 @@ static char	**add_to_array(char *token, char **cmd)
 	return (new_cmd);
 }
 
-static int	clas_token(t_token **token, t_cmd **aux_cmd)
+static int	clas_token(t_token **token, t_cmd **aux_cmd, t_shell *shell)
 {
 	if ((*token)->type == 5 || (*token)->type == 6 || (*token)->type == 7
 		|| (*token)->type == 8)
 	{
-		if (add_redir(*token, *aux_cmd) == 2)
+		if (add_redir(*token, *aux_cmd, shell) == 2)
 			return (0);
 		(*token) = (*token)->next;
 		while ((*token)->type == 0)
@@ -110,11 +111,12 @@ static int	clas_token(t_token **token, t_cmd **aux_cmd)
 	return (1);
 }
 
-t_cmd	*token_to_cmd(t_token *tokens)
+t_cmd	*token_to_cmd(t_token *tokens, t_shell *shell)
 {
 	t_cmd	*cmd;
 	t_cmd	*aux_cmd;
 	t_token	*tmp;
+	t_token *print = tokens;
 
 	tmp = tokens;
 	cmd = create_new_cmd();
@@ -123,7 +125,7 @@ t_cmd	*token_to_cmd(t_token *tokens)
 	aux_cmd = cmd;
 	while (tokens)
 	{
-		if (!clas_token(&tokens, &aux_cmd))
+		if (!clas_token(&tokens, &aux_cmd, shell))
 		{
 			free_cmds(&cmd);
 			free_token(&tmp);

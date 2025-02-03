@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:51:10 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/28 15:33:50 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/01/31 18:44:20 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static char	**create_arr_trust(char *s, char **trust)
 		return (NULL);
 	trust = malloc(sizeof(char *) * 2);
 	if (!trust)
-		return(NULL);
+		return (NULL);
 	trust[0] = ft_strdup(s);
 	if (!trust[0])
 	{
@@ -43,7 +43,7 @@ static char	**create_arr_trust(char *s, char **trust)
 		return (NULL);
 	}
 	trust[1] = NULL;
-	return (trust); 
+	return (trust);
 }
 
 static char	**aux_trust(char *s, char **trust)
@@ -53,7 +53,7 @@ static char	**aux_trust(char *s, char **trust)
 
 	i = 0;
 	if (!trust)
-		return(create_arr_trust(s, trust));
+		return (create_arr_trust(s, trust));
 	new_trust = malloc(sizeof(char *) * (arr_size(trust) + 2));
 	if (!new_trust)
 		return (free_matrix(new_trust), NULL);
@@ -72,40 +72,40 @@ static char	**aux_trust(char *s, char **trust)
 	return (new_trust);
 }
 
-void	get_export(t_cmd *cmd, t_trust *trust)
+static void	print_export(t_cmd *cmd, t_trust *trust)
 {
 	t_env	*aux;
-	t_env	*new_node;
-	int		i;
 	int		j;
 
 	aux = cmd->shell->env;
-	i = -1;
-	if (!cmd->arr_cmd[1])
+	while (aux)
 	{
-		while (aux)
+		printf("declare -x %s=%s\n", aux->value, aux->content);
+		aux = aux->next;
+	}
+	if (trust->arg)
+	{
+		j = 0;
+		while (trust)
 		{
-			printf("declare -x %s=%s\n", aux->value, aux->content);
-			aux = aux->next;
-		}
-		if (!trust->arg)
-			printf("hola\n");
-		if (trust->arg)
-		{
-			j = 0;
-			while(trust)
-			{
-				if (trust->arg[j] == NULL)
-					break ;
-				printf("declare -x %s\n", trust->arg[j]);
-				j++;
-			}
+			if (trust->arg[j] == NULL)
+				break ;
+			printf("declare -x %s\n", trust->arg[j]);
+			j++;
 		}
 	}
+}
+
+void	get_export(t_cmd *cmd, t_trust *trust)
+{
+	t_env	*aux;
+	int		j;
+
+	aux = cmd->shell->env;
+	if (!cmd->arr_cmd[1])
+		print_export(cmd, trust);
 	else if (cmd->arr_cmd[1] && check_specials(cmd->arr_cmd[1], '=') == 1)
 		aux_export(cmd, aux);
 	else if (cmd->arr_cmd[1] && check_specials(cmd->arr_cmd[1], '=') == 0)
-	{
 		trust->arg = aux_trust(cmd->arr_cmd[1], trust->arg);
-	}
 }
