@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:40:02 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/02 17:19:08 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/02 17:27:54 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,16 +115,19 @@ void	free_cmds(t_cmd **cmds)
 		if (buffer->path)
 			free(buffer->path);
 		if (buffer->redirs)
+		{
 			free_redirs(buffer->redirs);
-		if (buffer->std_in != 0)
+			buffer->redirs = NULL;
+		}
+		if (buffer->std_in > 0)
 			close(buffer->std_in);
-		if (buffer->std_out != 1)
+		if (buffer->std_out > 1)
 			close(buffer->std_out);
-		if (buffer->std_error != 2)
+		if (buffer->std_error > 2)
 			close(buffer->std_error);
-		if (buffer->fd_in)
+		if (buffer->fd_in > 0)
 			close(buffer->fd_in);
-		if (buffer->fd_out)
+		if (buffer->fd_out > 0)
 			close(buffer->fd_out);
 		free(buffer);
 		buffer = aux;
@@ -143,7 +146,10 @@ void	free_redirs(t_redir *redir)
 	if (!buffer->next)
 	{
 		if (buffer->file_name)
+		{
 			free(buffer->file_name);
+			buffer->file_name = NULL;
+		}
 		if (buffer->fd > 2)
 			close(buffer->fd);
 		free(buffer);
@@ -153,7 +159,10 @@ void	free_redirs(t_redir *redir)
 	{
 		aux = buffer->next;
 		if (buffer->file_name)
+		{
 			free(buffer->file_name);
+			buffer->file_name = NULL;
+		}
 		if (buffer->fd > 2)
 			close(buffer->fd);
 		free(buffer);
