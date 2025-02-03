@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 14:53:31 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/01 15:35:32 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/02 18:20:35 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static void	run_heredoc(int fd, char *delimiter, t_shell *shell)
 		}
 		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1))
 		{
+			printf("exiting heredoc \n");
 			free(line);
 			close(fd);
 			exit(0);
@@ -73,6 +74,7 @@ static void	child_heredoc(int *pipe_fd, char *delimiter, t_shell *shell)
 {
 	set_heredoc_signals();
 	close(pipe_fd[0]);
+	printf("running heredooc\n");
 	run_heredoc(pipe_fd[1], delimiter, shell);
 }
 
@@ -82,7 +84,6 @@ static int	parent_heredoc(t_cmd *cmd, t_shell *shell, int *pipe_fd)
 
 	signal(SIGINT, SIG_IGN);
 	close(pipe_fd[1]);
-
 	waitpid(-1, &status, 0);
 	if (WIFSIGNALED(status) || WEXITSTATUS(status) == 130)
 	{
@@ -91,7 +92,6 @@ static int	parent_heredoc(t_cmd *cmd, t_shell *shell, int *pipe_fd)
 		g_signal_received = 130;
 		return (-1);
 	}
-
 	if (cmd->std_in != 0)
 		close(cmd->std_in);
 	cmd->std_in = pipe_fd[0];
@@ -106,7 +106,6 @@ int heredoc(t_cmd *cmd, t_shell *shell, char *delimiter)
 
 	if (pipe(pipe_fd) == -1)
 		return (-1);
-
 	g_signal_received = 0;
 	pid = fork();
 	if (pid == -1)
@@ -115,7 +114,6 @@ int heredoc(t_cmd *cmd, t_shell *shell, char *delimiter)
 		close(pipe_fd[1]);
 		return (-1);
 	}
-
 	if (pid == 0)
 		child_heredoc(pipe_fd, delimiter, shell);
 

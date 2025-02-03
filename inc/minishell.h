@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/01 19:52:42 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/02 18:42:58 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,10 @@
 //# define DOLLAR		9 //  = $
 /*	STRUCTS		*/
 /*	struct with tokens	*/
+
+
+
+
 
 extern volatile sig_atomic_t	g_signal_received;
 

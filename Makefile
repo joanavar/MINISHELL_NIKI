@@ -14,7 +14,7 @@ LIBFT_A     =       $(LIBFT)/libft.a
 ###############################################################################
 
 CC          =       cc
-CCFLAGS     =       -g -fsanitize=address -I/usr/local/Cellar/readline/8.2.13/include #-Wall -Wextra -Werror -fsanitize=address
+CCFLAGS     =       -g  -I/usr/local/Cellar/readline/8.2.13/include #-fsanitize=address -Wall -Wextra -Werror -fsanitize=address
 READLINE    =       -L/usr/local/Cellar/readline/8.2.13/lib -lreadline
 
 ###############################################################################

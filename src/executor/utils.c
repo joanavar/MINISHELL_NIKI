@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:06:40 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/01 18:57:40 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/02 19:13:08 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,13 @@
 
 t_cmd	*cmds_shell_exec(t_cmd *cmds, t_shell *shell)
 {
-	t_token	*tmp;
+	t_cmd	*tmp;
 
-	tmp = shell->eco_token;
-	cmds = token_to_cmd(tmp, shell);
+	tmp = cmds;
 	if (!cmds)
 		return (NULL);
-	cmds->shell = shell;
-	if (!cmds->shell)
+	tmp->shell = shell;
+	if (!tmp->shell)
 		return (NULL);
 	return (cmds);
 }
@@ -35,8 +34,8 @@ t_token	*expansor_res(t_token *tmp)
 	if (tmp->type == 5)
 	{
 		tmp = is_heredoc(tmp);
-		if (!(tmp->next))
-			return (NULL);
+		//if (!(tmp->next))
+		//	return (NULL);
 	}
 	return (tmp);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 17:11:34 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/02 17:45:12 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/02 19:11:37 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,13 @@ int	add_rest_redir(t_token *token, t_cmd *cmd, t_shell *shell)
 	}
 	tmp_redir->next->fd = -1;
 	tmp_redir->next->next = NULL;
-	if (check_reddir(cmd, shell) < 0)
+	/*if (check_reddir(cmd, shell) < 0)
 	{
 		free(tmp_redir->next->file_name);
 		free(tmp_redir->next);
 		tmp_redir->next = NULL;
 		return (0);
-	}
+	}*/
 	return (1);
 }
 
