@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 20:48:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/01 16:00:11 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/03 19:33:30 by joannavarro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,33 +30,31 @@ static t_cmd	*initial_cmd(t_cmd *cmd)
 
 int	executor(t_shell *shell, t_trust *trust)
 {
-	t_cmd	*cmds;
 	int		i;
 
-	cmds = NULL;
 	i = 0;
-	cmds = cmds_shell_exec(cmds, shell);
-	if (!cmds || check_pipe(&cmds) == -1)
+	shell->cmds = cmds_shell_exec(shell->cmds, shell);
+	if (!shell->cmds || check_pipe(&shell->cmds) == -1)
 	{
-		if (cmds)
-			free_cmds(&cmds);
+		if (shell->cmds)
+			free_cmds(&shell->cmds);
 		return (-1);
 	}
-	cmds->path = get_path(cmds, shell->env);
-	if (!cmds->path)
+	shell->cmds->path = get_path(shell->cmds, shell->env);
+	if (!shell->cmds->path)
 	{
-		free_cmds(&cmds);
+		free_cmds(&shell->cmds);
 		return (-1);
 	}
-	cmds = initial_cmd(cmds);
-	if (cmds->path && cmds->builtins == 1 && cmds->next == NULL)
-		i = built_ins(cmds, 0, trust);
+	shell->cmds = initial_cmd(shell->cmds);
+	if (shell->cmds->path && shell->cmds->builtins == 1 && shell->cmds->next == NULL)
+		i = built_ins(shell->cmds, 0, trust);
 	else
 	{
-		exec_duo(cmds, shell, trust);
+		exec_duo(shell->cmds, shell, trust);
 		i = shell->exit_status;
 	}
-	if (cmds)
-		free_cmds(&cmds);
+	if (shell->cmds)
+		free_cmds(&shell->cmds);
 	return (i);
 }
