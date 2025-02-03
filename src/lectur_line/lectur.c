@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 18:54:07 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/30 13:24:00 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/02/01 19:26:47 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,29 @@
 #include <readline/history.h>
 #include <readline/readline.h>
 
-//#include "paquito.h"
-
 static void	is_caracter_token(char c, t_token **stack)
 {
 	char	*token;
 
-	token = malloc(sizeof(char *) * 2);
+	token = malloc(sizeof(char) * 2);
 	if (!token)
 		return ;
 	token[0] = c;
 	token[1] = '\0';
-	get_token(token, stack);
+	if (!get_token(token, stack))
+	{
+		free(token);
+		return ;
+	}
 }
 
 static void	is_redireccion(char *str, int i, t_token **stack)
 {
 	char	*token;
 
-	token = malloc(sizeof(char *) * 3);
+	token = malloc(sizeof(char) * 3);
+	if (!token)
+		return ;
 	if (str[i] == '<' && str[i + 1] == '<')
 	{
 		token[0] = '<';
@@ -44,11 +48,17 @@ static void	is_redireccion(char *str, int i, t_token **stack)
 		token[1] = '>';
 	}
 	token[2] = '\0';
-	get_token(token, stack);
+	if (!get_token(token, stack))
+	{
+		free(token);
+		return ;
+	}
 }
 
 static void	lectur_line(char *str, t_token **stack, int i)
 {
+	if (!str)
+		return ;
 	while (str[i])
 	{
 		if (str[i] == ' ')
@@ -72,7 +82,7 @@ static void	lectur_line(char *str, t_token **stack, int i)
 	}
 }
 
-t_token	*lectur_imput(char *str, t_env *env)
+t_token	*lectur_imput(char *str, t_env *env, t_shell *shell)
 {
 	int		i;
 	t_token	*stack;
@@ -84,7 +94,7 @@ t_token	*lectur_imput(char *str, t_env *env)
 	lectur_line(str, &stack, i);
 	if (syntax_error(&stack))
 		return (NULL);
-	expandir(&stack, env);
+	expandir(&stack, env, shell);
 	remove_quotes(stack);
 	return (stack);
 }

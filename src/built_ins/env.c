@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 17:41:18 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 15:44:41 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/01 19:54:38 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ static void	ft_free(t_env *aux)
 	free(aux);
 }
 
-void	print_env(t_shell *shell)
+void	print_env(t_shell *shell, t_cmd *cmd)
 {
 	t_env	*aux;
 
-	if (shell->eco_token->next != NULL)
+	if (cmd->arr_cmd[1])
 	{
 		printf(RED "env: ’%s’ No such file or directory\n" GBD,
-			shell->eco_token->content);
+			cmd->arr_cmd[1]);
 		return ;
 	}
 	aux = shell->env;

@@ -3,76 +3,121 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 14:53:31 by joanavar          #+#    #+#             */
-/*   Updated: 2025/01/31 15:39:15 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/02 18:20:35 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static void	go_heredoc(t_cmd *cmd, int fd_doc)
+static char	*line_exp(char *line, t_env *env, t_shell *shell)
+{
+	t_token	*tmp;
+	char	*str;
+
+	tmp = malloc(sizeof(t_token));
+	if (!tmp)
+		return (NULL);
+	tmp->content = ft_strdup(line);
+	if (!tmp->content)
+	{
+		free(tmp);
+		return (NULL);
+	}
+	tmp->type = 1;
+	tmp->next = NULL;
+	tmp->prev = NULL;
+	expander(tmp, 0, env, shell);
+	str = ft_strdup(tmp->content);
+	if (!str)
+	{
+		free(tmp->content);
+		free(tmp);
+		return (NULL);
+	}
+	free(tmp->content);
+	free(tmp);
+	return (str);
+}
+
+static void	run_heredoc(int fd, char *delimiter, t_shell *shell)
 {
 	char	*line;
+	char	*expanded;
 
 	while (1)
 	{
 		line = readline("> ");
-		if (!line)
-			break ;
-		if (ft_strcmp(line, cmd->redirs->file_name))
-			break ;
-		ft_putstr_fd(line, fd_doc);
-		ft_putstr_fd("\n", fd_doc);
-	}
-	if (line != 0)
+		if (!line || g_signal_received == 130)
+		{
+			if (line)
+				free(line);
+			close(fd);
+			exit(130);
+		}
+		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1))
+		{
+			printf("exiting heredoc \n");
+			free(line);
+			close(fd);
+			exit(0);
+		}
+		ft_putstr_fd(line, fd);
+		ft_putstr_fd("\n", fd);
 		free(line);
+	}
 }
 
-static void	child_heredoc(t_cmd *cmd, int *heredoc)
+static void	child_heredoc(int *pipe_fd, char *delimiter, t_shell *shell)
 {
-	signal(SIGINT, handle_sigint_heredoc);
-	close(heredoc[0]);
-	go_heredoc(cmd, heredoc[1]);
-	close(heredoc[1]);
-	exit(0);
+	set_heredoc_signals();
+	close(pipe_fd[0]);
+	printf("running heredooc\n");
+	run_heredoc(pipe_fd[1], delimiter, shell);
 }
 
-static int	parent_heredoc(t_cmd *cmd, int *heredoc)
+static int	parent_heredoc(t_cmd *cmd, t_shell *shell, int *pipe_fd)
 {
-	int	exit_status;
+	int	status;
 
 	signal(SIGINT, SIG_IGN);
-	wait(&exit_status);
-	close(heredoc[1]);
-	if (WIFEXITED(exit_status))
+	close(pipe_fd[1]);
+	waitpid(-1, &status, 0);
+	if (WIFSIGNALED(status) || WEXITSTATUS(status) == 130)
 	{
-		exit_status = WEXITSTATUS(exit_status);
-		if (exit_status == 1)
-			return (-3);
-		else
-			cmd->std_in = dup(heredoc[0]);
-		close(heredoc[0]);
+		close(pipe_fd[0]);
+		shell->exit_status = 130;
+		g_signal_received = 130;
+		return (-1);
 	}
-	//signals_init();
-	check_signal(g_signal_received);
+	if (cmd->std_in != 0)
+		close(cmd->std_in);
+	cmd->std_in = pipe_fd[0];
 	return (0);
 }
 
-int	heredoc(t_cmd *cmd)
+int heredoc(t_cmd *cmd, t_shell *shell, char *delimiter)
 {
+	int	pipe_fd[2];
 	int	pid;
-	int	heredoc[2];
-	int	i;
+	int	result;
 
-	i = pipe(heredoc);
-	if (i == -1)
-		exit(1);
+	if (pipe(pipe_fd) == -1)
+		return (-1);
+	g_signal_received = 0;
 	pid = fork();
+	if (pid == -1)
+	{
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
+		return (-1);
+	}
 	if (pid == 0)
-		child_heredoc(cmd, heredoc);
-	else
-		return (parent_heredoc(cmd, heredoc));
-	return (0);
+		child_heredoc(pipe_fd, delimiter, shell);
+
+	result = parent_heredoc(cmd, shell, pipe_fd);
+	reset_signals();
+	return (result);
 }

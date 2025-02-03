@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 20:25:58 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/28 15:36:01 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/02/01 18:36:12 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,18 @@ static char	**lst_to_chr(t_env **env)
 
 	a_env = *env;
 	i = count_env(a_env);
-	aux = malloc(sizeof(char **) * (i + 1));
+	aux = malloc(sizeof(char *) * (i + 1));
 	if (!aux)
 		return (NULL);
 	i = 0;
 	while (a_env)
 	{
 		prom = ft_strjoin(a_env->value, "=");
+		if (!prom)
+			return (free_matrix(aux), NULL);
 		aux[i] = ft_strjoin(prom, a_env->content);
+		if (!aux[i])
+			return (free_matrix(aux), free(prom), NULL);
 		i++;
 		a_env = a_env->next;
 		free(prom);
@@ -67,7 +71,9 @@ void	mini_exec(t_cmd *cmd, t_shell *shell)
 	{
 		ft_putstr_fd("Minishell: Command not found: ", 2);
 		ft_putendl_fd(cmd->arr_cmd[0], 2);
-		return ;
+		free_matrix(env_arr);
+		clean_data(shell);
+		exit(127);
 	}
 	exit(2);
 }

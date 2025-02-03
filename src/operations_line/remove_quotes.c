@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   remove_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:34:47 by joanavar          #+#    #+#             */
-/*   Updated: 2024/12/23 19:14:08 by joannavarro      ###   ########.fr       */
+/*   Updated: 2025/02/01 18:03:03 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-//#include "paquito.h"
 
 int	string_type(t_token *token)
 {
@@ -45,11 +43,20 @@ static void	quotes_correct(t_token *token)
 	char	tmp;
 	int		j;
 
+	if (!token || !token->content)
+		return;
 	i = count_quotes(token);
-	str = malloc(sizeof(char *) * (i + 1));
+	str = malloc(sizeof(char) * (i + 1));
+	if (!str)
+		return;
 	i = 0;
 	j = 0;
 	delete_quotes(token, str, i, j);
+	if (!str[0] && token->content[0])
+	{
+		free(str);
+		return;
+	}
 	free(token->content);
 	token->content = str;
 }
@@ -57,34 +64,26 @@ static void	quotes_correct(t_token *token)
 void	remove_quotes(t_token *stack)
 {
 	t_token *tmp;
-	int i;
+	t_token *next_token;
 
-	stack = space_zero(stack);
-	i = 0;
-	while (stack)
+	if (!stack)
+		return;
+	tmp = stack;
+	while (tmp)
 	{
-		if (!stack->next)
-			break ;
-		if (i == 0 && (stack->type == 2 || stack->type == 3))
-		{
-			quotes_correct(stack);
-			printf("%s\n", stack->content);
-		}
+		next_token = tmp->next;
 
-		if (string_type(stack) && string_type(stack->next))
+		if (string_type(tmp))
 		{
-			quotes_correct(stack->next);
-			printf("antes : %s\n", stack->content);
-			union_string(stack);
-			printf("despues : %s\n", stack->content);
+			quotes_correct(tmp);
+			
+			if (next_token && string_type(next_token))
+			{
+				union_string(tmp);
+				quotes_correct(tmp);
+				continue;
+			}
 		}
-		else if (string_type(stack))
-		{
-			quotes_correct(stack);
-			stack = stack->next;
-		}
-		else
-			stack = stack->next;
-		i++;
+		tmp = tmp->next;
 	}
 }

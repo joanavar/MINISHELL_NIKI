@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:19 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/28 15:21:44 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/02/01 14:53:52 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,40 @@ void	check_signal(int signal_received)
 void	handle_sigint_heredoc(int sig)
 {
 	(void)sig;
+	g_signal_received = 130;
 	write(1, "\n", 1);
-	exit(1);
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
+void	set_heredoc_signals(void)
+{
+	struct sigaction	sa_int;
+	struct sigaction	sa_quit;
 
+	g_signal_received = 0;
+	sa_int.sa_handler = handle_sigint_heredoc;
+	sigemptyset(&sa_int.sa_mask);
+	sa_int.sa_flags = 0;
+	sigaction(SIGINT, &sa_int, NULL);
+	sa_quit.sa_handler = SIG_IGN;
+	sigemptyset(&sa_quit.sa_mask);
+	sa_quit.sa_flags = 0;
+	sigaction(SIGQUIT, &sa_quit, NULL);
+}
+
+void	reset_signals(void)
+{
+	struct sigaction	sa_int;
+	struct sigaction	sa_quit;
+
+	sa_int.sa_handler = handle_sigint;
+	sigemptyset(&sa_int.sa_mask);
+	sa_int.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa_int, NULL);
+	sa_quit.sa_handler = SIG_IGN;
+	sigemptyset(&sa_quit.sa_mask);
+	sa_quit.sa_flags = SA_RESTART;
+	sigaction(SIGQUIT, &sa_quit, NULL);
+}
 

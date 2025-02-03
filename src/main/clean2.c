@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   clean2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:40:02 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/28 15:30:58 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/02/01 16:41:42 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	free_redirs(t_redir *redir)
+/*void	free_redirs(t_redir *redir)
 {
 	t_redir	*aux;
 	t_redir	*buffer;
@@ -26,7 +26,7 @@ void	free_redirs(t_redir *redir)
 		buffer = aux;
 	}
 	redir = NULL;
-}
+}*/
 
 void	free_shell(t_shell *shell)
 {
