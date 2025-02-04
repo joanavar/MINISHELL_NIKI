@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 18:42:41 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/01 17:46:04 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/04 15:07:20 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,8 @@ static int	is_quotes(char *str, int i, t_token **stack, char quote)
 		token[j++] = str[i++];
 	token[j++] = quote;
 	token[j] = '\0';
-	if (!get_token(token, stack))
-	{
-		free(token);
+	if (!res_string(token, stack, quote))
 		return (0);
-	}
-	(*stack)->type = (quote == '"') ? 3 : 2;
 	return (++i);
 }
 

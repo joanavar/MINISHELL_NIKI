@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:06:40 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/02 19:13:08 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:48:46 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,7 @@ t_token	*expansor_res(t_token *tmp)
 	if (!tmp)
 		return (NULL);
 	if (tmp->type == 5)
-	{
 		tmp = is_heredoc(tmp);
-		//if (!(tmp->next))
-		//	return (NULL);
-	}
 	return (tmp);
 }
 
@@ -63,37 +59,15 @@ void	expand_exit_status(t_token *token, int i, t_shell *shell)
 
 void	travel_expansor(t_token *tmp, t_env *env, t_shell *shell)
 {
-	int	i;
-
 	while (tmp)
 	{
-		i = 0;
 		tmp = expansor_res(tmp);
 		if (!tmp)
 			return ;
 		if ((tmp->type == 1 || tmp->type == 3))
 		{
-			while (tmp->content[i])
-			{
-				if (!tmp->content[i + 1] && tmp->content[i] == '$')
-					return ;
-				else if (tmp->content[i] == '$'
-					&& tmp->content[i + 1] == '?')
-				{
-					expand_exit_status(tmp, i, shell);
-					continue;
-				}
-				else if (tmp->content[i] == '$')
-				{
-					expander(tmp, i, env, shell);
-					if (!tmp->content[i++])
-						break ;
-					continue;
-				}
-				i++;
-				if (!tmp->content)
-					break ;
-			}
+			if (!res_travel(tmp, env, shell))
+				return ;	
 		}
 		tmp = tmp->next;
 	}

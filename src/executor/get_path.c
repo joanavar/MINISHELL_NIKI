@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 14:08:16 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/01 16:04:06 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/04 14:46:21 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,28 +63,27 @@ static char	*search_path(t_cmd *cmd, t_env *env)
 	{
 		path_aux = ft_strjoin(path[i], "/");
 		if (!path_aux)
-		{
-			free_matrix(path);
-			return (NULL);
-		}
+			return (free_matrix(path), NULL);
 		exec = ft_strjoin(path_aux, cmd->arr_cmd[0]);
 		free(path_aux);
 		if (!exec)
-		{
-			free_matrix(path);
-			return (NULL);
-		}
+			return (free_matrix(path), NULL);
 		if (access(exec, F_OK) == 0 && access(exec, X_OK) == 0)
-		{
-			free_matrix(path);
-			return (exec);
-		}
+			return (free_matrix(path), exec);
 		free(exec);
 	}
 	free_matrix(path);
 	return (ft_strdup(cmd->arr_cmd[0]));
 }
-
+static void	res_get_path(t_cmd *cmd, char *path)
+{
+	if (!path)
+	{
+		if (cmd->path)
+			free(cmd->path);
+		return (error_message("Command not found", NO_CLOSE));
+	}
+}
 char	*get_path(t_cmd *cmd, t_env *env)
 {
 	t_cmd	*aux;
@@ -106,12 +105,6 @@ char	*get_path(t_cmd *cmd, t_env *env)
 		return (path);
 	}
 	path = search_path(cmd, env);
-	if (!path)
-	{
-		if (cmd->path)
-			free(cmd->path);
-		error_message("Command not found", NO_CLOSE);
-		return (NULL);
-	}
+	res_get_path(cmd, path);
 	return (path);
 }

@@ -6,7 +6,7 @@
 /*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 20:48:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/03 19:33:30 by joannavarro      ###   ########.fr       */
+/*   Updated: 2025/02/04 14:45:33 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static t_cmd	*initial_cmd(t_cmd *cmd)
 
 int	executor(t_shell *shell, t_trust *trust)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	shell->cmds = cmds_shell_exec(shell->cmds, shell);
@@ -47,14 +47,6 @@ int	executor(t_shell *shell, t_trust *trust)
 		return (-1);
 	}
 	shell->cmds = initial_cmd(shell->cmds);
-	if (shell->cmds->path && shell->cmds->builtins == 1 && shell->cmds->next == NULL)
-		i = built_ins(shell->cmds, 0, trust);
-	else
-	{
-		exec_duo(shell->cmds, shell, trust);
-		i = shell->exit_status;
-	}
-	if (shell->cmds)
-		free_cmds(&shell->cmds);
+	i = res_exec(shell, trust, i);
 	return (i);
 }

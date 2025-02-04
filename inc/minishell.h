@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/02 18:42:58 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:44:14 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,6 @@
 //# define DOLLAR		9 //  = $
 /*	STRUCTS		*/
 /*	struct with tokens	*/
-
-
-
-
 
 extern volatile sig_atomic_t	g_signal_received;
 
@@ -157,7 +153,8 @@ void							clean_data(t_shell *shell);
 int								start_shell(t_shell *shell, t_trust *trust);
 
 /*** LECTUR ***/
-t_token							*lectur_imput(char *str, t_env *env, t_shell *shell);
+t_token							*lectur_imput(char *str, t_env *env,
+									t_shell *shell);
 
 /****ERORR FOUND***/
 void							error_message(char *str, t_opcode OPCODE);
@@ -184,6 +181,8 @@ void							get_pwd(void);
 void							get_cd(t_cmd *cmd);
 void							print_env(t_shell *shell, t_cmd *cmd);
 int								built_ins(t_cmd *cmd, int type, t_trust *trust);
+void							res_pwd(char *cwd, t_env *env, char *old_pwd, t_shell *shell);
+
 
 /***Exit***/
 int								mini_exit(t_cmd *cmd);
@@ -193,24 +192,39 @@ t_env							*lstnew(char *content);
 t_env							*get_env(char **env);
 
 /*** EXECUTOR ***/
-void							exec_duo(t_cmd *cmd, t_shell *shell, t_trust *trust);
+void							exec_duo(t_cmd *cmd, t_shell *shell,
+									t_trust *trust);
 char							*get_path(t_cmd *cmd, t_env *env);
-void							exec_child(t_cmd *cmd, int id, t_shell *shell, t_trust *trust);
+void							exec_child(t_cmd *cmd, int id, t_shell *shell,
+									t_trust *trust);
 void							mini_exec(t_cmd *cmd, t_shell *shell);
-int								add_redir(t_token *token, t_cmd *cmd, t_shell *shell);
-int								add_first_redir(t_token *token, t_cmd *cmd, t_shell *shell);
-int								add_rest_redir(t_token *token, t_cmd *cmd, t_shell *shell);
+int								add_redir(t_token *token, t_cmd *cmd,
+									t_shell *shell);
+int								add_first_redir(t_token *token, t_cmd *cmd,
+									t_shell *shell);
+int								add_rest_redir(t_token *token, t_cmd *cmd,
+									t_shell *shell);
 t_env							*choose_env(t_shell *shell);
 t_cmd							*cmds_shell_exec(t_cmd *cmd, t_shell *shell);
 t_token							*space_zero(t_token *token);
 t_cmd							*token_to_cmd(t_token *tokens, t_shell *shell);
+int 							res_exec(t_shell *shell, t_trust *trust, int i);
+void    						res_pipe(t_cmd *aux, t_shell *shell);
+int 							res_string(char *token, t_token **stack, char quote);
+void    						loop_main(t_shell *shell, t_trust *trust);
+int 							res_travel(t_token *tmp, t_env *env, t_shell *shell);
+void							expand_exit_status(t_token *token, int i, t_shell *shell);
+
+
+
+
 
 /*** PIPES ***/
 int								check_pipe(t_cmd **last);
 void							ft_dups(t_cmd *cmd);
 
 /*** REDIRECTS ***/
-int							check_reddir(t_cmd *cmd, t_shell *shell);
+int								check_reddir(t_cmd *cmd, t_shell *shell);
 
 /*** TOKENS */
 int								get_token(char *str, t_token **stack);
@@ -236,11 +250,12 @@ int								count_quotes_utils(t_token *token, int i,
 void							print_line(t_token *tmp);
 int								arr_size(char **array);
 int								is_spaces(t_cmd *cmd);
-t_trust 						*create_new_trust(void);
+t_trust							*create_new_trust(void);
 
 /*** HEREDOC */
 
-int	heredoc(t_cmd *cmd, t_shell *shell, char *delimiter);
+int								heredoc(t_cmd *cmd, t_shell *shell,
+									char *delimiter);
 
 /*** SINTAX ERROR */
 int								syntax_error(t_token **stack);
@@ -249,11 +264,14 @@ int								opcion_syntax(t_token *tmp);
 int								syntax_pipe_or_redi(t_token *token);
 
 /*** EXPANSOR */
-void							expandir(t_token **stack, t_env *env, t_shell *shell);
+void							expandir(t_token **stack, t_env *env,
+									t_shell *shell);
 int								executor(t_shell *shell, t_trust *trust);
 t_token							*is_heredoc(t_token *token);
 t_token							*expansor_res(t_token *tmp);
-void							travel_expansor(t_token *token, t_env *env, t_shell *shell);
-void							expander(t_token *token, int i, t_env *env, t_shell *shell);
+void							travel_expansor(t_token *token, t_env *env,
+									t_shell *shell);
+void							expander(t_token *token, int i, t_env *env,
+									t_shell *shell);
 
 #endif

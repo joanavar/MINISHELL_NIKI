@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 16:17:53 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/02 19:01:49 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/04 15:10:46 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	redir_r_two(t_cmd *cmd, t_redir *redir)
 	aux->std_out = fd;
 }
 
-int check_reddir(t_cmd *cmd, t_shell *shell)
+int	check_reddir(t_cmd *cmd, t_shell *shell)
 {
 	t_cmd	*aux;
 	int		result;

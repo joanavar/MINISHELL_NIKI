@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 14:53:31 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/02 18:20:35 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/04 15:10:05 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static int	parent_heredoc(t_cmd *cmd, t_shell *shell, int *pipe_fd)
 	return (0);
 }
 
-int heredoc(t_cmd *cmd, t_shell *shell, char *delimiter)
+int	heredoc(t_cmd *cmd, t_shell *shell, char *delimiter)
 {
 	int	pipe_fd[2];
 	int	pid;
@@ -116,7 +116,6 @@ int heredoc(t_cmd *cmd, t_shell *shell, char *delimiter)
 	}
 	if (pid == 0)
 		child_heredoc(pipe_fd, delimiter, shell);
-
 	result = parent_heredoc(cmd, shell, pipe_fd);
 	reset_signals();
 	return (result);
