@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   res_fun2.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joanavar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/04 21:00:40 by joanavar          #+#    #+#             */
+/*   Updated: 2025/02/04 22:03:26 by joanavar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
-int res_travel(t_token *tmp, t_env *env, t_shell *shell)
+int	res_travel(t_token *tmp, t_env *env, t_shell *shell)
 {
-    int i;
+	int	i;
 
-    i = 0;
+	i = 0;
 	while (tmp->content[i])
 	{
 		if (!tmp->content[i + 1] && tmp->content[i] == '$')
@@ -14,9 +26,19 @@ int res_travel(t_token *tmp, t_env *env, t_shell *shell)
 			expand_exit_status(tmp, i, shell);
 			continue ;
 		}
-		else if (tmp->content[i] == '$')
+		else if (tmp->content[0] == '$' && tmp->type == 1 || i > 3
+			&& tmp->content[i - 1] == '\'' && tmp->content[i - 2] == '\"'
+			&& tmp->content[i] == '$' || i > 1 && tmp->content[i - 1] == '\"'
+			&& tmp->content[i] == '$')
 		{
-		    expander(tmp, i, env, shell);
+			expander(tmp, i, env, shell);
+			if (!tmp->content[i++])
+				break ;
+			continue ;
+		}
+		else if (tmp->type == 3 && tmp->content[i] == '$')
+		{
+			expander(tmp, i, env, shell);
 			if (!tmp->content[i++])
 				break ;
 			continue ;
@@ -25,10 +47,10 @@ int res_travel(t_token *tmp, t_env *env, t_shell *shell)
 		if (!tmp->content)
 			break ;
 	}
-    return (1);
+	return (1);
 }
 
-t_cmd   *res_buffer(t_cmd *buffer, t_cmd *aux, int i)
+t_cmd	*res_buffer(t_cmd *buffer, t_cmd *aux, int i)
 {
 	aux = buffer->next;
 	if (buffer->arr_cmd)
@@ -54,7 +76,7 @@ t_cmd   *res_buffer(t_cmd *buffer, t_cmd *aux, int i)
 		close(buffer->fd_out);
 	free(buffer);
 	buffer = aux;
-    return (buffer);
+	return (buffer);
 }
 
 void	free_redirs(t_redir *redir)
@@ -85,17 +107,18 @@ void	free_redirs(t_redir *redir)
 		buffer = aux;
 	}
 }
-void    res_token(t_token *token, char *tmp, int *i, int *count)
+
+void	res_token(t_token *token, char *tmp, int *i, int *count)
 {
-    while (token->content[*i])
+	while (token->content[*i])
+	{
+		if (token->content[*i] == *tmp)
 		{
-			if (token->content[*i] == *tmp)
-			{
-				(*i)++;
-				(*tmp) = 0;
-				break ;
-			}
 			(*i)++;
-			(*count)++;
+			(*tmp) = 0;
+			break ;
 		}
+		(*i)++;
+		(*count)++;
+	}
 }

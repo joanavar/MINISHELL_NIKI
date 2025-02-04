@@ -6,7 +6,7 @@
 /*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:34:47 by joanavar          #+#    #+#             */
-/*   Updated: 2024/12/23 19:14:08 by joannavarro      ###   ########.fr       */
+/*   Updated: 2025/02/04 21:02:22 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,45 +54,50 @@ static void	quotes_correct(t_token *token)
 	delete_quotes(token, str, i, j);
 	free(token->content);
 	token->content = str;
-	//printf("%s\n", token->content);
 }
 
 void	remove_quotes(t_token *stack)
 {
-	t_token *current;
+	t_token	*current;
 	int		i;
-	t_token *tmp;
+	t_token	*tmp;
 
 	i = 0;
 	if (!stack)
-		return;
+		return ;
 	current = space_zero(stack);
-	//printf("%s de\n", current->content);
 	while (current)
 	{
 		if (i == 0)
 			quotes_correct(current);
-		if (!string_type(current) && string_type(current->next) && !current->next->next)
+		if (!string_type(current) && string_type(current->next)
+			&& !current->next->next)
 		{
+			printf("hola\n");
 			quotes_correct(current->next);
-			break;
+			break ;
 		}
 		if (string_type(current) && string_type(current->next))
 		{
+			printf("antes :%s\n", current->content);
 			quotes_correct(current->next);
 			union_string(current);
+			printf("despueees :%s\n", current->content);
 		}
-		else if (string_type(current))
+		else if (!string_type(current) && string_type(current->next))
 		{
-			if (!current->next)
-				break ;
-			quotes_correct(current);
+			printf("ENTRO?\n");
+			printf("antes :%s\n", current->content);
+			quotes_correct(current->next);
+			printf("despues :%s\n", current->content);
 			current = current->next;
 		}
 		else
+		{
+			if (!current->next)
+				break ;
 			current = current->next;
+		}
 		i++;
 	}
-	//if (!current->next && string_type(current))
-	//	quotes_correct(current);
 }

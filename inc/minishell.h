@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/04 14:44:14 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/02/04 21:02:36 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,8 +181,8 @@ void							get_pwd(void);
 void							get_cd(t_cmd *cmd);
 void							print_env(t_shell *shell, t_cmd *cmd);
 int								built_ins(t_cmd *cmd, int type, t_trust *trust);
-void							res_pwd(char *cwd, t_env *env, char *old_pwd, t_shell *shell);
-
+void							res_pwd(char *cwd, t_env *env, char *old_pwd,
+									t_shell *shell);
 
 /***Exit***/
 int								mini_exit(t_cmd *cmd);
@@ -208,20 +208,18 @@ t_env							*choose_env(t_shell *shell);
 t_cmd							*cmds_shell_exec(t_cmd *cmd, t_shell *shell);
 t_token							*space_zero(t_token *token);
 t_cmd							*token_to_cmd(t_token *tokens, t_shell *shell);
-int 							res_exec(t_shell *shell, t_trust *trust, int i);
-void    						res_pipe(t_cmd *aux, t_shell *shell);
-int 							res_string(char *token, t_token **stack, char quote);
-void    						loop_main(t_shell *shell, t_trust *trust);
-int 							res_travel(t_token *tmp, t_env *env, t_shell *shell);
-void							expand_exit_status(t_token *token, int i, t_shell *shell);
-t_cmd   						*res_buffer(t_cmd *buffer, t_cmd *aux, int i);
-void    						res_token(t_token *token, char *tmp, int *i, int *count);
-
-
-
-
-
-
+int								res_exec(t_shell *shell, t_trust *trust, int i);
+void							res_pipe(t_cmd *aux, t_shell *shell);
+int								res_string(char *token, t_token **stack,
+									char quote);
+void							loop_main(t_shell *shell, t_trust *trust);
+int								res_travel(t_token *tmp, t_env *env,
+									t_shell *shell);
+void							expand_exit_status(t_token *token, int i,
+									t_shell *shell);
+t_cmd							*res_buffer(t_cmd *buffer, t_cmd *aux, int i);
+void							res_token(t_token *token, char *tmp, int *i,
+									int *count);
 
 /*** PIPES ***/
 int								check_pipe(t_cmd **last);

@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   res_fun.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joanavar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/04 21:00:26 by joanavar          #+#    #+#             */
+/*   Updated: 2025/02/04 21:01:27 by joanavar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
-void    res_pwd(char *cwd, t_env *env, char *old_pwd, t_shell *shell)
+void	res_pwd(char *cwd, t_env *env, char *old_pwd, t_shell *shell)
 {
-    while (env)
+	while (env)
 	{
 		if (!ft_strncmp(env->value, "OLDPWD", 7))
 		{
@@ -12,7 +24,7 @@ void    res_pwd(char *cwd, t_env *env, char *old_pwd, t_shell *shell)
 		}
 		env = env->next;
 	}
-    if (getcwd(cwd, sizeof(cwd)) != NULL)
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
 		env = shell->env;
 		while (env)
@@ -28,7 +40,7 @@ void    res_pwd(char *cwd, t_env *env, char *old_pwd, t_shell *shell)
 	}
 }
 
-int res_exec(t_shell *shell, t_trust *trust, int i)
+int	res_exec(t_shell *shell, t_trust *trust, int i)
 {
 	if (shell->cmds->path && shell->cmds->builtins == 1
 		&& shell->cmds->next == NULL)
@@ -40,11 +52,12 @@ int res_exec(t_shell *shell, t_trust *trust, int i)
 	}
 	if (shell->cmds)
 		free_cmds(&shell->cmds);
-    return (i);
+	return (i);
 }
-void    res_pipe(t_cmd *aux, t_shell *shell)
+
+void	res_pipe(t_cmd *aux, t_shell *shell)
 {
-    if (!aux->path)
+	if (!aux->path)
 	{
 		if (aux->shell->exit_status == 130)
 		{
@@ -60,9 +73,9 @@ void    res_pipe(t_cmd *aux, t_shell *shell)
 	}
 }
 
-int res_string(char *token, t_token **stack, char quote)
+int	res_string(char *token, t_token **stack, char quote)
 {
-    if (!get_token(token, stack))
+	if (!get_token(token, stack))
 	{
 		free(token);
 		return (0);
@@ -71,12 +84,12 @@ int res_string(char *token, t_token **stack, char quote)
 		(*stack)->type = 2;
 	else
 		(*stack)->type = 3;
-    return (1);
+	return (1);
 }
 
-void    loop_main(t_shell *shell, t_trust *trust)
+void	loop_main(t_shell *shell, t_trust *trust)
 {
-    int status;
+	int	status;
 
 	while (1)
 	{

@@ -80,6 +80,8 @@ int	is_string(char *str, int i, t_token **stack)
 	j = 0;
 	if (str[i + 1] == '\"' && str[i] == '\"')
 		return (i + 2);
+	if (str[i + 1] == '\'' && str[i] == '\'')
+		return (i + 2);
 	if (str[i] == '\"' || str[i] == '\'')
 		j = is_quotes(str, i, stack, str[i]);
 	else
