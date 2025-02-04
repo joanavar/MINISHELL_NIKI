@@ -35,7 +35,7 @@ static void	redir_r_one(t_cmd *cmd, t_redir *redir)
 	t_cmd	*aux;
 
 	aux = cmd;
-	fd = open(redir->file_name, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	fd = open(redir->file_name, O_CREAT | O_WRONLY, 0644);
 	if (fd == -1)
 	{
 		error_message("Errors with opens", NO_CLOSE);
@@ -52,7 +52,7 @@ static void	redir_r_two(t_cmd *cmd, t_redir *redir)
 	t_cmd	*aux;
 
 	aux = cmd;
-	fd = open(redir->file_name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	fd = open(redir->file_name, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (fd == -1)
 	{
 		error_message("Errors with opens", NO_CLOSE);
@@ -61,6 +61,16 @@ static void	redir_r_two(t_cmd *cmd, t_redir *redir)
 	if (aux->std_out != 1)
 		close(aux->std_out);
 	aux->std_out = fd;
+}
+
+static void	res_check(t_cmd *aux)
+{
+	if (aux->redirs->type == 8)
+		redir_l_one(aux, aux->redirs);
+	if (aux->redirs->type == 6)
+		redir_r_one(aux, aux->redirs);
+	if (aux->redirs->type == 7)
+		redir_r_two(aux, aux->redirs);
 }
 
 int	check_reddir(t_cmd *cmd, t_shell *shell)
@@ -73,12 +83,7 @@ int	check_reddir(t_cmd *cmd, t_shell *shell)
 	aux = cmd;
 	while (aux->redirs)
 	{
-		if (aux->redirs->type == 8)
-			redir_l_one(aux, aux->redirs);
-		if (aux->redirs->type == 6)
-			redir_r_one(aux, aux->redirs);
-		if (aux->redirs->type == 7)
-			redir_r_two(aux, aux->redirs);
+		res_check(aux);
 		if (aux->redirs->type == 5)
 		{
 			result = heredoc(aux, shell, aux->redirs->file_name);

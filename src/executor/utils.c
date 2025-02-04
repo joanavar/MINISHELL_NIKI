@@ -67,7 +67,7 @@ void	travel_expansor(t_token *tmp, t_env *env, t_shell *shell)
 		if ((tmp->type == 1 || tmp->type == 3))
 		{
 			if (!res_travel(tmp, env, shell))
-				return ;	
+				return ;
 		}
 		tmp = tmp->next;
 	}

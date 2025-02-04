@@ -102,61 +102,8 @@ void	free_cmds(t_cmd **cmds)
 	if (!cmds || !(*cmds))
 		return ;
 	buffer = *cmds;
+	i = 0;
 	while (buffer)
-	{
-		aux = buffer->next;
-		if (buffer->arr_cmd)
-		{
-			i = 0;
-			while (buffer->arr_cmd[i])
-				free(buffer->arr_cmd[i++]);
-			free(buffer->arr_cmd);
-		}
-		if (buffer->path)
-			free(buffer->path);
-		if (buffer->redirs)
-			free_redirs(buffer->redirs);
-		if (buffer->std_in != 0)
-			close(buffer->std_in);
-		if (buffer->std_out != 1)
-			close(buffer->std_out);
-		if (buffer->std_error != 2)
-			close(buffer->std_error);
-		if (buffer->fd_in)
-			close(buffer->fd_in);
-		if (buffer->fd_out)
-			close(buffer->fd_out);
-		free(buffer);
-		buffer = aux;
-	}
+		buffer = res_buffer(buffer, aux, i);
 	*cmds = NULL;
-}
-
-void	free_redirs(t_redir *redir)
-{
-	t_redir	*aux;
-	t_redir	*buffer;
-
-	if (!redir)
-		return ;
-	buffer = redir;
-	if (!buffer->next)
-	{
-		if (buffer->file_name)
-			free(buffer->file_name);
-		if (buffer->fd > 2)
-			close(buffer->fd);
-		free(buffer);
-		return ;
-	}
-	while (buffer)
-	{
-		aux = buffer->next;
-		if (buffer->file_name)
-			free(buffer->file_name);
-		if (buffer->fd > 2)
-			close(buffer->fd);
-		free(buffer);
-		buffer = aux;
-	}
 }

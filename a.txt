@@ -1,162 +1,62 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clean.c                                            :+:      :+:    :+:   */
+/*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/13 18:40:02 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/04 15:07:55 by joanavar         ###   ########.fr       */
+/*   Created: 2024/12/14 20:48:01 by camurill          #+#    #+#             */
+/*   Updated: 2025/02/04 14:45:33 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	clean_data(t_shell *shell)
+static t_cmd	*initial_cmd(t_cmd *cmd)
 {
-	if (shell->prompt)
-	{
-		free(shell->prompt);
-		shell->prompt = NULL;
-	}
-	if (shell->env)
-		free_env(shell->env);
-	if (shell->eco_token)
-		free_token(&(shell->eco_token));
-	if (shell->arg)
-		free_matrix(shell->arg);
-	if (shell->cmds)
-		free_cmds(&(shell->cmds));
-	free(shell);
-}
-
-void	free_matrix(char **matrix)
-{
-	size_t	i;
-
-	i = 0;
-	if (!matrix || !(*matrix))
-		return ;
-	while (matrix[i])
-	{
-		free(matrix[i]);
-		i++;
-	}
-	free(matrix);
-	matrix = NULL;
-}
-
-void	free_env(t_env *lst)
-{
-	t_env	*buffer;
-	t_env	*aux;
-
-	buffer = lst;
-	if (!lst)
-		return ;
-	while (buffer)
-	{
-		aux = buffer->next;
-		if (buffer->content)
-			free(buffer->content);
-		if (buffer->value)
-			free(buffer->value);
-		free(buffer);
-		buffer = aux;
-	}
-}
-
-void	free_token(t_token **lst)
-{
-	t_token	*buffer;
-	t_token	*aux;
-
-	if (!lst || !*lst)
-		return ;
-	buffer = *lst;
-	if (!buffer->next)
-	{
-		if (buffer->content)
-			free(buffer->content);
-		free(buffer);
-		*lst = NULL;
-		return ;
-	}
-	while (buffer)
-	{
-		aux = buffer->next;
-		if (buffer->content)
-			free(buffer->content);
-		free(buffer);
-		buffer = aux;
-	}
-	*lst = NULL;
-}
-
-void	free_cmds(t_cmd **cmds)
-{
-	t_cmd	*buffer;
 	t_cmd	*aux;
 	int		i;
 
-	if (!cmds || !(*cmds))
-		return ;
-	buffer = *cmds;
-	while (buffer)
+	aux = cmd;
+	i = 0;
+	while (cmd)
 	{
-		aux = buffer->next;
-		if (buffer->arr_cmd)
-		{
-			i = 0;
-			while (buffer->arr_cmd[i])
-				free(buffer->arr_cmd[i++]);
-			free(buffer->arr_cmd);
-		}
-		if (buffer->path)
-			free(buffer->path);
-		if (buffer->redirs)
-			free_redirs(buffer->redirs);
-		if (buffer->std_in != 0)
-			close(buffer->std_in);
-		if (buffer->std_out != 1)
-			close(buffer->std_out);
-		if (buffer->std_error != 2)
-			close(buffer->std_error);
-		if (buffer->fd_in)
-			close(buffer->fd_in);
-		if (buffer->fd_out)
-			close(buffer->fd_out);
-		free(buffer);
-		buffer = aux;
+		cmd->id = i;
+		cmd = cmd->next;
+		i++;
 	}
-	*cmds = NULL;
+	return (aux);
 }
 
-void	free_redirs(t_redir *redir)
+int	executor(t_shell *shell, t_trust *trust)
 {
-	t_redir	*aux;
-	t_redir	*buffer;
+	int	i;
 
-	if (!redir)
-		return ;
-	buffer = redir;
-	if (!buffer->next)
+	i = 0;
+	shell->cmds = cmds_shell_exec(shell->cmds, shell);
+	if (!shell->cmds || check_pipe(&shell->cmds) == -1)
 	{
-		if (buffer->file_name)
-			free(buffer->file_name);
-		if (buffer->fd > 2)
-			close(buffer->fd);
-		free(buffer);
-		return ;
+		if (shell->cmds)
+			free_cmds(&shell->cmds);
+		return (-1);
 	}
-	while (buffer)
+	shell->cmds->path = get_path(shell->cmds, shell->env);
+	if (!shell->cmds->path)
 	{
-		aux = buffer->next;
-		if (buffer->file_name)
-			free(buffer->file_name);
-		if (buffer->fd > 2)
-			close(buffer->fd);
-		free(buffer);
-		buffer = aux;
+		free_cmds(&shell->cmds);
+		return (-1);
 	}
+	shell->cmds = initial_cmd(shell->cmds);
+	i = res_exec(shell, trust, i);
+	return (i);
 }
+a.txt
+hey
+inc
+Libreries
+ls
+Makefile
+minishell
+obj
+src
+test

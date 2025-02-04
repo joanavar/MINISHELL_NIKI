@@ -81,10 +81,7 @@ void	expander(t_token *token, int i, t_env *env, t_shell *shell)
 		while (tmp)
 		{
 			if (ft_strcmp(str, tmp->value))
-			{
-				exchange_expanser(token, tmp, j - 1, i);
-				return ;
-			}
+				return (exchange_expanser(token, tmp, j - 1, i));
 			tmp = tmp->next;
 		}
 		free(str);

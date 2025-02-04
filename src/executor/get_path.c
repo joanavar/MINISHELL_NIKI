@@ -75,6 +75,7 @@ static char	*search_path(t_cmd *cmd, t_env *env)
 	free_matrix(path);
 	return (ft_strdup(cmd->arr_cmd[0]));
 }
+
 static void	res_get_path(t_cmd *cmd, char *path)
 {
 	if (!path)
@@ -84,6 +85,7 @@ static void	res_get_path(t_cmd *cmd, char *path)
 		return (error_message("Command not found", NO_CLOSE));
 	}
 }
+
 char	*get_path(t_cmd *cmd, t_env *env)
 {
 	t_cmd	*aux;

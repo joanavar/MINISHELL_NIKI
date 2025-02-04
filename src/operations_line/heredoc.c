@@ -34,8 +34,7 @@ static char	*line_exp(char *line, t_env *env, t_shell *shell)
 	if (!str)
 	{
 		free(tmp->content);
-		free(tmp);
-		return (NULL);
+		return (free(tmp), NULL);
 	}
 	free(tmp->content);
 	free(tmp);

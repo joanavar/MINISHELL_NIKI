@@ -214,6 +214,10 @@ int 							res_string(char *token, t_token **stack, char quote);
 void    						loop_main(t_shell *shell, t_trust *trust);
 int 							res_travel(t_token *tmp, t_env *env, t_shell *shell);
 void							expand_exit_status(t_token *token, int i, t_shell *shell);
+t_cmd   						*res_buffer(t_cmd *buffer, t_cmd *aux, int i);
+void    						res_token(t_token *token, char *tmp, int *i, int *count);
+
+
 
 
 

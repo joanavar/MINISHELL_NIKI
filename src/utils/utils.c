@@ -112,3 +112,38 @@ void	delete_quotes(t_token *token, char *str, int i, int j)
 	}
 	str[j] = '\0';
 }
+
+/*void	remove_quotes(t_token *stack)
+{
+	{
+	t_token *tmp;
+	int i;
+	stack = space_zero(stack);
+	i = 0;
+	while (stack)
+	{
+		if (i == 0 && (stack->type == 2 || stack->type == 3))
+		{
+			quotes_correct(stack);
+			//printf("%s\n", stack->content);
+		}
+		if (!stack->next)
+			return ;
+		tmp = space_zero(stack);
+		if (ft_strncmp(tmp->content, "\"\"", 2) == 0)
+			tmp = space_zero(tmp);
+		if (!tmp)
+			return ;
+		if (string_type(stack) && string_type(tmp))
+		{
+			quotes_correct(tmp);
+			printf("antes : %s\n", stack->content);
+			union_string(stack);
+			printf("despues : %s\n", stack->content);
+		}
+		else
+			stack = stack->next;
+		i++;
+	}
+}
+}*/
