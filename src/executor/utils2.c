@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 18:43:16 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 18:43:56 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/05 13:05:57 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,5 @@ void	waiting(t_shell *shell)
 			shell->exit_status = status;
 		}
 	}
-	check_signal(g_signal_received);
+	check_signal();
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 16:17:46 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/04 15:10:10 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/02/05 13:03:48 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static void	exchange_expanser(t_token *token, t_env *env, int start, int end)
 	int		i;
 	int		j;
 	int		len;
-	int		res;
 
 	i = -1;
 	j = -1;
@@ -67,6 +66,7 @@ void	expander(t_token *token, int i, t_env *env, t_shell *shell)
 	int		j;
 	t_env	*tmp;
 
+	(void)shell;
 	if (token->content[++i] == '$')
 		return ;
 	j = i;

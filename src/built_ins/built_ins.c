@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:50:29 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/01 19:52:57 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/05 14:07:14 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	built_ins(t_cmd *cmd, int type, t_trust *trust)
 	int	ln;
 
 	ln = 0;
-	if (type == 0)
+	if (type == 0 && !cmd->redirs)
 		ln = aux_built_ins(cmd, trust);
 	else
 		ln = pid_builtins(cmd, trust);

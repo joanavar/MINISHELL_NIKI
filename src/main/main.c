@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:49:47 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/04 15:07:48 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/02/05 12:50:50 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,12 @@ int	main(int ac, char **ag, char **env)
 	t_shell	*shell;
 	t_trust	*trust;
 
+	(void)ag;
 	trust = create_new_trust();
 	if (ac > 1)
 		error_message("Enter only one argument", CLOSE);
 	init_shell(&shell, env);
-	check_signal(g_signal_received);
+	check_signal();
 	loop_main(shell, trust);
 	clean_data(shell);
 	free_trust(trust);

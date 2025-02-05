@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   signals2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 21:16:22 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/01 15:13:09 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/05 12:53:02 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static void	suppress_output(void)
+void	suppress_output(void)
 {
 	struct termios	termios_p;
 
@@ -23,7 +23,7 @@ static void	suppress_output(void)
 		perror("Minishell: tcsetattr");
 }
 
-static void	handle_sigquit(int sig)
+void	handle_sigquit(int sig)
 {
 	(void)sig;
 	rl_redisplay();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lectur.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 18:54:07 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/01 19:26:47 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/05 12:55:51 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void	lectur_line(char *str, t_token **stack, int i)
 		else if (str[i] == '>' || str[i] == '<')
 		{
 			if ((str[i] == '<' && str[i + 1] == '<')
-				|| str[i] == '>' && str[i + 1] == '>')
+				|| (str[i] == '>' && str[i + 1] == '>'))
 			{
 				is_redireccion(str, i, stack);
 				i++;

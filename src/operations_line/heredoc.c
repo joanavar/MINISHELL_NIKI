@@ -3,48 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 14:53:31 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/04 15:10:05 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/02/05 13:07:47 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static char	*line_exp(char *line, t_env *env, t_shell *shell)
-{
-	t_token	*tmp;
-	char	*str;
-
-	tmp = malloc(sizeof(t_token));
-	if (!tmp)
-		return (NULL);
-	tmp->content = ft_strdup(line);
-	if (!tmp->content)
-	{
-		free(tmp);
-		return (NULL);
-	}
-	tmp->type = 1;
-	tmp->next = NULL;
-	tmp->prev = NULL;
-	expander(tmp, 0, env, shell);
-	str = ft_strdup(tmp->content);
-	if (!str)
-	{
-		free(tmp->content);
-		return (free(tmp), NULL);
-	}
-	free(tmp->content);
-	free(tmp);
-	return (str);
-}
-
-static void	run_heredoc(int fd, char *delimiter, t_shell *shell)
+static void	run_heredoc(int fd, char *delimiter)
 {
 	char	*line;
-	char	*expanded;
 
 	while (1)
 	{
@@ -69,12 +39,11 @@ static void	run_heredoc(int fd, char *delimiter, t_shell *shell)
 	}
 }
 
-static void	child_heredoc(int *pipe_fd, char *delimiter, t_shell *shell)
+static void	child_heredoc(int *pipe_fd, char *delimiter)
 {
 	set_heredoc_signals();
 	close(pipe_fd[0]);
-	printf("running heredooc\n");
-	run_heredoc(pipe_fd[1], delimiter, shell);
+	run_heredoc(pipe_fd[1], delimiter);
 }
 
 static int	parent_heredoc(t_cmd *cmd, t_shell *shell, int *pipe_fd)
@@ -114,7 +83,7 @@ int	heredoc(t_cmd *cmd, t_shell *shell, char *delimiter)
 		return (-1);
 	}
 	if (pid == 0)
-		child_heredoc(pipe_fd, delimiter, shell);
+		child_heredoc(pipe_fd, delimiter);
 	result = parent_heredoc(cmd, shell, pipe_fd);
 	reset_signals();
 	return (result);
