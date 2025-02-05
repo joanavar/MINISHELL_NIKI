@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dups.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 18:42:27 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/01 19:14:39 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/05 14:01:45 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

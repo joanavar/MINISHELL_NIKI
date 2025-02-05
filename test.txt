@@ -1,0 +1,13 @@
+Libreries
+Makefile
+a.txt
+ds
+hey.txt
+hey.txt+
+inc
+ls
+minishell
+obj
+src
+test
+test.txt

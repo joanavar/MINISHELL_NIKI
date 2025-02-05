@@ -1,10 +1,3 @@
-Libreries
-Makefile
-a.txt
-hey
-inc
-ls
-minishell
-obj
-src
-test
+hola
+[?2004h[34m/home/minishell$ [0m[?2004l
+exit
