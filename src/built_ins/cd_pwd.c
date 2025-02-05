@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 00:08:20 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/01 16:36:42 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/04 14:44:57 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	get_pwd(void)
 		perror("pwd");
 }
 
-static void update_pwd(t_shell *shell)
+static void	update_pwd(t_shell *shell)
 {
 	char	cwd[1024];
 	t_env	*env;
@@ -48,35 +48,12 @@ static void update_pwd(t_shell *shell)
 		if (!ft_strncmp(env->value, "PWD", 4))
 		{
 			old_pwd = ft_strdup(env->content);
-			break;
+			break ;
 		}
 		env = env->next;
 	}
 	env = shell->env;
-	while (env)
-	{
-		if (!ft_strncmp(env->value, "OLDPWD", 7))
-		{
-			free(env->content);
-			env->content = old_pwd;
-			break;
-		}
-		env = env->next;
-	}
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
-	{
-		env = shell->env;
-		while (env)
-		{
-			if (!ft_strncmp(env->value, "PWD", 4))
-			{
-				free(env->content);
-				env->content = ft_strdup(cwd);
-				break ;
-			}
-			env = env->next;
-		}
-	}
+	res_pwd(cwd, env, old_pwd, shell);
 }
 
 void	get_cd(t_cmd *cmd)

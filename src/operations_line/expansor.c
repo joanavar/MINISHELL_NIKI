@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 16:17:46 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/01 19:01:50 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/04 15:10:10 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,12 @@ void	expander(t_token *token, int i, t_env *env, t_shell *shell)
 			i++;
 		str = ft_substr(token->content, j, i - j);
 		if (!str)
-			return;
+			return ;
 		tmp = env;
 		while (tmp)
 		{
 			if (ft_strcmp(str, tmp->value))
-			{
-				exchange_expanser(token, tmp, j - 1, i);
-				return ;
-			}
+				return (exchange_expanser(token, tmp, j - 1, i));
 			tmp = tmp->next;
 		}
 		free(str);

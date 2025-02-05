@@ -31,17 +31,7 @@ int	count_quotes_utils(t_token *token, int i, int count, char tmp)
 			i++;
 			count++;
 		}
-		while (token->content[i])
-		{
-			if (token->content[i] == tmp)
-			{
-				i++;
-				tmp = 0;
-				break ;
-			}
-			i++;
-			count++;
-		}
+		res_token(token, &tmp, &i, &count);
 		if (!token->content[i] && tmp != 0)
 			return (count);
 	}
