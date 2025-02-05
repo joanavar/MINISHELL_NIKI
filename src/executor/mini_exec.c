@@ -67,9 +67,10 @@ void	mini_exec(t_cmd *cmd, t_shell *shell)
 	env_arr = lst_to_chr(&(shell->env));
 	if (!env_arr)
 		error_message("Error with env", NO_CLOSE);
+
 	if (execve(cmd->path, cmd->arr_cmd, env_arr) == -1)
 	{
-		ft_putstr_fd("Minishell: Command not found: ", 2);
+		ft_putstr_fd("Minishell: Command not found : ", 2);
 		ft_putendl_fd(cmd->arr_cmd[0], 2);
 		free_matrix(env_arr);
 		clean_data(shell);

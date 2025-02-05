@@ -14,6 +14,7 @@
 
 static int	is_builtins(char *str)
 {
+	
 	if (str)
 	{
 		if (!ft_strncmp("env", str, ft_strlen(str)))
@@ -82,7 +83,7 @@ static void	res_get_path(t_cmd *cmd, char *path)
 	{
 		if (cmd->path)
 			free(cmd->path);
-		return (error_message("Command not found", NO_CLOSE));
+		return (error_message("Command not found ", NO_CLOSE));
 	}
 }
 

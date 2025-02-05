@@ -14,7 +14,7 @@ LIBFT_A     =       $(LIBFT)/libft.a
 ###############################################################################
 
 CC          =       cc
-CCFLAGS     =       -g  -I/usr/local/Cellar/readline/8.2.13/include -fsanitize=address -Wall -Wextra -Werror
+CCFLAGS     =       -g  -I/usr/local/Cellar/readline/8.2.13/include  -Wall -Wextra -Werror #-fsanitize=address
 READLINE    =       -L/usr/local/Cellar/readline/8.2.13/lib -lreadline
 
 ###############################################################################
@@ -100,7 +100,7 @@ $(NAME): $(OBJS) $(LIBFT_A)
 	@echo "\033[32m💻 Compiling $(NAME)...\033[0m"
 	@$(CC) $(CCFLAGS) $(OBJS) $(LIBFT_A) -o $(NAME) $(READLINE)
 
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(INCLUDE)
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(INCLUDE) Makefile
 	@echo "\033[33m🔧 Compiling $<...\033[0m"
 	@mkdir -p $(dir $@)
 	@$(CC) $(CCFLAGS) -c $< -o $@

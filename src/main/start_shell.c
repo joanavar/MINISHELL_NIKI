@@ -15,20 +15,23 @@
 static int	syntax_prompt(char *line)
 {
 	int	i;
-	int	count;
+	char	flag;
 
 	i = 0;
-	count = 0;
+	flag = 0;
 	while (line[i])
 	{
 		if (line[i] == '\'' || line[i] == '\"')
-			count++;
+		{
+			flag = line[i];
+			while (line[++i] && line[i] != flag);
+			flag = '\0';
+			if (!line[i])
+				return (0);
+		}
 		i++;
 	}
-	if ((count % 2) == 0)
-		return (1);
-	else
-		return (0);
+	return (1);
 }
 
 int	start_shell(t_shell *shell, t_trust *trust)
