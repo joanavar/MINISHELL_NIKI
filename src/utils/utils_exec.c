@@ -58,9 +58,7 @@ int	add_first_redir(t_token *token, t_cmd *cmd, t_shell *shell)
 	if (check_reddir(cmd, shell) < 0)
 	{
 		free(cmd->redirs->file_name);
-		free(cmd->redirs);
-		cmd->redirs = NULL;
-		return (0);
+		return (free(cmd->redirs), cmd->redirs = NULL, 0);
 	}
 	return (1);
 }
@@ -85,11 +83,7 @@ int	add_rest_redir(t_token *token, t_cmd *cmd, t_shell *shell)
 	tmp_redir->next->type = token->type;
 	tmp_redir->next->file_name = ft_strdup(tmp_token->content);
 	if (!tmp_redir->next->file_name)
-	{
-		free(tmp_redir->next);
-		tmp_redir->next = NULL;
-		return (0);
-	}
+		return (free(tmp_redir->next), tmp_redir->next = NULL, 0);
 	tmp_redir->next->fd = -1;
 	tmp_redir->next->next = NULL;
 	return (1);

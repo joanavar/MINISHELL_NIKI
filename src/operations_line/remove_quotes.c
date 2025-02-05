@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:34:47 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/05 13:03:06 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/05 16:32:32 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,27 @@ static void	quotes_correct(t_token *token)
 	token->content = str;
 }
 
+static int	res_remove_quotes(t_token **current)
+{
+	if (string_type(*current) && string_type((*current)->next))
+	{
+		quotes_correct((*current)->next);
+		union_string(*current);
+	}
+	else if (!string_type(*current) && string_type((*current)->next))
+	{
+		quotes_correct((*current)->next);
+		(*current) = (*current)->next;
+	}
+	else
+	{
+		if (!(*current)->next)
+			return (0);
+		(*current) = (*current)->next;
+	}
+	return (1);
+}
+
 void	remove_quotes(t_token *stack)
 {
 	t_token	*current;
@@ -74,30 +95,13 @@ void	remove_quotes(t_token *stack)
 		if (!string_type(current) && string_type(current->next)
 			&& !current->next->next)
 		{
-			printf("hola\n");
 			quotes_correct(current->next);
 			break ;
 		}
-		if (string_type(current) && string_type(current->next))
-		{
-			printf("antes :%s\n", current->content);
-			quotes_correct(current->next);
-			union_string(current);
-			printf("despueees :%s\n", current->content);
-		}
-		else if (!string_type(current) && string_type(current->next))
-		{
-			printf("ENTRO?\n");
-			printf("antes :%s\n", current->content);
-			quotes_correct(current->next);
-			printf("despues :%s\n", current->content);
-			current = current->next;
-		}
 		else
 		{
-			if (!current->next)
+			if (!res_remove_quotes(&current))
 				break ;
-			current = current->next;
 		}
 		i++;
 	}

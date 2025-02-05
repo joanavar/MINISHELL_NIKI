@@ -12,10 +12,34 @@
 
 #include "../../inc/minishell.h"
 
+static int	syntax_prompt(char *line)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (line[i])
+	{
+		if (line[i] == '\'' || line[i] == '\"')
+			count++;
+		i++;
+	}
+	if ((count % 2) == 0)
+		return (1);
+	else
+		return (0);
+}
+
 int	start_shell(t_shell *shell, t_trust *trust)
 {
 	if (shell->prompt[0] == '\0')
 		return (0);
+	if (!syntax_prompt(shell->prompt))
+	{
+		printf("Minishell: syntax error: unexpected end of file\n");
+		return (0);
+	}
 	shell->eco_token = lectur_imput(shell->prompt, shell->env, shell);
 	if (!shell->eco_token)
 		return (2);

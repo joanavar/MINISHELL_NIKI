@@ -30,7 +30,7 @@ static int	syntax_pipe(t_token *token)
 {
 	if (token->type == 4 && (token->next->type == 4))
 	{
-		ft_putendl_fd("Error Syntax pipe", 2);
+		ft_putendl_fd("Minishell: Error: Syntax Error", 2);
 		return (1);
 	}
 	else if (token->type == 4 && (token->next->type == 0))
@@ -40,7 +40,7 @@ static int	syntax_pipe(t_token *token)
 			token = token->next;
 		if (token->type == 4)
 		{
-			ft_putendl_fd("Error Syntax pipe", 2);
+			ft_putendl_fd("Minishell: Error: Syntax Error", 2);
 			return (1);
 		}
 	}
@@ -51,7 +51,7 @@ static int	syntax_redi(t_token *token)
 {
 	if (redir_type(token) && redir_type(token->next))
 	{
-		ft_putendl_fd("Error syntax redi", 2);
+		ft_putendl_fd("Minishell: Error: Syntax Error", 2);
 		return (1);
 	}
 	else if (redir_type(token) && (token->next->type == 0))
@@ -62,7 +62,7 @@ static int	syntax_redi(t_token *token)
 			token = token->next;
 		if (redir_type(token))
 		{
-			ft_putendl_fd("Error syntax redi", 2);
+			ft_putendl_fd("Minishell: Error: Syntax Error", 2);
 			return (1);
 		}
 	}
@@ -88,7 +88,7 @@ int	syntax_error(t_token **stack)
 	tmp = find_last(*stack);
 	if (!(string_type(tmp) || tmp->type == 0))
 	{
-		ft_putendl_fd("ERROR SYNTAX", 2);
+		ft_putendl_fd("Minishell: Error: Syntax Error", 2);
 		return (1);
 	}
 	else
