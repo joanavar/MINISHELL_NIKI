@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:40:02 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/02 17:27:54 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/04 15:07:55 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,70 +102,8 @@ void	free_cmds(t_cmd **cmds)
 	if (!cmds || !(*cmds))
 		return ;
 	buffer = *cmds;
+	i = 0;
 	while (buffer)
-	{
-		aux = buffer->next;
-		if (buffer->arr_cmd)
-		{
-			i = 0;
-			while (buffer->arr_cmd[i])
-				free(buffer->arr_cmd[i++]);
-			free(buffer->arr_cmd);
-		}
-		if (buffer->path)
-			free(buffer->path);
-		if (buffer->redirs)
-		{
-			free_redirs(buffer->redirs);
-			buffer->redirs = NULL;
-		}
-		if (buffer->std_in > 0)
-			close(buffer->std_in);
-		if (buffer->std_out > 1)
-			close(buffer->std_out);
-		if (buffer->std_error > 2)
-			close(buffer->std_error);
-		if (buffer->fd_in > 0)
-			close(buffer->fd_in);
-		if (buffer->fd_out > 0)
-			close(buffer->fd_out);
-		free(buffer);
-		buffer = aux;
-	}
+		buffer = res_buffer(buffer, aux, i);
 	*cmds = NULL;
-}
-
-void	free_redirs(t_redir *redir)
-{
-	t_redir	*aux;
-	t_redir	*buffer;
-
-	if (!redir)
-		return;
-	buffer = redir;
-	if (!buffer->next)
-	{
-		if (buffer->file_name)
-		{
-			free(buffer->file_name);
-			buffer->file_name = NULL;
-		}
-		if (buffer->fd > 2)
-			close(buffer->fd);
-		free(buffer);
-		return ;
-	}
-	while (buffer)
-	{
-		aux = buffer->next;
-		if (buffer->file_name)
-		{
-			free(buffer->file_name);
-			buffer->file_name = NULL;
-		}
-		if (buffer->fd > 2)
-			close(buffer->fd);
-		free(buffer);
-		buffer = aux;
-	}
 }

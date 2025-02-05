@@ -50,3 +50,13 @@ int	executor(t_shell *shell, t_trust *trust)
 	i = res_exec(shell, trust, i);
 	return (i);
 }
+a.txt
+hey
+inc
+Libreries
+ls
+Makefile
+minishell
+obj
+src
+test

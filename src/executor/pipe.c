@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:33:13 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/01 19:49:21 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:46:48 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,20 +84,7 @@ void	exec_child(t_cmd *cmd, int id, t_shell *shell, t_trust *trust)
 
 	aux = close_pipes(cmd, id);
 	aux->path = get_path(aux, shell->env);
-	if (!aux->path)
-	{
-		if (aux->shell->exit_status == 130)
-		{
-			clean_data(shell);
-			exit(130);
-		}
-		if (aux->shell->exit_status == 0)
-			exit(0);
-		ft_putstr_fd("Minishell: Command not found: ", 2);
-		ft_putendl_fd(aux->arr_cmd[0], 2);
-		clean_data(shell);
-		exit(127);
-	}
+	res_pipe(aux, shell);
 	if (aux->builtins != 1)
 		mini_exec(aux, shell);
 	else
