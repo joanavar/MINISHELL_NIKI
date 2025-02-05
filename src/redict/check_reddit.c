@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_reddit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 16:17:53 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/04 15:10:46 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/02/05 13:29:38 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	redir_r_one(t_cmd *cmd, t_redir *redir)
 	t_cmd	*aux;
 
 	aux = cmd;
-	fd = open(redir->file_name, O_CREAT | O_WRONLY, 0644);
+	fd = open(redir->file_name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 	{
 		error_message("Errors with opens", NO_CLOSE);

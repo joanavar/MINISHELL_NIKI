@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:34:47 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/04 21:02:22 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/02/05 13:03:06 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static int	count_quotes(t_token *token)
 
 	count = 0;
 	i = 0;
+	tmp = '\0';
 	count = count_quotes_utils(token, i, count, tmp);
 	return (count);
 }
@@ -44,11 +45,12 @@ static void	quotes_correct(t_token *token)
 {
 	char	*str;
 	int		i;
-	char	tmp;
 	int		j;
 
 	i = count_quotes(token);
 	str = malloc(sizeof(char *) * (i + 1));
+	if (!str)
+		return ;
 	i = 0;
 	j = 0;
 	delete_quotes(token, str, i, j);
@@ -60,7 +62,6 @@ void	remove_quotes(t_token *stack)
 {
 	t_token	*current;
 	int		i;
-	t_token	*tmp;
 
 	i = 0;
 	if (!stack)

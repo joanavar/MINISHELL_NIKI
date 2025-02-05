@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:40:02 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/04 15:07:55 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/02/05 12:49:41 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void	free_cmds(t_cmd **cmds)
 
 	if (!cmds || !(*cmds))
 		return ;
+	aux = NULL;
 	buffer = *cmds;
 	i = 0;
 	while (buffer)

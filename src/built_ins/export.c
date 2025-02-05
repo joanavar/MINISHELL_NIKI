@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:51:10 by camurill          #+#    #+#             */
-/*   Updated: 2025/01/31 18:44:20 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/05 12:55:34 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ static void	print_export(t_cmd *cmd, t_trust *trust)
 void	get_export(t_cmd *cmd, t_trust *trust)
 {
 	t_env	*aux;
-	int		j;
 
 	aux = cmd->shell->env;
 	if (!cmd->arr_cmd[1])
