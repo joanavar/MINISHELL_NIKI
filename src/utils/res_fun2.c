@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   res_fun2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joanavar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 21:00:40 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/04 22:03:26 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/02/05 13:25:13 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ int	res_travel(t_token *tmp, t_env *env, t_shell *shell)
 			expand_exit_status(tmp, i, shell);
 			continue ;
 		}
-		else if (tmp->content[0] == '$' && tmp->type == 1 || i > 3
+		else if ((tmp->content[0] == '$' && tmp->type == 1) || (i > 3
 			&& tmp->content[i - 1] == '\'' && tmp->content[i - 2] == '\"'
-			&& tmp->content[i] == '$' || i > 1 && tmp->content[i - 1] == '\"'
-			&& tmp->content[i] == '$')
+			&& tmp->content[i] == '$') || (i > 1 && tmp->content[i - 1] == '\"'
+			&& tmp->content[i] == '$'))
 		{
 			expander(tmp, i, env, shell);
 			if (!tmp->content[i++])

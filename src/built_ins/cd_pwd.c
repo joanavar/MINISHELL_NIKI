@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 00:08:20 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/04 14:44:57 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/02/05 12:55:20 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void	update_pwd(t_shell *shell)
 	char	*old_pwd;
 
 	env = shell->env;
+	old_pwd = NULL;
 	while (env)
 	{
 		if (!ft_strncmp(env->value, "PWD", 4))

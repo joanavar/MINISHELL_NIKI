@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:33:13 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/04 14:46:48 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/02/05 13:05:45 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,9 @@ static t_cmd	*close_pipes(t_cmd *cmd, int id)
 	return (aux);
 }
 
-static void	exec_parent(t_cmd *cmd, int id, int pid)
+static void	exec_parent(t_cmd *cmd)
 {
 	t_cmd	*aux;
-	int		status;
 
 	aux = cmd;
 	while (aux)
@@ -100,10 +99,8 @@ void	exec_duo(t_cmd *cmd, t_shell *shell, t_trust *trust)
 	t_cmd	*aux;
 	t_cmd	*aux_2;
 	int		pid;
-	int		id;
 
 	pid = 1;
-	id = 0;
 	aux = cmd;
 	aux_2 = aux;
 	while (aux && pid != 0)
@@ -115,10 +112,9 @@ void	exec_duo(t_cmd *cmd, t_shell *shell, t_trust *trust)
 		else if (aux != 0)
 		{
 			aux_2 = aux;
-			id = aux->id;
 			aux = aux->next;
 		}
 	}
 	if (pid != 0)
-		exec_parent(cmd, id, pid);
+		exec_parent(cmd);
 }

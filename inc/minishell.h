@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/04 21:02:36 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/02/05 12:52:54 by nikitadorof      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,12 +166,14 @@ void							free_redirs(t_redir *redir);
 void							free_shell(t_shell *shell);
 
 /***SIGNAL***/
-void							check_signal(int sisgnal_received);
+void							check_signal();
 void							handle_sigint(int signal);
 void							handle_sigint_heredoc(int sig);
 void							set_heredoc_signals(void);
 void							reset_signals(void);
 void							signals_init(void);
+void							handle_sigquit(int sig);
+void							suppress_output(void);
 
 /***BUILTS_INS***/
 void							unset_shell(t_shell *shell, char *arg);
