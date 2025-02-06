@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 14:53:31 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/05 13:07:47 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/06 17:16:10 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	run_heredoc(int fd, char *delimiter)
 
 static void	child_heredoc(int *pipe_fd, char *delimiter)
 {
-	set_heredoc_signals();
+	signal(SIGINT, handle_sigint_heredoc);
 	close(pipe_fd[0]);
 	run_heredoc(pipe_fd[1], delimiter);
 }
@@ -62,6 +62,7 @@ static int	parent_heredoc(t_cmd *cmd, t_shell *shell, int *pipe_fd)
 	if (cmd->std_in != 0)
 		close(cmd->std_in);
 	cmd->std_in = pipe_fd[0];
+	signals_init();
 	return (0);
 }
 

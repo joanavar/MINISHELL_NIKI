@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joannavarrogomez <joannavarrogomez@stud    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 20:48:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/04 14:45:33 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/02/06 16:24:12 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,26 @@ static t_cmd	*initial_cmd(t_cmd *cmd)
 	return (aux);
 }
 
+static void	aux_b(t_cmd *cmd)
+{
+	t_cmd	*aux;
+
+	if (!cmd || !cmd->arr_cmd || cmd->arr_cmd[0][0] == '\0')
+		return ;
+	aux = cmd;
+	while (aux)
+	{
+		aux->builtins = is_builtins(aux->arr_cmd[0]);
+		aux = aux->next;
+	}
+	if (cmd->builtins == 1 && !cmd->next)
+	{
+		cmd->path = ft_strdup(cmd->arr_cmd[0]);
+		if (!cmd->path)
+			return ;
+	}
+}
+
 int	executor(t_shell *shell, t_trust *trust)
 {
 	int	i;
@@ -40,12 +60,7 @@ int	executor(t_shell *shell, t_trust *trust)
 			free_cmds(&shell->cmds);
 		return (-1);
 	}
-	shell->cmds->path = get_path(shell->cmds, shell->env);
-	if (!shell->cmds->path)
-	{
-		free_cmds(&shell->cmds);
-		return (-1);
-	}
+	aux_b(shell->cmds);
 	shell->cmds = initial_cmd(shell->cmds);
 	i = res_exec(shell, trust, i);
 	return (i);

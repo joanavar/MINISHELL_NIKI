@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 00:08:20 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/05 12:55:20 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/06 16:42:11 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	get_cd(t_cmd *cmd)
 			ft_putstr_fd("bash: cd: ", 2);
 			ft_putstr_fd(cmd->arr_cmd[1], 2);
 			ft_putendl_fd(": No such file or directory", 2);
+			cmd->shell->exit_status = 1;
 		}
 		else
 			update_pwd(cmd->shell);

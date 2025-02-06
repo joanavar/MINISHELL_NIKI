@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   res_fun.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joanavar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 21:00:26 by joanavar          #+#    #+#             */
-/*   Updated: 2025/02/04 21:01:27 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:15:53 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ void	res_pipe(t_cmd *aux, t_shell *shell)
 		if (aux->shell->exit_status == 0)
 			exit(0);
 		ft_putstr_fd("Minishell: Command not found: ", 2);
-		ft_putendl_fd(aux->arr_cmd[0], 2);
+		if (!aux->arr_cmd)
+			ft_putendl_fd(aux->arr_cmd[0], 2);
 		clean_data(shell);
 		exit(127);
 	}

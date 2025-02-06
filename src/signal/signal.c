@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:19 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/05 12:50:31 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/06 17:04:50 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	handle_sigint_heredoc(int sig)
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_redisplay();
+	exit(1);
 }
 
 void	set_heredoc_signals(void)

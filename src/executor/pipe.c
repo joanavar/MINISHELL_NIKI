@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:33:13 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/05 13:05:45 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/06 18:01:10 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ void	exec_child(t_cmd *cmd, int id, t_shell *shell, t_trust *trust)
 
 	aux = close_pipes(cmd, id);
 	aux->path = get_path(aux, shell->env);
+	if (!aux->shell)
+		aux->shell = shell;
 	res_pipe(aux, shell);
 	if (aux->builtins != 1)
 		mini_exec(aux, shell);

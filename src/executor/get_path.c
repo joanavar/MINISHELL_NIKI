@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 14:08:16 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/04 14:46:21 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/02/06 16:23:52 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static int	is_builtins(char *str)
+int	is_builtins(char *str)
 {
-	
 	if (str)
 	{
 		if (!ft_strncmp("env", str, ft_strlen(str)))
@@ -104,7 +103,7 @@ char	*get_path(t_cmd *cmd, t_env *env)
 	{
 		path = ft_strdup(cmd->arr_cmd[0]);
 		if (!path)
-			error_message("Memory allocation failed", NO_CLOSE);
+			return (NULL);
 		return (path);
 	}
 	path = search_path(cmd, env);

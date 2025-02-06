@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/05 16:05:54 by joanavar         ###   ########.fr       */
+/*   Updated: 2025/02/06 16:21:29 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <term.h>              //tgoto-tgetent
 # include <termios.h>           //tcsetattr-tcgetattr-ioctl
 # include <unistd.h>            //read-access-fork-execve-unlink-ttyname
+# include <errno.h>
 
 # define DELIM " \t\r\n\a"
 
@@ -176,6 +177,7 @@ void							handle_sigquit(int sig);
 void							suppress_output(void);
 
 /***BUILTS_INS***/
+int								is_builtins(char *str);
 void							unset_shell(t_shell *shell, char *arg);
 void							get_echo(t_cmd *cmd);
 void							get_export(t_cmd *cmd, t_trust *trust);

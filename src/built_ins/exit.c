@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 15:43:42 by nikitadorof       #+#    #+#             */
-/*   Updated: 2025/01/31 16:29:31 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/06 15:20:54 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int static	interpretor(char *str)
+static int	interpretor(char *str)
 {
 	long	nbr;
 

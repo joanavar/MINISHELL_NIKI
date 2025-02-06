@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 21:16:22 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/05 12:53:02 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/06 17:04:58 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	handle_sigquit(int sig)
 	rl_redisplay();
 }
 
-/*void	signals_init(void)
+void	signals_init(void)
 {
 	suppress_output();
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, handle_sigquit);
-}*/
+}

@@ -6,7 +6,7 @@
 /*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 22:48:04 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/02 19:11:21 by camurill         ###   ########.fr       */
+/*   Updated: 2025/02/06 16:25:16 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	syntax_prompt(char *line)
 {
-	int	i;
+	int		i;
 	char	flag;
 
 	i = 0;
@@ -24,7 +24,8 @@ static int	syntax_prompt(char *line)
 		if (line[i] == '\'' || line[i] == '\"')
 		{
 			flag = line[i];
-			while (line[++i] && line[i] != flag);
+			while (line[++i] && line[i] != flag)
+				;
 			flag = '\0';
 			if (!line[i])
 				return (0);

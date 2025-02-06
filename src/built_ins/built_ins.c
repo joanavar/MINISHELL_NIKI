@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
+/*   By: camurill <camurill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:50:29 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/05 14:07:14 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/06 17:59:25 by camurill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,27 +49,21 @@ static int	aux_built_ins(t_cmd *cmd, t_trust *trust)
 	return (0);
 }
 
-static void	close2_dups(t_cmd *cmd)
+/*static void	close2_dups(t_cmd *cmd)
 {
 	if (cmd->std_in != 0)
 	{
-		if (close(cmd->std_in) == -1)
-			perror("close error");
-		if (dup2(cmd->std_dup, 0) == -1)
-			perror("dup2 error");
-		if (close(cmd->std_dup) == -1)
-			perror("close error");
+		close(cmd->std_in);
+		dup2(cmd->std_dup, 0);
+		close(cmd->std_dup);
 	}
 	if (cmd->std_out != 1)
 	{
-		if (close(cmd->std_out) == -1)
-			perror("close error");
-		if (dup2(cmd->stdout_dup, 1) == -1)
-			perror("dup2 error");
-		if (close(cmd->stdout_dup) == -1)
-			perror("close error");
+		close(cmd->std_out);
+		dup2(cmd->stdout_dup, 1);
+		close(cmd->stdout_dup);
 	}
-}
+}*/
 
 static int	pid_builtins(t_cmd *cmd, t_trust *trust)
 {
@@ -79,7 +73,7 @@ static int	pid_builtins(t_cmd *cmd, t_trust *trust)
 	ft_dups(aux);
 	if (aux_built_ins(aux, trust) == 1)
 		return (-1);
-	close2_dups(aux);
+	//close2_dups(aux);
 	return (-1);
 }
 
