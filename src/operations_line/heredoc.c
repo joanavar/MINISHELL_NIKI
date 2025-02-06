@@ -28,7 +28,6 @@ static void	run_heredoc(int fd, char *delimiter)
 		}
 		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1))
 		{
-			printf("exiting heredoc \n");
 			free(line);
 			close(fd);
 			exit(0);
