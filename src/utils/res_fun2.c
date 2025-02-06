@@ -12,6 +12,28 @@
 
 #include "../../inc/minishell.h"
 
+static int	res_res_travel(t_token *tmp, int i, t_env *env, t_shell *shell)
+{
+	if ((tmp->content[0] == '$' && tmp->type == 1) || (i > 3
+			&& tmp->content[i - 1] == '\'' && tmp->content[i - 2] == '\"'
+			&& tmp->content[i] == '$') || (i > 1
+			&& tmp->content[i - 1] == '\"' && tmp->content[i] == '$'))
+	{
+		expander(tmp, i, env, shell);
+		if (!tmp->content[i++])
+			return (2);
+		return (1);
+	}
+	else if (tmp->type == 3 && tmp->content[i] == '$')
+	{
+		expander(tmp, i, env, shell);
+		if (!tmp->content[i++])
+			return (2);
+		return (1);
+	}
+	return (3);
+}
+
 int	res_travel(t_token *tmp, t_env *env, t_shell *shell)
 {
 	int	i;
@@ -26,26 +48,17 @@ int	res_travel(t_token *tmp, t_env *env, t_shell *shell)
 			expand_exit_status(tmp, i, shell);
 			continue ;
 		}
-		else if ((tmp->content[0] == '$' && tmp->type == 1) || (i > 3
-			&& tmp->content[i - 1] == '\'' && tmp->content[i - 2] == '\"'
-			&& tmp->content[i] == '$') || (i > 1 && tmp->content[i - 1] == '\"'
-			&& tmp->content[i] == '$'))
+		else
 		{
-			expander(tmp, i, env, shell);
-			if (!tmp->content[i++])
+			if (res_res_travel(tmp, i, env, shell) == 2)
 				break ;
-			continue ;
-		}
-		else if (tmp->type == 3 && tmp->content[i] == '$')
-		{
-			expander(tmp, i, env, shell);
-			if (!tmp->content[i++])
-				break ;
-			continue ;
+			else if (res_res_travel(tmp, i, env, shell) == 1)
+				continue ;
+			else
+				if (!tmp->content)
+					break ;
 		}
 		i++;
-		if (!tmp->content)
-			break ;
 	}
 	return (1);
 }

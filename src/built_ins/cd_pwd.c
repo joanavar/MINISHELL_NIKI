@@ -57,22 +57,25 @@ static void	update_pwd(t_shell *shell)
 	res_pwd(cwd, env, old_pwd, shell);
 }
 
-void	get_cd(t_cmd *cmd)
+static void	res_get_cd(t_cmd *cmd)
 {
 	char	*home;
 
-	if (!cmd->arr_cmd[1])
+	home = ft_strdup(find_home(cmd));
+	if (chdir(home) != 0)
 	{
-		home = ft_strdup(find_home(cmd));
-		if (chdir(home) != 0)
-		{
-			ft_putstr_fd("bash: cd: ", 2);
-			ft_putendl_fd(home, 2);
-		}
-		else
-			update_pwd(cmd->shell);
-		free(home);
+		ft_putstr_fd("bash: cd: ", 2);
+		ft_putendl_fd(home, 2);
 	}
+	else
+		update_pwd(cmd->shell);
+	free(home);
+}
+
+void	get_cd(t_cmd *cmd)
+{
+	if (!cmd->arr_cmd[1])
+		res_get_cd(cmd);
 	else if ((cmd->arr_cmd[1]) && !(cmd->arr_cmd[2]))
 	{
 		if (chdir(cmd->arr_cmd[1]) != 0)

@@ -93,7 +93,7 @@ t_token	*lectur_imput(char *str, t_env *env, t_shell *shell)
 		return (NULL);
 	lectur_line(str, &stack, i);
 	if (syntax_error(&stack))
-		return (NULL);
+		return (free_token(&stack), NULL);
 	expandir(&stack, env, shell);
 	remove_quotes(stack);
 	return (stack);

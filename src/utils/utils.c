@@ -112,4 +112,3 @@ void	delete_quotes(t_token *token, char *str, int i, int j)
 	}
 	str[j] = '\0';
 }
-

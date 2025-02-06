@@ -6,7 +6,7 @@
 /*   By: nikitadorofeychik <nikitadorofeychik@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:30:01 by camurill          #+#    #+#             */
-/*   Updated: 2025/02/05 12:52:54 by nikitadorof      ###   ########.fr       */
+/*   Updated: 2025/02/05 16:05:54 by joanavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ void							free_redirs(t_redir *redir);
 void							free_shell(t_shell *shell);
 
 /***SIGNAL***/
-void							check_signal();
+void							check_signal(void);
 void							handle_sigint(int signal);
 void							handle_sigint_heredoc(int sig);
 void							set_heredoc_signals(void);

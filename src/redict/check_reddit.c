@@ -92,10 +92,7 @@ int	check_reddir(t_cmd *cmd, t_shell *shell)
 			if (result < 0)
 			{
 				if (shell->exit_status == 130)
-				{
-					g_signal_received = 130;
-					return (0);
-				}
+					return (g_signal_received = 130, 0);
 				return (result);
 			}
 		}
